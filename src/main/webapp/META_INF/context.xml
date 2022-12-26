@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+    <Resource name="jdbc/cash_machine"
+              auth="Container"
+              type="javax.sql.DataSource"
+              maxTotal = "100" maxIdle="30" maxWaitMillis="10000"
+              username="root"
+              password="zsbldqpk56"
+              driverClassName="org.postgresql.Driver"
+              defaultAutoCommit="false"
+              defaultTransactionIsolation="READ_COMMITTED"
+              connectionProperties="useUnicode=true;characterEncoding=UTF-8;serverTimezone=GMT+3"
+              url="jdbc:postgresql://localhost:5432/technograd"/>
+
+</Context>
