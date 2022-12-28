@@ -3,7 +3,6 @@ package com.technograd.technograd.dao.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Objects;
 
 public class Product implements Serializable {
     private static final long serialVersionUID = -6529673480271382127L;

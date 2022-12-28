@@ -1,9 +1,13 @@
 package com.technograd.technograd.dao.entity;
 
+
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
-public class IntendReturn {
+public class IntendReturn implements Serializable {
+
+    private static final long serialVersionUID = -6801050137245065985L;
     private int id;
     private int intendId;
     private Date date;

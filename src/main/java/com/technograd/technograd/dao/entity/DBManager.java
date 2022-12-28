@@ -1,5 +1,9 @@
 package com.technograd.technograd.dao.entity;
 
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -7,11 +11,7 @@ import javax.sql.DataSource;
 import java.sql.*;
 
 public class DBManager {
-    static final String DB_HOST = "localhost";
-    static final String DB_PORT = "5432";
-    static final String DB_NAME = "technograd";
-    static final String DB_USER = "root";
-    static final String DB_PASS = "zsbldqpk56";
+
     private static DBManager instance;
 
     private DBManager() {
@@ -20,6 +20,7 @@ public class DBManager {
     public static synchronized DBManager getInstance() {
         if (instance == null)
             instance = new DBManager();
+        //log.info("DBmanager instance was created");
         return instance;
     }
 
@@ -31,7 +32,7 @@ public class DBManager {
             DataSource ds = (DataSource) envContext.lookup("jdbc/technograd");
             con = ds.getConnection();
         } catch (NamingException ex) {
-
+           // log.warning("Cannot get connection");
         }
         return con;
     }
@@ -43,7 +44,8 @@ public class DBManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            //log.warning("commitAndClose went bad");
+            e.printStackTrace();
         }
     }
 
@@ -57,7 +59,8 @@ public class DBManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+           // log.warning("commitAndClose went bad");
+            e.printStackTrace();
         }
 
 
@@ -79,7 +82,8 @@ public class DBManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            //log.warning("commitAndClose went bad");
+            e.printStackTrace();
         }
     }
 
@@ -94,8 +98,9 @@ public class DBManager {
             if (con != null) {
                 con.close();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+           // log.warning("closeResources went bad");
+            e.printStackTrace();
         }
     }
 
@@ -107,8 +112,9 @@ public class DBManager {
             if (con != null) {
                 con.close();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+           // log.warning("closeResources went bad");
+            e.printStackTrace();
         }
     }
 
@@ -121,8 +127,9 @@ public class DBManager {
                 con.rollback();
                 con.close();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+           // log.warning("rollbackAndClose went bad");
+            e.printStackTrace();
         }
     }
 
@@ -138,8 +145,9 @@ public class DBManager {
                 con.rollback();
                 con.close();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+        } catch (SQLException e) {
+            //log.warning("rollbackAndClose went bad");
+            e.printStackTrace();
         }
     }
 

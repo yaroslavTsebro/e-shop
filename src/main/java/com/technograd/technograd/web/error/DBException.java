@@ -1,8 +1,12 @@
-package com.technograd.technograd.dao.entity;
+package com.technograd.technograd.web.error;
+
 
 import java.sql.SQLException;
 
 public class DBException extends SQLException {
+
+
+    private static final long serialVersionUID = -8476845226697666888L;
 
     public DBException() {
     }

@@ -1,6 +1,7 @@
 package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
+import com.technograd.technograd.web.error.DBException;
 
 
 import java.security.SecureRandom;
@@ -97,6 +98,7 @@ public class UserDAO {
 
             preparedStatement = connection.prepareStatement(SQL__ADD_CONFIRMATION_CODE);
             preparedStatement.setInt(1, details.getUserId());
+            preparedStatement.setString(2, details.getCode());
             preparedStatement.setString(2, details.getCode());
             preparedStatement.setString(3, details.getSalt());
             preparedStatement.execute();
@@ -214,6 +216,7 @@ public class UserDAO {
                 user.setPost(rs.getString(Fields.USER_POST));
                 user.setPassword(rs.getString(Fields.USER_PASSWORD));
                 user.setSalt(rs.getString(Fields.USER_SALT));
+                user.setLocaleName(rs.getString(Fields.USER_LANGUAGE));
                 return user;
             } catch (SQLException e) {
                 throw new IllegalStateException(e);

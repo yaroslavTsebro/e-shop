@@ -1,8 +1,11 @@
 package com.technograd.technograd.dao.entity;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Supplier {
+public class Supplier implements Serializable {
+
+    private static final long serialVersionUID = -7629064460979048093L;
     private int id;
     private String name;
     private String phone;

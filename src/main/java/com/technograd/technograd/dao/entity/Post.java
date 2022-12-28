@@ -1,6 +1,8 @@
 package com.technograd.technograd.dao.entity;
 
-public enum Post {
+import java.io.Serializable;
+
+public enum Post implements Serializable {
     MANAGER,
     CUSTOMER;
 

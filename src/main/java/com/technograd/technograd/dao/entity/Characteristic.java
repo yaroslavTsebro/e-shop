@@ -1,8 +1,12 @@
 package com.technograd.technograd.dao.entity;
 
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Characteristic {
+public class Characteristic implements Serializable {
+
+    private static final long serialVersionUID = 8240803670778787130L;
     private int id;
     private String nameUa;
     private String nameEn;

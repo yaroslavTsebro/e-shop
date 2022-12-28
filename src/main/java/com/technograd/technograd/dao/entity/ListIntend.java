@@ -1,9 +1,11 @@
 package com.technograd.technograd.dao.entity;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Objects;
 
-public class ListIntend {
+public class ListIntend implements Serializable {
+
+    private static final long serialVersionUID = 5661529886896026545L;
     private int id;
     private int intendId;
     private int count;

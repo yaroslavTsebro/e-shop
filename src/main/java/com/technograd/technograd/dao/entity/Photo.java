@@ -1,8 +1,12 @@
 package com.technograd.technograd.dao.entity;
 
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Photo {
+public class Photo implements Serializable {
+
+    private static final long serialVersionUID = 6137404746732148611L;
     private int id;
     private int productId;
     private String name;

@@ -1,6 +1,7 @@
 package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
+import com.technograd.technograd.web.error.DBException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

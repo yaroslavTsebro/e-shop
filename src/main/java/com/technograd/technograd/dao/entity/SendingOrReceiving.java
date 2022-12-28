@@ -1,6 +1,8 @@
 package com.technograd.technograd.dao.entity;
 
-public enum SendingOrReceiving {
+import java.io.Serializable;
+
+public enum SendingOrReceiving implements Serializable {
     SENDING,
     RECEIVING
 }

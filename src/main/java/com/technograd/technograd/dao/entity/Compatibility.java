@@ -1,8 +1,12 @@
 package com.technograd.technograd.dao.entity;
 
+
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Compatibility {
+public class Compatibility implements Serializable {
+
+    private static final long serialVersionUID = -3134241583034730185L;
     private int id;
     private Category category;
     private Characteristic characteristic;

@@ -1,6 +1,8 @@
 package com.technograd.technograd.dao.entity;
 
-public enum Condition {
+import java.io.Serializable;
+
+public enum Condition implements Serializable {
     NEW,
     ACCEPTED,
     DENIED,
