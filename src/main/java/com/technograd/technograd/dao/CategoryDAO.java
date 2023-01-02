@@ -129,7 +129,6 @@ public class CategoryDAO {
 
     static class CategoryMapper implements EntityMapper<Category>{
 
-
         @Override
         public Category mapRow(ResultSet rs) {
             try {

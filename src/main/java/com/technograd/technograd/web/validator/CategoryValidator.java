@@ -44,5 +44,4 @@ public class CategoryValidator implements Validator<Category>{
         }
         return true;
     }
-
 }

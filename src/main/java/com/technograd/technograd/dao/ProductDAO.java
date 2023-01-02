@@ -73,7 +73,7 @@ public class ProductDAO {
         return products;
     }
 
-    public static Product getProductById() throws DBException {
+    public static Product getProductById(int id) throws DBException {
         Product product = new Product();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -82,6 +82,7 @@ public class ProductDAO {
             connection = DBManager.getInstance().getConnection();
             ProductMapper mapper = new ProductMapper();
             preparedStatement = connection.prepareStatement(SQL__FIND_PRODUCT_BY_ID);
+            preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 product = mapper.mapRow(resultSet);
@@ -103,7 +104,7 @@ public class ProductDAO {
         ResultSet resultSet = null;
         try {
             connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__FIND_PRODUCT_BY_ID);
+            preparedStatement = connection.prepareStatement(SQL__FIND_REDUCED_PRODUCT_BY_ID);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){

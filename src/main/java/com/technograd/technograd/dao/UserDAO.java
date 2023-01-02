@@ -15,6 +15,7 @@ import java.util.List;
 public class UserDAO {
     private static final String SQL__CREATE_USER = "INSERT INTO user(lastname, name, email ,post, password, salt) VALUES(?, ?, ?, ? ,? ,?);";
     private static final String SQL__FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?;";
+    private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?;";
     private static final String SQL__FIND_ALL_USERS = "SELECT * FROM user;";
     private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE user SET locale_name=? WHERE id=?;";
     private static final String SQL__FIRST_PART_OF_EVENT = "CREATE EVENT IF NOT EXISTS delete_code";
@@ -167,6 +168,29 @@ public class UserDAO {
             UserMapper mapper = new UserMapper();
             preparedStatement = connection.prepareStatement(SQL__FIND_USER_BY_ID);
             preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                user = mapper.mapRow(resultSet);
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
+        }
+        return user;
+    }
+
+    public static User getUserByEmail(String email) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        User user = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            UserMapper mapper = new UserMapper();
+            preparedStatement = connection.prepareStatement(SQL__FIND_USER_BY_EMAIL);
+            preparedStatement.setString(1, email);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 user = mapper.mapRow(resultSet);

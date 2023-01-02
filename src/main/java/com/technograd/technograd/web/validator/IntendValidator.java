@@ -1,13 +1,14 @@
 package com.technograd.technograd.web.validator;
 
 import com.technograd.technograd.dao.entity.Intend;
+import com.technograd.technograd.dao.entity.SendingOrReceiving;
 import com.technograd.technograd.web.error.AppException;
 
 public class IntendValidator implements Validator<Intend>{
     @Override
     public boolean validator(Intend intend) throws AppException {
         try {
-            if(intend.getSendingOrReceiving().equals("SENDING")){
+            if(intend.getSendingOrReceiving().equals(SendingOrReceiving.SENDING)){
                return validateSending(intend);
             } else{
                return validateReceiving(intend);
@@ -18,7 +19,7 @@ public class IntendValidator implements Validator<Intend>{
     }
 
     public boolean validateSending(Intend intend) throws AppException {
-        return  validateCompatibilityForeignId(intend.getUserId(), "intend.validator.user.id.is.negative ") &&
+        return  validateCompatibilityForeignId(intend.getUserId(), "intend.validator.user.id.is.negative") &&
                 validateCompatibilityForeignId(intend.getEmployeeId(), "intend.validator.employee.id.is.negative") &&
                 validateIntendAddress(intend.getAddress());
     }
