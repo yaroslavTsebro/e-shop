@@ -17,28 +17,9 @@ import java.io.IOException;
 public class ViewMenuCommand extends Command {
 
     private static final long serialVersionUID = -1227114065336794942L;
-    private final IntendDAO intendDAO;
-
-    public ViewMenuCommand(){
-        intendDAO = new IntendDAO();
-    }
-    public ViewMenuCommand(IntendDAO intendDAO){
-        this.intendDAO = intendDAO;
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
-        HttpSession session = request.getSession();
-
-        Intend currentIntend = (Intend) request.getSession().getAttribute("currentIntend");
-        if(currentIntend != null){
-            try {
-                currentIntend = intendDAO.findIntendById(currentIntend.getId());
-            } catch (DBException e) {
-                throw new AppException(e);
-            }
-            session.setAttribute("currentIntend", currentIntend);
-        }
         return Path.MENU_PAGE;
     }
 

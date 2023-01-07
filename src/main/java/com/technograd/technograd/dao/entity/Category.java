@@ -35,8 +35,7 @@ public class Category implements Serializable {
         this.nameEn = nameEn;
     }
 
-    public Category(int id, String nameUa, String nameEn) {
-        this.id = id;
+    public Category(String nameUa, String nameEn) {
         this.nameUa = nameUa;
         this.nameEn = nameEn;
     }

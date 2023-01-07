@@ -2,6 +2,7 @@ package com.technograd.technograd.web.command;
 
 import com.technograd.technograd.web.command.general.LoginCommand;
 import com.technograd.technograd.web.command.general.LogoutCommand;
+import com.technograd.technograd.web.command.general.ViewMenuCommand;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -10,9 +11,10 @@ public class CommandContainer {
     private static final Map<String, Command> commands = new TreeMap<>();
 
     static{
-        commands.put("login", new LoginCommand());
-        commands.put("logout", new LogoutCommand());
-        commands.put("noCommand", new NoCommand());
+        commands.put("\\login", new LoginCommand());
+        commands.put("\\logout", new LogoutCommand());
+        commands.put("\\noCommand", new NoCommand());
+        commands.put("\\", new ViewMenuCommand());
     }
 
     public static Command get(String commandName){

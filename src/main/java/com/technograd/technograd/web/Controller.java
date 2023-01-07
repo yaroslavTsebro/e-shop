@@ -20,19 +20,19 @@ public class Controller extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        process(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        process(req, resp);
     }
-    private void process(HttpServletResponse response, HttpServletRequest request) throws IOException, ServletException{
+    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         HttpSession session = request.getSession();
         ResourceBundle userRb = LocalizationUtils.getCurrentRb(session);
         ResourceBundle enRb = LocalizationUtils.getEnglishRb();
 
-        String commandName = request.getParameter("command");
+        String commandName = request.getServletPath();
         Command command = CommandContainer.get(commandName);
         String forward = Commands.ERROR_PAGE_COMMAND;
 
