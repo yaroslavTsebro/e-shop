@@ -6,6 +6,6 @@
     <c:set var="title" value="Something"/>
 </head>
 <body>
-    <a href='<c:url value="/category/add" />'><c:url value="/category/add" /></a>
+    <a href='<c:url value="/category" />'><c:url value="/category" /></a>
 </body>
 </html>

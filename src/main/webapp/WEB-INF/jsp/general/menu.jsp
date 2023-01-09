@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: User
@@ -11,6 +12,6 @@
     <title>Title</title>
 </head>
 <body>
-  <h1>Menu</h1>
+    <a href='<c:url value="/category" />'><c:url value="/category" /></a>
 </body>
 </html>

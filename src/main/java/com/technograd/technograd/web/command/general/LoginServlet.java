@@ -4,24 +4,26 @@ import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.Commands;
-import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.error.AppException;
-import com.technograd.technograd.web.error.DBException;
+import com.technograd.technograd.web.error.*;
 import com.technograd.technograd.web.passwordSecurity.PasswordSecurityUtil;
 import com.technograd.technograd.web.recaptcha.RecaptchaUtil;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-public class LoginCommand extends Command {
+@WebServlet(name = "LoginPage", value = "/login")
+public class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 6274453467176873674L;
 
+
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
         String email = request.getParameter("email");
@@ -32,7 +34,7 @@ public class LoginCommand extends Command {
 
         if(email == null || password == null || email.isEmpty() || password.isEmpty() ){
             errorMessage = "login.email.or.password.is.empty";
-            throw new AppException(errorMessage);
+            throw new RuntimeException(errorMessage);
         }
 
         String recaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -40,7 +42,7 @@ public class LoginCommand extends Command {
 
         if (!valid){
             errorMessage = "login.captcha.invalid";
-            throw new AppException(errorMessage);
+            throw new RuntimeException(errorMessage);
         }
 
         User user;
@@ -48,12 +50,12 @@ public class LoginCommand extends Command {
             user = new UserDAO().getUserByEmail(email);
         } catch (DBException e) {
             errorMessage = "user.dao.find.by.email.error";
-            throw new AppException(errorMessage);
+            throw new RuntimeException(errorMessage);
         }
         if(user == null
                 || !PasswordSecurityUtil.verifyPassword(password, user.getPassword(), user.getSalt())){
             errorMessage = "login.command.credentials.invalid";
-            throw new AppException(errorMessage);
+            throw new RuntimeException(errorMessage);
         } else {
             Post userPost = user.getPost();
             session.setAttribute("user", user);
@@ -67,6 +69,5 @@ public class LoginCommand extends Command {
                 session.setAttribute("lang", "en");
             }
         }
-        return forward;
     }
 }

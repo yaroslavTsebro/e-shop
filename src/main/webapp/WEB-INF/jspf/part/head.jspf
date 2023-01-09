@@ -1,0 +1,25 @@
+<%@ include file="/WEB-INF/jspf/link/page.jspf" %>
+<%@ include file="/WEB-INF/jspf/link/taglib.jspf" %>
+
+<head>
+
+ <c:if test="${empty sessionScope.lang}">
+        <fmt:setLocale value="en"/>
+</c:if>
+<c:if test="${not empty sessionScope.lang}">
+        <fmt:setLocale value="${sessionScope.lang}"/>
+</c:if>
+<fmt:setBundle basename="resources"/>
+
+<title>
+        <fmt:message key="${title}"/>
+</title>
+
+
+    <style>
+        <%@include file='../../../style/index.css' %>
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+</head>

@@ -3,12 +3,15 @@ package com.technograd.technograd.dao;
 import com.technograd.technograd.dao.entity.*;
 import com.technograd.technograd.web.error.DBException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class CategoryDAO {
     private static final String SQL__FIND_ALL_CATEGORIES = "SELECT * FROM category;";
@@ -104,10 +107,15 @@ public class CategoryDAO {
             preparedStatement.execute();
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException();
+            throw new DBException(e);
         } finally {
-           DBManager.getInstance().commitAndClose(connection, preparedStatement);
+           DBManager.getInstance().closeResources(connection, preparedStatement);
         }
+    }
+
+    public static void main(String[] args) throws DBException {
+        //CategoryDAO.createCategory(new Category("1", "2"));
+
     }
     public static void deleteById(int id) throws DBException {
         Connection connection = null;
@@ -120,7 +128,7 @@ public class CategoryDAO {
             preparedStatement.execute();
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException();
+            throw new DBException(e);
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }

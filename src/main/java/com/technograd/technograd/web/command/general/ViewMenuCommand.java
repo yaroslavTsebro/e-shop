@@ -1,26 +1,32 @@
 package com.technograd.technograd.web.command.general;
 
 import com.technograd.technograd.Path;
-import com.technograd.technograd.dao.IntendDAO;
-import com.technograd.technograd.dao.entity.Intend;
-import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.error.AppException;
-import com.technograd.technograd.web.error.DBException;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 
-public class ViewMenuCommand extends Command {
+@WebServlet(name = "ViewMenuCommand", value = "/menu")
+public class ViewMenuCommand extends HttpServlet {
 
     private static final long serialVersionUID = -1227114065336794942L;
 
+
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
-        return Path.MENU_PAGE;
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        super.doPost(req, resp);
+    }
 }
