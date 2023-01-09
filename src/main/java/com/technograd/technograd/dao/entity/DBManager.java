@@ -1,10 +1,12 @@
 package com.technograd.technograd.dao.entity;
 
+import com.technograd.technograd.web.error.DBException;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.Properties;
 
 public class DBManager {
 
@@ -20,18 +22,25 @@ public class DBManager {
         return instance;
     }
 
+
     public Connection getConnection() throws SQLException {
         Connection con = null;
         try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/technograd");
-            con = ds.getConnection();
-        } catch (NamingException ex) {
-           // log.warning("Cannot get connection");
+            String url = "jdbc:postgresql://localhost:5432/technograd";
+            Properties props = new Properties();
+            props.setProperty("user", "postgres");
+            props.setProperty("password", "zsbldqpk56");
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection(url, props);
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            con.setAutoCommit(false);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
+
         return con;
     }
+
 
     public void commitAndClose(Connection connection) {
         try {
