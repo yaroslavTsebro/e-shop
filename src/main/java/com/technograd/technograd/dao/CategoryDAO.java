@@ -1,17 +1,15 @@
 package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
-import com.technograd.technograd.web.error.DBException;
+import com.technograd.technograd.web.exeption.DBException;
+import org.apache.log4j.Logger;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class CategoryDAO {
     private static final String SQL__FIND_ALL_CATEGORIES = "SELECT * FROM category;";
@@ -20,6 +18,7 @@ public class CategoryDAO {
     private static final String SQL__FIND_CATEGORY_BY_NAME_EN = "SELECT * FROM category WHERE name_en=?;";
     private static final String SQL__CREATE_CATEGORY = "INSERT INTO category (name_ua, name_en) VALUES(?, ?);";
     private static final String SQL__DELETE_CATEGORY = "DELETE FROM category WHERE id=?;";
+    private static final Logger logger = Logger.getLogger(CategoryDAO.class.getName());
 
     public static List<Category> getAllCategories() throws DBException {
         List<Category> categories = new ArrayList<>();
@@ -104,7 +103,7 @@ public class CategoryDAO {
             preparedStatement = connection.prepareStatement(SQL__CREATE_CATEGORY);
             preparedStatement.setString(1, category.getNameUa());
             preparedStatement.setString(2, category.getNameEn());
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
             throw new DBException(e);
@@ -113,10 +112,6 @@ public class CategoryDAO {
         }
     }
 
-    public static void main(String[] args) throws DBException {
-        //CategoryDAO.createCategory(new Category("1", "2"));
-
-    }
     public static void deleteById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -1,46 +1,59 @@
 package com.technograd.technograd.dao.entity;
 
-import com.technograd.technograd.web.error.DBException;
+import org.apache.log4j.Logger;
+
 import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+
+
 import java.sql.*;
 import java.util.Properties;
 
 public class DBManager {
 
     private static DBManager instance;
-
+    private static final Logger log = Logger.getLogger(DBManager.class.getName());
     private DBManager() {
     }
 
     public static synchronized DBManager getInstance() {
         if (instance == null)
             instance = new DBManager();
-        //log.info("DBmanager instance was created");
         return instance;
     }
 
 
-    public Connection getConnection() throws SQLException {
+     public Connection getConnection() throws SQLException {
         Connection con = null;
         try {
             String url = "jdbc:postgresql://localhost:5432/technograd";
             Properties props = new Properties();
             props.setProperty("user", "postgres");
             props.setProperty("password", "zsbldqpk56");
+            props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.tomcat.jdbc.pool.DataSourceFactory");
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection(url, props);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            con.setAutoCommit(false);
-        } catch (ClassNotFoundException e) {
+            //con.setAutoCommit(false);
+            con.setReadOnly(false);
+        } catch (Exception e) {
+            log.warn("Cannot obtain a connection from the pool");
             throw new RuntimeException(e);
         }
 
         return con;
+//         Connection con = null;
+//         try {
+//             Context initContext = new InitialContext();
+//             Context envContext = (Context) initContext.lookup("java:");
+//             DataSource ds = (DataSource) envContext.lookup("jdbc/technograd");
+//             System.out.println(ds);
+//             con = ds.getConnection();
+//         } catch (NamingException ex) {
+//             System.out.println("system");
+//             System.out.println(ex);
+//         }
+//         return con;
     }
-
 
     public void commitAndClose(Connection connection) {
         try {
@@ -49,7 +62,6 @@ public class DBManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            //log.warning("commitAndClose went bad");
             e.printStackTrace();
         }
     }
@@ -57,14 +69,13 @@ public class DBManager {
     public void commitAndClose(Connection connection, PreparedStatement preparedStatement) {
         try {
             if (preparedStatement != null) {
-                connection.close();
+                preparedStatement.close();
             }
             if (connection != null) {
                 connection.commit();
                 connection.close();
             }
         } catch (SQLException e) {
-           // log.warning("commitAndClose went bad");
             e.printStackTrace();
         }
 
@@ -87,7 +98,6 @@ public class DBManager {
                 connection.close();
             }
         } catch (SQLException e) {
-            //log.warning("commitAndClose went bad");
             e.printStackTrace();
         }
     }
@@ -104,7 +114,6 @@ public class DBManager {
                 con.close();
             }
         } catch (SQLException e) {
-           // log.warning("closeResources went bad");
             e.printStackTrace();
         }
     }
@@ -118,7 +127,6 @@ public class DBManager {
                 con.close();
             }
         } catch (SQLException e) {
-           // log.warning("closeResources went bad");
             e.printStackTrace();
         }
     }
@@ -133,7 +141,6 @@ public class DBManager {
                 con.close();
             }
         } catch (SQLException e) {
-           // log.warning("rollbackAndClose went bad");
             e.printStackTrace();
         }
     }
@@ -151,7 +158,6 @@ public class DBManager {
                 con.close();
             }
         } catch (SQLException e) {
-            //log.warning("rollbackAndClose went bad");
             e.printStackTrace();
         }
     }

@@ -1,7 +1,7 @@
 package com.technograd.technograd.web.validator;
 
 import com.technograd.technograd.dao.entity.Category;
-import com.technograd.technograd.web.error.AppException;
+import com.technograd.technograd.web.exeption.AppException;
 
 public class CategoryValidator implements Validator<Category>{
     private static final String categoryUaPattern = "^[а-яА-ЯІіЇї\\s]+";

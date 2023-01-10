@@ -5,6 +5,7 @@ import com.technograd.technograd.dao.entity.Post;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.log4j.Logger;
 
 import javax.management.relation.Role;
 import java.io.IOException;
@@ -14,22 +15,23 @@ public class SecurityFilter implements Filter {
     private static final Map<Post, List<String>> accessMap = new HashMap<>();
     private static List<String> commons = new ArrayList<>();
     private static List<String> outOfControl = new ArrayList<>();
+    Logger logger = Logger.getLogger(SecurityFilter.class.getName());
 
     @Override
     public void init(FilterConfig config) {
-        //logger.debug("Security filter initialization is started");
+        logger.info("Security filter initialization is started");
 
         accessMap.put(Post.MANAGER , asList(config.getInitParameter("manager")));
         accessMap.put(Post.CUSTOMER, asList(config.getInitParameter("customer")));
-        //logger.trace("Access map --> " + accessMap);
+        logger.trace("Access map --> " + accessMap);
 
         commons = asList(config.getInitParameter("common"));
-        //logger.trace("Common commands --> " + commons);
+        logger.trace("Common commands --> " + commons);
 
         outOfControl = asList(config.getInitParameter("out-of-control"));
-        //logger.trace("Out of control commands --> " + outOfControl);
+        logger.trace("Out of control commands --> " + outOfControl);
 
-        //logger.debug("Security filter initialization is finished");
+        logger.info("Security filter initialization is finished");
     }
 
     private List<String> asList(String str) {
@@ -43,14 +45,14 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        //logger.debug("Security filter is started");
+        logger.info("Security filter is started");
         if (accessAllowed(req)) {
-        //    logger.debug("Filter is finished");
+            logger.debug("Filter is finished");
             chain.doFilter(req, res);
         } else {
             String errorMessage = "You do not have access to the chosen page";
             req.setAttribute("errorMessage", errorMessage);
-         //   logger.trace("Set the request attribute: error message -> " + errorMessage);
+            logger.trace("Set the request attribute: error message -> " + errorMessage);
             req.getRequestDispatcher(Path.ERROR_PAGE).forward(req, res);
         }
     }
@@ -59,7 +61,7 @@ public class SecurityFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
 
         String commandName = request.getParameter("command");
-        //logger.trace("COMMAND NAME = " + commandName);
+        logger.trace("COMMAND NAME = " + commandName);
         if (commandName == null || commandName.isEmpty()) {
             return false;
         }
@@ -69,13 +71,13 @@ public class SecurityFilter implements Filter {
         }
 
         HttpSession session = httpServletRequest.getSession(false);
-        //logger.trace("SESSION = " + session);
+        logger.trace("SESSION = " + session);
         if (session == null) {
             return false;
         }
 
         Role userRole = (Role) session.getAttribute("userRole");
-        //logger.trace("USER ROLE =" + userRole);
+        logger.trace("USER ROLE =" + userRole);
         if (userRole == null) {
             return false;
         }
@@ -84,6 +86,6 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void destroy() {
-       // logger.debug("Security filter destruction");
+       logger.debug("Security filter destruction");
     }
 }

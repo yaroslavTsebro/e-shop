@@ -1,4 +1,4 @@
-package com.technograd.technograd.web.error;
+package com.technograd.technograd.web.exeption;
 
 
 import java.sql.SQLException;

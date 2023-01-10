@@ -4,7 +4,7 @@ import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.Commands;
-import com.technograd.technograd.web.error.*;
+import com.technograd.technograd.web.exeption.*;
 import com.technograd.technograd.web.passwordSecurity.PasswordSecurityUtil;
 import com.technograd.technograd.web.recaptcha.RecaptchaUtil;
 import jakarta.servlet.ServletException;

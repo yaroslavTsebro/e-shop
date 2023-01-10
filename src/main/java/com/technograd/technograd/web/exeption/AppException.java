@@ -1,4 +1,4 @@
-package com.technograd.technograd.web.error;
+package com.technograd.technograd.web.exeption;
 
 public class AppException extends Exception{
 

@@ -1,6 +1,6 @@
 package com.technograd.technograd.web.validator;
 
-import com.technograd.technograd.web.error.AppException;
+import com.technograd.technograd.web.exeption.AppException;
 
 public interface Validator<T>{
 

@@ -1,7 +1,7 @@
 package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
-import com.technograd.technograd.web.error.DBException;
+import com.technograd.technograd.web.exeption.DBException;
 
 
 import java.sql.Connection;

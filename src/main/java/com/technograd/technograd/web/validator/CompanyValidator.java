@@ -1,8 +1,7 @@
 package com.technograd.technograd.web.validator;
 
-import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Company;
-import com.technograd.technograd.web.error.AppException;
+import com.technograd.technograd.web.exeption.AppException;
 
 public class CompanyValidator implements Validator<Company> {
     private static final String companyUaPattern = "^[а-яА-ЯІіЇї\\s]+";

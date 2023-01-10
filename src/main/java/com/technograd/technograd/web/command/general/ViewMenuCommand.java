@@ -1,7 +1,5 @@
 package com.technograd.technograd.web.command.general;
 
-import com.technograd.technograd.Path;
-import com.technograd.technograd.web.error.AppException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 
 @WebServlet(name = "ViewMenuCommand", value = "/menu")

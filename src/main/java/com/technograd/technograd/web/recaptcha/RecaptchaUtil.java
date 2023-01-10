@@ -1,5 +1,7 @@
 package com.technograd.technograd.web.recaptcha;
 
+import org.apache.log4j.Logger;
+
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
@@ -10,10 +12,12 @@ import java.net.URL;
 
 public class RecaptchaUtil {
     public static final String RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
+    private static final Logger logger = Logger.getLogger(RecaptchaUtil.class.getName());
     public static final String SECRET_KEY = "*****************************";
     public static final String SITE_KEY = "*****************************";
     
     public static boolean verify(String recaptchaResponse){
+        logger.info("RecaptchaUtil verify started");
 
         if(recaptchaResponse == null || recaptchaResponse.length() == 0){
             return false;
@@ -37,12 +41,15 @@ public class RecaptchaUtil {
             outputStream.close();
 
             int code = connection.getResponseCode();
+            logger.debug("code: " + code);
             InputStream stream = connection.getInputStream();
 
             JsonReader reader = Json.createReader(stream);
-            JsonObject object = reader.readObject();
+            JsonObject jsonObject = reader.readObject();
             reader.close();
-            return object.getBoolean("success");
+            logger.debug("Response: " + jsonObject);
+            logger.info("RecaptchaUtil verify finished");
+            return jsonObject.getBoolean("success");
         } catch(Exception e){
             return false;
         }
