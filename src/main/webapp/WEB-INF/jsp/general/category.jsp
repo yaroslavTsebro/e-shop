@@ -32,6 +32,7 @@
                             <td>${category.id}</td>
                             <td>${category.nameUa}</td>
                             <td>${category.nameEn}</td>
+                            <td>${category.nameEn}</td>
                         </tr>
                 </c:forEach>
             </table>

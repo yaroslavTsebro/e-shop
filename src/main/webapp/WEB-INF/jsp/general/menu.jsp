@@ -5,5 +5,6 @@
 <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
     <a href='<c:url value="/category" />'><c:url value="/category" /></a>
+    <a href='<c:url value="/product" />'><c:url value="/product" /></a>
 </body>
 </html>
