@@ -1,0 +1,27 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jspf/link/taglib.jspf" %>
+
+<div id="header_container">
+    <div class="navbar">
+        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+        <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
+        <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>
+        <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
+        <a href="#" class="header-local-ua">
+            <form  action="controller" method="post">
+                <input type="hidden" name="command" value="changeLanguage"/>
+                <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>
+                <input type="hidden" name="language" value="ua"/>
+                <input type="submit" value="UA" class="lang_button"/>
+            </form>
+        </a>
+        <a href="#" class="header-local-en">
+            <form  action="controller" method="post">
+                <input type="hidden" name="command" value="changeLanguage"/>
+                <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>
+                <input type="hidden" name="language" value="en"/>
+                <input type="submit" value="EN" class="lang_button"/>
+            </form>
+        </a>
+    </div>
+</div>

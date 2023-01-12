@@ -1,6 +1,8 @@
 package com.technograd.technograd.web.recaptcha;
 
-import org.apache.log4j.Logger;
+import com.technograd.technograd.web.command.customer.CreateCategory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -12,7 +14,7 @@ import java.net.URL;
 
 public class RecaptchaUtil {
     public static final String RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
-    private static final Logger logger = Logger.getLogger(RecaptchaUtil.class.getName());
+    private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
     public static final String SECRET_KEY = "*****************************";
     public static final String SITE_KEY = "*****************************";
     

@@ -14,7 +14,7 @@ public class IntendValidator implements Validator<Intend>{
                return validateReceiving(intend);
             }
         } catch (AppException e) {
-            throw new AppException(e);
+            throw new AppException(e.getMessage());
         }
     }
 

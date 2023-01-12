@@ -1,17 +1,16 @@
 package com.technograd.technograd.dao.entity;
 
-import org.apache.log4j.Logger;
-
+import com.technograd.technograd.web.command.customer.CreateCategory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import javax.naming.Context;
-
-
 import java.sql.*;
 import java.util.Properties;
 
 public class DBManager {
 
     private static DBManager instance;
-    private static final Logger log = Logger.getLogger(DBManager.class.getName());
+    private static final Logger log = LogManager.getLogger(CreateCategory.class.getName());
     private DBManager() {
     }
 

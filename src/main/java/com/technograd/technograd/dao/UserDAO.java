@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private static final String SQL__CREATE_USER = "INSERT INTO user(lastname, name, email ,post, password, salt) VALUES(?, ?, ?, ? ,? ,?);";
+    private static final String SQL__CREATE_USER = "INSERT INTO user(lastname, name, email ,post, password, salt, local_name) VALUES(?, ?, ?, ? ,? ,?, ?);";
     private static final String SQL__FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?;";
     private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?;";
     private static final String SQL__FIND_ALL_USERS = "SELECT * FROM user;";
@@ -132,6 +132,7 @@ public class UserDAO {
             preparedStatement.setString(4, user.getPost().toString());
             preparedStatement.setString(5, user.getPassword());
             preparedStatement.setString(6, user.getSalt());
+            preparedStatement.setString(7, "en");
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);

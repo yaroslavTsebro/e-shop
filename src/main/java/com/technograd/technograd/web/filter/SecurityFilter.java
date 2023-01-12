@@ -2,10 +2,12 @@ package com.technograd.technograd.web.filter;
 
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.entity.Post;
+import com.technograd.technograd.web.command.customer.CreateCategory;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.management.relation.Role;
 import java.io.IOException;
@@ -15,7 +17,7 @@ public class SecurityFilter implements Filter {
     private static final Map<Post, List<String>> accessMap = new HashMap<>();
     private static List<String> commons = new ArrayList<>();
     private static List<String> outOfControl = new ArrayList<>();
-    Logger logger = Logger.getLogger(SecurityFilter.class.getName());
+    private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
     @Override
     public void init(FilterConfig config) {

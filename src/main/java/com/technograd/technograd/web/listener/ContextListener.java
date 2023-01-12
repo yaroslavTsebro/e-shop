@@ -1,13 +1,14 @@
 package com.technograd.technograd.web.listener;
 
+import com.technograd.technograd.web.command.customer.CreateCategory;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ContextListener implements ServletContextListener {
-    Logger logger = Logger.getLogger(ContextListener.class.getName());
+    private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
     public void contextDestroyed(ServletContextEvent event) {
         logger.debug("Servlet context destruction starts");
@@ -28,8 +29,7 @@ public class ContextListener implements ServletContextListener {
     private void initLog4J(ServletContext servletContext) {
         logger.debug("Log4J initialization started");
         try {
-            PropertyConfigurator.configure(servletContext.getRealPath(
-                    "WEB-INF/classes/log4j.properties"));
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -10,9 +10,12 @@ public class CommandContainer {
     private static final Map<String, Command> commands = new TreeMap<>();
 
     static {
-        commands.put("/category", new ViewCategory());
-        commands.put("/category?command=add", new CreateCategory());
-        commands.put("/category?command=delete/{id}", new CreateCategory());
+        commands.put("noCommand", new NoCommand());
+
+        commands.put("viewCategories", new ViewCategory());
+        commands.put("addCategory", new CreateCategory());
+        commands.put("deleteCategory", new CreateCategory());
+
     }
 
     public static Command get(String commandName) {

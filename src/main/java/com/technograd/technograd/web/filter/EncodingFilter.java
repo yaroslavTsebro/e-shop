@@ -1,14 +1,16 @@
 package com.technograd.technograd.web.filter;
 
+import com.technograd.technograd.web.command.customer.CreateCategory;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {
     private String encoding;
-    Logger logger = Logger.getLogger(EncodingFilter.class.getName());
+    private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
     @Override
     public void init(FilterConfig filterConfig) {

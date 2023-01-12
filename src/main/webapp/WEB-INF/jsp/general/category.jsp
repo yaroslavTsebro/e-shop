@@ -28,7 +28,7 @@
                     <th><fmt:message key="entity.name.en"/></th>
                 </tr>
                 <c:forEach items="${requestScope.categoryList}" var="category">
-                        <tr class="myBtn" onclick="var id = ${category.id}, nameUa = ${category.nameUa}, nameEn = ${category.nameEn}">
+                        <tr class="myBtn">
                             <td>${category.id}</td>
                             <td>${category.nameUa}</td>
                             <td>${category.nameEn}</td>

@@ -1,4 +1,4 @@
-package com.technograd.technograd.web.command.general;
+package com.technograd.technograd.web.command.general.user;
 
 import com.technograd.technograd.Path;
 import com.technograd.technograd.web.exeption.AppException;

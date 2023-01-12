@@ -16,6 +16,11 @@
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="weight" name="weight" placeholder="<fmt:message key="category.add.form.placeholder.text.en"/>" required>
                 <input type="submit" value="<fmt:message key="category.add.form.button"/>">
+                <select  id="mySelect">
+                    <c:forEach items="${requestScope.categoryList}" var="category">
+                        <option>UA: ${category.nameUa}<br>EN: ${category.nameEn}</option>
+                    </c:forEach>
+                </select>
             </form>
         </div>
     </div>

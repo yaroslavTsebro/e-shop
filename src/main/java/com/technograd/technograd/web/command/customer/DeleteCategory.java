@@ -7,7 +7,8 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -15,7 +16,7 @@ public class DeleteCategory extends Command {
 
     private static final long serialVersionUID = 2585592730326793675L;
     private final CategoryDAO categoryDAO;
-    Logger logger = Logger.getLogger(DeleteCategory.class.getName());
+    private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
     public DeleteCategory(CategoryDAO categoryDAO) {
         this.categoryDAO = categoryDAO;

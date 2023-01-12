@@ -1,8 +1,10 @@
 package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
+import com.technograd.technograd.web.command.customer.CreateCategory;
 import com.technograd.technograd.web.exeption.DBException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +20,7 @@ public class CategoryDAO {
     private static final String SQL__FIND_CATEGORY_BY_NAME_EN = "SELECT * FROM category WHERE name_en=?;";
     private static final String SQL__CREATE_CATEGORY = "INSERT INTO category (name_ua, name_en) VALUES(?, ?);";
     private static final String SQL__DELETE_CATEGORY = "DELETE FROM category WHERE id=?;";
-    private static final Logger logger = Logger.getLogger(CategoryDAO.class.getName());
+    private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
     public static List<Category> getAllCategories() throws DBException {
         List<Category> categories = new ArrayList<>();
