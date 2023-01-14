@@ -39,6 +39,6 @@ public class DeleteCategory extends Command {
         }
 
         logger.info("DeleteCategory execute finished, path transferred to controller");
-        return request.getContextPath() + "/category";
+        return request.getContextPath() + "controller?command=viewCategories";
     }
 }

@@ -18,7 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-@WebServlet(name = "controller", value = "/")
+@WebServlet(name = "controller", value = "/controller")
 public class Controller extends HttpServlet {
 
     private static final long serialVersionUID = 8239133597902771792L;

@@ -44,6 +44,6 @@ public class CreateCategory extends Command {
             throw new AppException(e);
         }
         logger.info("CreateCategory execute finished, path transferred to controller");
-        return request.getContextPath() + "/category";
+        return request.getContextPath() + "/controller?command=viewCategories";
     }
 }

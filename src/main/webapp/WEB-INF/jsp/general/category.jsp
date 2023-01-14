@@ -7,7 +7,8 @@
 <body>
     <div class="container">
         <div class="wrapper">
-            <form action="/category?command=add" method="post" name="customInputForm">
+            <form action="/controller" method="post" name="createCategoryForm">
+                <input type="hidden" name="command" value="createCategory"/>
                 <label for="name_ua"><fmt:message key="category.add.form.label.text.ua"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        id="name_ua" name="name_ua" placeholder="<fmt:message key="category.add.form.placeholder.text.ua"/>" required>
@@ -32,7 +33,13 @@
                             <td>${category.id}</td>
                             <td>${category.nameUa}</td>
                             <td>${category.nameEn}</td>
-                            <td>${category.nameEn}</td>
+                            <td>
+                                <form action="/controller" method="post" name="deleteCategoryForm">
+                                    <input type="hidden" name="command" value="deleteCategory"/>
+                                    <input type="hidden" name="delete_by_id" value="${category.id}"/>
+                                    <input type="submit" value="Delete"/>
+                                </form>
+                            </td>
                         </tr>
                 </c:forEach>
             </table>
