@@ -123,6 +123,8 @@ public class Intend implements Serializable {
             this.condition = Condition.IN_WAY;
         }else if(Condition.TURNED_BACK.toString().equalsIgnoreCase(condition)){
             this.condition = Condition.TURNED_BACK;
+        }else if(Condition.CART.toString().equalsIgnoreCase(condition)){
+            this.condition = Condition.CART;
         }
     }
 

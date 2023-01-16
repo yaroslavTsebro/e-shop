@@ -10,23 +10,40 @@ import java.sql.SQLException;
 
 public class IntendDAO {
     private static final String SQL__CREATE_INTEND_SENDING = "INSERT INTO intend(start_date, user_id, employee_id, sending_or_receiving, address, condition)" +
-            "VALUES (?, ?, ?, 'SENDING', ?, 'NEW');";
+            "VALUES (current_timestamp, ?, ?, 'SENDING', '', 'CART');";
     private static final String SQL__UPDATE_INTEND_CONDITION = "UPDATE intend SET condition = ? WHERE id=?;";
     private static final String SQL__CREATE_INTEND_RECEIVING = "INSERT INTO intend(start_date, supplier_id, employee_id, sending_or_receiving, address, condition)" +
             "VALUES (?, ?, ?, 'RECEIVING', 'STORAGE', 'NEW');";
 
     private static final String SQL__FIND_INTEND_BY_ID = "SELECT * FROM intend WHERE id=?;";
+    private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE id=? AND condition='CART';";
+    private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET condition = 'NEW', address=? WHERE id=?;";
 
-    public static void createIntendSending(Intend intend) throws DBException {
+    public static void createIntendSending(int userId, int employeeId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__CREATE_INTEND_SENDING);
-            preparedStatement.setDate(1, intend.getStartDate());
-            preparedStatement.setInt(2, intend.getUserId());
-            preparedStatement.setInt(3, intend.getEmployeeId());
-            preparedStatement.setString(4, intend.getAddress());
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, employeeId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+
+    public static void changeCartIntoIntend(String address, int userId) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__CHANGE_CART_INTO_INTEND);
+            preparedStatement.setString(1, address);
+            preparedStatement.setInt(2, userId);
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
@@ -91,7 +108,28 @@ public class IntendDAO {
         }
         return intend;
     }
-
+    public static Intend findCartById(int id) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Intend intend = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_CART_BY_ID);
+            IntendMapper mapper = new IntendMapper();
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeQuery();
+            while (resultSet.next()){
+                intend = mapper.mapRow(resultSet);
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
+        }
+        return intend;
+    }
 
 
     private static class IntendMapper implements EntityMapper<Intend>{

@@ -5,7 +5,7 @@ import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import com.technograd.technograd.web.passwordSecurity.PasswordSecurityUtil;

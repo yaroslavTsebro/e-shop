@@ -3,6 +3,7 @@ package com.technograd.technograd.dao;
 import com.technograd.technograd.dao.entity.*;
 import com.technograd.technograd.web.exeption.DBException;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,16 +71,16 @@ public class ListIntendDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
-    public static void createListIntend(ListIntend listIntend ) throws DBException {
+    public static void createListIntend(int intendId, int count, int productId, BigDecimal productPrice) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__CREATE_LIST_INTEND);
-            preparedStatement.setInt(1, listIntend.getIntendId());
-            preparedStatement.setInt(2, listIntend.getCount());
-            preparedStatement.setInt(3, listIntend.getProduct().getId());
-            preparedStatement.setBigDecimal(4, listIntend.getProductPrice());
+            preparedStatement.setInt(1, intendId);
+            preparedStatement.setInt(2, count);
+            preparedStatement.setInt(3, productId);
+            preparedStatement.setBigDecimal(4, productPrice);
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);

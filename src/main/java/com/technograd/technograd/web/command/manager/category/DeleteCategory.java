@@ -1,4 +1,4 @@
-package com.technograd.technograd.web.command.customer;
+package com.technograd.technograd.web.command.manager.category;
 
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.web.command.Command;

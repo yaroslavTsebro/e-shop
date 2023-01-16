@@ -1,6 +1,6 @@
 package com.technograd.technograd.web.recaptcha;
 
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

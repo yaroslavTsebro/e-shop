@@ -19,7 +19,7 @@ public class CompanyDAO {
     private static final String SQL__CREATE_COMPANY = "INSERT INTO category (name_ua, name_en, country_ua, country_en) VALUES(?, ?, ?, ?);";
     private static final String SQL__DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
 
-    public List<Company> getAllCompanies() throws DBException {
+    public static List<Company> getAllCompanies() throws DBException {
         List<Company>  companies = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;

@@ -1,13 +1,23 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/jspf/link/taglib.jspf" %>
 
+
 <div id="header_container">
     <div class="navbar">
-        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
-        <a href="#"><i class="fa fa-fw fa-search"></i> Search</a>
-        <a href="#"><i class="fa fa-fw fa-envelope"></i> Contact</a>
-        <a href="#"><i class="fa fa-fw fa-user"></i> Login</a>
-        <a href="#" class="header-local-ua">
+        <a href="/controller?command=viewMenu"><fmt:message key="header.menu.main.menu"/></a>
+        <c: if test="${empty sessionScope.user}">
+            <a href="/controller?command=login"><fmt:message key="header.menu.login"/></a>
+        </c:>
+        <c: if  test="${not empty sessionScope.user}">
+            <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
+            <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
+        </c:>
+        <c:if test="${sessionScope.userRole.name().toLowerCase() == 'manager'}">
+            <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
+        </c:if>
+        <c:if test="${sessionScope.userRole.name().toLowerCase() == 'customer'}">
+            <a href="/controller?command=cart"><fmt:message key="header.menu.cart"/></a>
+        </c:if>
             <form  action="controller" method="post">
                 <input type="hidden" name="command" value="changeLanguage"/>
                 <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>

@@ -1,7 +1,7 @@
 package com.technograd.technograd.web.command;
 
 import com.technograd.technograd.Path;
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

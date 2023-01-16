@@ -1,8 +1,7 @@
 package com.technograd.technograd.web.command;
 
-import com.technograd.technograd.web.command.customer.CreateCategory;
-import com.technograd.technograd.web.command.customer.DeleteCategory;
-import com.technograd.technograd.web.command.customer.ViewCategory;
+import com.technograd.technograd.web.command.customer.category.*;
+import com.technograd.technograd.web.command.manager.category.*;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,6 +15,8 @@ public class CommandContainer {
         commands.put("viewCategories", new ViewCategory());
         commands.put("createCategory", new CreateCategory());
         commands.put("deleteCategory", new DeleteCategory());
+        commands.put("updateCategory", new UpdateCategory());
+        commands.put("searchCategories", new SearchCategory());
 
     }
 

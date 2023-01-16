@@ -2,7 +2,7 @@ package com.technograd.technograd.web;
 
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.command.CommandContainer;
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.localization.LocalizationUtils;
 import jakarta.servlet.RequestDispatcher;

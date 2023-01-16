@@ -39,6 +39,12 @@ public class Category implements Serializable {
         this.nameUa = nameUa;
         this.nameEn = nameEn;
     }
+
+    public Category(int id, String nameUa, String nameEn) {
+        this.id = id;
+        this.nameUa = nameUa;
+        this.nameEn = nameEn;
+    }
     public Category(){}
     @Override
     public boolean equals(Object o) {

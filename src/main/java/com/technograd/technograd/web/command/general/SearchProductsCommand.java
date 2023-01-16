@@ -1,18 +1,15 @@
 package com.technograd.technograd.web.command.general;
 
 import com.technograd.technograd.Path;
-import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.ProductDAO;
-import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.Product;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

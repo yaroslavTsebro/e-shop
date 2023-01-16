@@ -2,7 +2,7 @@ package com.technograd.technograd.web.filter;
 
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.entity.Post;
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

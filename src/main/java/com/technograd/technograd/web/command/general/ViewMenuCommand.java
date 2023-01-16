@@ -8,7 +8,7 @@ import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Characteristic;
 import com.technograd.technograd.dao.entity.Product;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.command.customer.CreateCategory;
+import com.technograd.technograd.web.command.manager.category.CreateCategory;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;

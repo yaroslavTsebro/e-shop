@@ -22,11 +22,20 @@
             <hr>
         </div>
         <div class="wrapper">
+            <form action="/controller" method="get" name="searchCategoriesForm">
+                <input class="hidden" type="hidden" name="command" value="searchCategories"/>
+                <input type="search" name="pattern" placeholder="Search...">
+                <input type="submit" value="Search"/>
+            </form>
+        </div>
+        <div class="wrapper">
             <table id="result-table">
                 <tr>
                     <th><fmt:message key="entity.id"/></th>
                     <th><fmt:message key="entity.name.ua"/></th>
                     <th><fmt:message key="entity.name.en"/></th>
+                    <th><fmt:message key="entity.delete"/></th>
+                    <th><fmt:message key="entity.update"/></th>
                 </tr>
                 <c:forEach items="${requestScope.categoryList}" var="category">
                         <tr class="myBtn">
@@ -35,10 +44,14 @@
                             <td>${category.nameEn}</td>
                             <td>
                                 <form action="/controller" method="post" name="deleteCategoryForm">
-                                    <input type="hidden" name="command" value="deleteCategory"/>
-                                    <input type="hidden" name="delete_by_id" value="${category.id}"/>
-                                    <input type="submit" value="Delete"/>
+                                    <input class="hidden" type="hidden" name="command" value="deleteCategory"/>
+                                    <input class="hidden" type="hidden" name="delete_by_id" value="${category.id}"/>
+                                    <input class="deleteButton" type="submit" value="Delete"/>
                                 </form>
+                            </td>
+                            <td>
+                                <button class="updateButton" onclick="openModal(${category.id})"><fmt:message key="entity.update"/></button>
+                                <input  class="hidden" id="updateIdFrom${category.id}" type="hidden" name="update_by_id" value="${category.id}"/>
                             </td>
                         </tr>
                 </c:forEach>
@@ -52,9 +65,11 @@
                 <h2>Change category settings</h2>
             </div>
             <div class="modal-body">
-                <form action="category" method="post" name="customInputForm1">
+                <form action="/controller" method="post" name="updateCategoryForm">
+                    <input type="hidden" name="command" value="updateCategory"/>
+                    <input id="updateIdTo" type="hidden" name="update_by_id" value=""/>
                     <label for="updated_name_ua">name_ua</label>
-                    <input type="text" id="updated_name_ua" name="updated_name_en" placeholder="Category name_ua" required>
+                    <input type="text" id="updated_name_ua" name="updated_name_ua" placeholder="Category name_ua" required>
                     <label for="updated_name_en">name_en</label>
                     <input type="text" id="updated_name_en" name="updated_name_en" placeholder="Category name_en" required>
                     <input type="submit" value="Submit">
@@ -66,8 +81,10 @@
         var modal = document.getElementById("myModal");
         var btn = document.getElementsByClassName('myBtn');
         var span = document.getElementsByClassName("close")[0];
-        btn.onclick = function() {
+        function openModal(id){
             modal.style.display = "block";
+            var x = document.getElementById("updateIdFrom" + id).value;
+            document.getElementById("updateIdTo").value = x
         }
         span.onclick = function() {
             modal.style.display = "none";
@@ -78,5 +95,8 @@
             }
         }
     </script>
+    <style>
+        <%@include file='../../../style/admin_category.css' %>
+    </style>
 </body>
 </html>

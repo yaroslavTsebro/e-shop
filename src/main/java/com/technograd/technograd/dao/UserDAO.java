@@ -25,6 +25,7 @@ public class UserDAO {
     private static final String SQL__GET_CODE_FROM_USER_DETAILS = "SELECT code FROM user_details WHERE user_id=?;";
     private static final String SQL__UPDATE_USER_PASSWORD = "UPDATE user SET password=?, salt=? WHERE id=?;";
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
+    private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS = "SELECT id FROM user WHERE post='MANAGER' AND (SELECT COUNT(*) FROM intend WHERE user_id=id ORDER BY ASC LIMIT 1)";
 
     public void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
         Connection connection = null;
@@ -42,6 +43,28 @@ public class UserDAO {
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
+    }
+
+    public static int getManagerWithLowestCountOfIntends() throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int id = 0;
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__UPDATE_USER_PASSWORD);
+            preparedStatement.execute();
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                id = Integer.parseInt(resultSet.getString(Fields.ID));
+            }
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+        return id;
     }
 
     public static String getSaltFromUserDetails(int userId) throws DBException {
