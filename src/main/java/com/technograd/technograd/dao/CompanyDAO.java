@@ -18,6 +18,8 @@ public class CompanyDAO {
     private static final String SQL__FIND_COMPANY_BY_NAME_EN = "SELECT * FROM company WHERE id=?;";
     private static final String SQL__CREATE_COMPANY = "INSERT INTO category (name_ua, name_en, country_ua, country_en) VALUES(?, ?, ?, ?);";
     private static final String SQL__DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
+    private static final String SQL__FIND_COMPANY_BY_SEARCH = "SELECT * FROM company WHERE name_ua LIKE ? OR name_en LIKE ? OR country_ua LIKE ? OR country_en LIKE ?;";
+    private static final String SQL__UPDATE_COMPANY = "UPDATE category SET name_ua = ?, name_en = ?, country_ua = ?, country_en = ? WHERE id =?";
 
     public static List<Company> getAllCompanies() throws DBException {
         List<Company>  companies = new ArrayList<>();
@@ -41,6 +43,54 @@ public class CompanyDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
         return companies;
+    }
+
+    public static void updateCompany(Company company) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__UPDATE_COMPANY);
+            preparedStatement.setString(1, company.getNameUa());
+            preparedStatement.setString(2, company.getNameEn());
+            preparedStatement.setString(1, company.getCountryUa());
+            preparedStatement.setString(2, company.getCountryEn());
+            preparedStatement.setInt(3, company.getId());
+            preparedStatement.executeUpdate();
+        } catch (Exception e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().closeResources(connection, preparedStatement);
+        }
+    }
+
+    public static List<Company> searchCompanies(String pattern) throws DBException {
+        List<Company> companyList = new ArrayList<>();
+        PreparedStatement p = null;
+        ResultSet rs = null;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            CompanyMapper mapper = new CompanyMapper();
+            p = con.prepareStatement(SQL__FIND_COMPANY_BY_SEARCH);
+            pattern = "%" + pattern + "%";
+            p.setString(1, pattern);
+            p.setString(2, pattern);
+            p.setString(3, pattern);
+            p.setString(4, pattern);
+            rs = p.executeQuery();
+            while (rs.next()) {
+                companyList.add(mapper.mapRow(rs));
+            }
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con, p, rs);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().commitAndClose(con, p, rs);
+        }
+        return companyList;
     }
 
     public static Company getCompanyById(int id) throws DBException {

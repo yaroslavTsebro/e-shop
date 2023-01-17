@@ -1,6 +1,5 @@
 package com.technograd.technograd.web.command;
 
-import com.technograd.technograd.web.command.customer.category.*;
 import com.technograd.technograd.web.command.manager.category.*;
 
 import java.util.Map;

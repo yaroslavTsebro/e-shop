@@ -64,6 +64,13 @@ public class Company implements Serializable {
         this.countryEn = countryEn;
     }
 
+    public Company(String nameUa, String nameEn, String countryUa, String countryEn) {
+        this.nameUa = nameUa;
+        this.nameEn = nameEn;
+        this.countryUa = countryUa;
+        this.countryEn = countryEn;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

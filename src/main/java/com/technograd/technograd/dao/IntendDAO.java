@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntendDAO {
     private static final String SQL__CREATE_INTEND_SENDING = "INSERT INTO intend(start_date, user_id, employee_id, sending_or_receiving, address, condition)" +
@@ -18,6 +20,8 @@ public class IntendDAO {
     private static final String SQL__FIND_INTEND_BY_ID = "SELECT * FROM intend WHERE id=?;";
     private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE id=? AND condition='CART';";
     private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET condition = 'NEW', address=? WHERE id=?;";
+    private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
+    private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING';";
 
     public static void createIntendSending(int userId, int employeeId) throws DBException {
         Connection connection = null;
@@ -34,6 +38,68 @@ public class IntendDAO {
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
+    }
+
+    public static List<Intend> findAllReceivings() throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        List<Intend> intendList = new ArrayList<>();
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_RECEIVING_INTEND);
+            preparedStatement.executeQuery();
+            while (rs.next()){
+                Intend intend = new Intend();
+                intend.setId(rs.getInt(Fields.ID));
+                intend.setStartDate(rs.getDate(Fields.INTEND_START_DATE));
+                intend.setEndDate(rs.getDate(Fields.INTEND_END_DATE));
+                intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
+                intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
+                intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));
+                intend.setSendingOrReceiving(rs.getString(Fields.INTEND_SENDING_OR_RECEIVING));
+                intend.setAddress(rs.getString(Fields.INTEND_ADDRESS));
+                intend.setCondition(rs.getString(Fields.INTEND_CONDITION));
+                intendList.add(intend);
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
+        }
+        return intendList;
+    }
+
+    public static List<Intend> findAllSendings() throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        List<Intend> intendList = new ArrayList<>();
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_SENDING_INTEND);
+            preparedStatement.executeQuery();
+            while (rs.next()){
+                Intend intend = new Intend();
+                intend.setId(rs.getInt(Fields.ID));
+                intend.setStartDate(rs.getDate(Fields.INTEND_START_DATE));
+                intend.setEndDate(rs.getDate(Fields.INTEND_END_DATE));
+                intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
+                intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
+                intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));
+                intend.setSendingOrReceiving(rs.getString(Fields.INTEND_SENDING_OR_RECEIVING));
+                intend.setAddress(rs.getString(Fields.INTEND_ADDRESS));
+                intend.setCondition(rs.getString(Fields.INTEND_CONDITION));
+                intendList.add(intend);
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
+        }
+        return intendList;
     }
 
     public static void changeCartIntoIntend(String address, int userId) throws DBException {
