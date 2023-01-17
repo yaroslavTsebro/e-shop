@@ -3,9 +3,11 @@ package com.technograd.technograd.web.command.general;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CharacteristicDAO;
+import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.ProductDAO;
 import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Characteristic;
+import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.dao.entity.Product;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.command.manager.category.CreateCategory;
@@ -31,28 +33,25 @@ public class ViewMenuCommand extends Command {
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
     private final ProductDAO productDAO;
     private final CategoryDAO categoryDAO;
-    private final CharacteristicDAO characteristicDAO;
 
-    public ViewMenuCommand(ProductDAO productDAO, CategoryDAO categoryDAO, CharacteristicDAO characteristicDAO) {
+    public ViewMenuCommand(ProductDAO productDAO, CategoryDAO categoryDAO) {
         this.productDAO = productDAO;
         this.categoryDAO = categoryDAO;
-        this.characteristicDAO = characteristicDAO;
     }
     public ViewMenuCommand() {
         productDAO = new ProductDAO();
         categoryDAO = new CategoryDAO();
-        characteristicDAO = new CharacteristicDAO();
     }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
-        logger.debug("View menu command started");
+        logger.debug("ViewMenuCommand command started");
 
         HttpSession session = request.getSession();
 
         List<Product> productList = new ArrayList<>();
         List<Category> categoryList = new ArrayList<>();
-        List<Characteristic> characteristicList = new ArrayList<>();
+        List<Company> companyList = new ArrayList<>();
 
         try{
             productList = Stream.concat(productList.stream(), ProductDAO.getAllProducts().stream()).collect(Collectors.toList());
@@ -75,14 +74,14 @@ public class ViewMenuCommand extends Command {
         session.setAttribute("categoryList", categoryList);
 
         try{
-            characteristicList = Stream.concat(characteristicList.stream(), CharacteristicDAO.getAllCharacteristics().stream()).collect(Collectors.toList());
+            companyList = Stream.concat(companyList.stream(), CompanyDAO.getAllCompanies().stream()).collect(Collectors.toList());
         } catch (DBException exception) {
             String errorMessage = "characteristic.dao.find.all";
             logger.error("errorMessage --> " + exception);
             throw new AppException(errorMessage);
         }
-        logger.debug("Set session attribute : updated current characteristicList info => " + characteristicList);
-        session.setAttribute("characteristicList", characteristicList);
+        logger.debug("Set session attribute : updated current companyList info => " + companyList);
+        session.setAttribute("companyList", companyList);
 
         logger.debug("View menu command is finished");
         return Path.MENU_PAGE;
