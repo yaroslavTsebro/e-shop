@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.product;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CompanyDAO;
+import com.technograd.technograd.dao.PhotoDAO;
 import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.web.exeption.AppException;
@@ -14,16 +15,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
-@MultipartConfig(location="/tmp/upload",
-        fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 5,
-        maxRequestSize = 1024 * 1024 * 5 * 5)
+@MultipartConfig(   fileSizeThreshold = 1024 * 1024,
+                    maxFileSize = 1024 * 1024 * 5,
+                    maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(name = "product", value = "/product")
 public class AddProductServlet extends HttpServlet {
 
@@ -58,6 +60,21 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try{
+            Part filePart = req.getPart("file");
+            String fileName = filePart.getSubmittedFileName();
+            for (Part part : req.getParts()) {
+                int id = PhotoDAO.getNextId();
+                if(id == -1){
+                    throw new AppException();
+                }
+                id++;
+                part.write("C:\\Users\\User\\Desktop\\" + id + ".jpg");
+            }
+            resp.getWriter().print("The file uploaded successfully.");
+        } catch (Exception e){
+            System.out.println(Arrays.toString(e.getStackTrace()));
+        }
         super.doPost(req, resp);
     }
 }

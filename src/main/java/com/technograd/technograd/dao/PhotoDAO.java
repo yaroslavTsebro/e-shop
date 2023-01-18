@@ -15,6 +15,7 @@ public class PhotoDAO {
     private static final String SQL__FIND_PHOTO_BY_NAME = "SELECT * FROM photo WHERE name = ?;";
     private static final String SQL__DELETE_PHOTO_BY_ID = "DELETE FROM photo WHERE id = ?;";
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
+    private static final String SQL__FIND_NEXT_ID =  "SELECT nextval(pg_get_serial_sequence('photo', 'id')) AS new_id;";
 
 
     public static List<Photo> getPhotosById(int id) throws DBException {
@@ -59,6 +60,24 @@ public class PhotoDAO {
             throw new DBException(e);
         }
         return photo;
+    }
+
+    public static int getNextId() throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        int id = -1;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_NEXT_ID);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                id = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new DBException(e);
+        }
+        return id;
     }
 
 

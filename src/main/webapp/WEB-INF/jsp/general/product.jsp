@@ -13,13 +13,13 @@
                        title="${field.required}" id="name_en" name="name_en" placeholder="<fmt:message key="product.add.form.placeholder.text.name.en"/>" required>
 
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
-                       title="${field.required}" id="price" name="price" placeholder="<fmt:message key="product.add.form.placeholder.text.price"/>" required>
+                       title="${field.required}" min="0" id="price" name="price" placeholder="<fmt:message key="product.add.form.placeholder.text.price"/>" required>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
-                       title="${field.required}" id="weight" name="weight" placeholder="<fmt:message key="product.add.form.placeholder.text.weight"/>" required>
+                       title="${field.required}" min="0" id="weight" name="weight" placeholder="<fmt:message key="product.add.form.placeholder.text.weight"/>" required>
                 <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
-                       title="${field.required}" id="count" name="count" placeholder="<fmt:message key="product.add.form.placeholder.text.count"/>" required>
+                       title="${field.required}" min="0" id="count" name="count" placeholder="<fmt:message key="product.add.form.placeholder.text.count"/>" required>
                 <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
-                       title="${field.required}" id="warranty" name="warranty" placeholder="<fmt:message key="product.add.form.placeholder.text.warranty"/>" required>
+                       title="${field.required}" min="0" id="warranty" name="warranty" placeholder="<fmt:message key="product.add.form.placeholder.text.warranty"/>" required>
 
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="title_ua" name="title_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.title.ua"/>" required>
@@ -40,17 +40,29 @@
                 <label><fmt:message key="product.add.form.placeholder.text.company"/></label>
                 <select  id="mySelect2">
                     <c:forEach items="${requestScope.companyList}" var="company">
-                        <option>UA: ${company.nameUa}<br> EN: ${company.nameEn}</option>
+                        <option onclick="">UA: ${company.nameUa}<br> EN: ${company.nameEn}</option>
                     </c:forEach>
                 </select>
-                <input type="file" name="multiPartServlet" />
-                <button>Add PhotoFolder</button>
+                <div id="photos">
+                    <input type="file" name="file"/>
+                </div>
                 <input type="submit" value="<fmt:message key="category.add.form.button"/>">
             </form>
+            <button onclick="addPhotoFolder()">Add PhotoFolder</button>
         </div>
     </div>
 <script>
-
+    let count = 0;
+    function addPhotoFolder(){
+        if(count < 3){
+            var tag = document.createElement("input");
+            tag.type = "file";
+            tag.name = "file";
+            var element = document.getElementById("photos");
+            element.appendChild(tag);
+            count++;
+        }
+    }
 </script>
 <style>
     <%@include file='../../../style/admin_category.css' %>
