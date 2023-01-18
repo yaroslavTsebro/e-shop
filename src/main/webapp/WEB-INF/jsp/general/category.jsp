@@ -78,19 +78,18 @@
         </div>
     </div>
     <script>
-        var modal = document.getElementById("myModal");
-        var btn = document.getElementsByClassName('myBtn');
-        var span = document.getElementsByClassName("close")[0];
+        let modal = document.getElementById("myModal");
+        let btn = document.getElementsByClassName('myBtn');
+        let span = document.getElementsByClassName("close")[0];
         function openModal(id){
             modal.style.display = "block";
-            var x = document.getElementById("updateIdFrom" + id).value;
-            document.getElementById("updateIdTo").value = x
+            document.getElementById("updateIdTo").value = document.getElementById("updateIdFrom" + id).value
         }
         span.onclick = function() {
             modal.style.display = "none";
         }
         window.onclick = function(event) {
-            if (event.target == modal) {
+            if (event.target === modal) {
                 modal.style.display = "none";
             }
         }
