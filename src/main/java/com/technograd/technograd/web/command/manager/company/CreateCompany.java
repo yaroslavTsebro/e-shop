@@ -2,6 +2,7 @@ package com.technograd.technograd.web.command.manager.company;
 
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.entity.Company;
+import com.technograd.technograd.dao.entity.Country;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
@@ -40,7 +41,8 @@ public class CreateCompany extends Command {
         String countryEn = request.getParameter("country_en");
         logger.trace("country_en ->" + countryEn);
 
-        Company company = new Company(nameUa, nameEn, countryUa, countryEn);
+        Country country = new Country(countryUa, countryEn);
+        Company company = new Company(nameUa, nameEn, country);
         try {
             CompanyDAO.createCompany(company);
         } catch (DBException e) {

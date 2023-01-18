@@ -16,10 +16,10 @@ public class CompanyDAO {
     private static final String SQL__FIND_COMPANY_BY_ID = "SELECT * FROM company WHERE id=?;";
     private static final String SQL__FIND_COMPANY_BY_NAME_UA = "SELECT * FROM company WHERE id=?;";
     private static final String SQL__FIND_COMPANY_BY_NAME_EN = "SELECT * FROM company WHERE id=?;";
-    private static final String SQL__CREATE_COMPANY = "INSERT INTO category (name_ua, name_en, country_ua, country_en) VALUES(?, ?, ?, ?);";
+    private static final String SQL__CREATE_COMPANY = "INSERT INTO category (name_ua, name_en, country_id) VALUES(?, ?, ?);";
     private static final String SQL__DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
-    private static final String SQL__FIND_COMPANY_BY_SEARCH = "SELECT * FROM company WHERE name_ua LIKE ? OR name_en LIKE ? OR country_ua LIKE ? OR country_en LIKE ?;";
-    private static final String SQL__UPDATE_COMPANY = "UPDATE category SET name_ua = ?, name_en = ?, country_ua = ?, country_en = ? WHERE id =?";
+    private static final String SQL__FIND_COMPANY_BY_SEARCH = "SELECT * FROM company WHERE name_ua LIKE ? OR name_en LIKE ?;";
+    private static final String SQL__UPDATE_COMPANY = "UPDATE category SET name_ua = ?, name_en = ? WHERE id =?";
 
     public static List<Company> getAllCompanies() throws DBException {
         List<Company>  companies = new ArrayList<>();
@@ -54,8 +54,6 @@ public class CompanyDAO {
             preparedStatement = connection.prepareStatement(SQL__UPDATE_COMPANY);
             preparedStatement.setString(1, company.getNameUa());
             preparedStatement.setString(2, company.getNameEn());
-            preparedStatement.setString(1, company.getCountryUa());
-            preparedStatement.setString(2, company.getCountryEn());
             preparedStatement.setInt(3, company.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
@@ -78,8 +76,6 @@ public class CompanyDAO {
             pattern = "%" + pattern + "%";
             p.setString(1, pattern);
             p.setString(2, pattern);
-            p.setString(3, pattern);
-            p.setString(4, pattern);
             rs = p.executeQuery();
             while (rs.next()) {
                 companyList.add(mapper.mapRow(rs));
@@ -150,8 +146,7 @@ public class CompanyDAO {
             preparedStatement = connection.prepareStatement(SQL__CREATE_COMPANY);
             preparedStatement.setString(1, company.getNameUa());
             preparedStatement.setString(2, company.getNameEn());
-            preparedStatement.setString(3, company.getCountryUa());
-            preparedStatement.setString(4, company.getCountryEn());
+            preparedStatement.setInt(3, company.getCountry().getId());
             preparedStatement.execute();
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
@@ -186,8 +181,7 @@ public class CompanyDAO {
                 company.setId(rs.getInt(Fields.ID));
                 company.setNameUa(rs.getString(Fields.NAME_UA));
                 company.setNameEn(rs.getString(Fields.NAME_EN));
-                company.setCountryUa(rs.getString(Fields.COMPANY_COUNTRY_UA));
-                company.setCountryEn(rs.getString(Fields.COMPANY_COUNTRY_EN));
+                company.setCountry(CountryDAO.getCompanyById(rs.getInt(Fields.ID)));
                 return company;
             } catch (SQLException e) {
                 throw new RuntimeException(e);

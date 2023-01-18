@@ -1,24 +1,26 @@
 package com.technograd.technograd.dao.entity;
 
-
 import java.io.Serializable;
-import java.util.Objects;
 
-public class Company implements Serializable {
-
-    private static final long serialVersionUID = -5296116681000710925L;
+public class Country implements Serializable {
+    private static final long serialVersionUID = 1972508771747044043L;
     private int id;
     private String nameUa;
     private String nameEn;
-    private Country country;
 
 
-    public Country getCountry() {
-        return country;
+    public Country() {
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public Country(String nameUa, String nameEn) {
+        this.nameUa = nameUa;
+        this.nameEn = nameEn;
+    }
+
+    public Country(int id, String nameUa, String nameEn) {
+        this.id = id;
+        this.nameUa = nameUa;
+        this.nameEn = nameEn;
     }
 
     public int getId() {
@@ -45,30 +47,12 @@ public class Company implements Serializable {
         this.nameEn = nameEn;
     }
 
-
-    public Company() {
-    }
-
-    public Company(int id, String nameUa, String nameEn, Country country) {
-        this.id = id;
-        this.nameUa = nameUa;
-        this.nameEn = nameEn;
-        this.country = country;
-    }
-
-    public Company(String nameUa, String nameEn, Country country) {
-        this.nameUa = nameUa;
-        this.nameEn = nameEn;
-        this.country = country;
-    }
-
     @Override
     public String toString() {
-        return "Company{" +
+        return "Country{" +
                 "id=" + id +
                 ", nameUa='" + nameUa + '\'' +
                 ", nameEn='" + nameEn + '\'' +
-                ", country=" + country +
                 '}';
     }
 
@@ -77,12 +61,11 @@ public class Company implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Company company = (Company) o;
+        Country country = (Country) o;
 
-        if (id != company.id) return false;
-        if (!nameUa.equals(company.nameUa)) return false;
-        if (!nameEn.equals(company.nameEn)) return false;
-        return country.equals(company.country);
+        if (id != country.id) return false;
+        if (!nameUa.equals(country.nameUa)) return false;
+        return nameEn.equals(country.nameEn);
     }
 
     @Override
@@ -90,7 +73,7 @@ public class Company implements Serializable {
         int result = id;
         result = 31 * result + nameUa.hashCode();
         result = 31 * result + nameEn.hashCode();
-        result = 31 * result + country.hashCode();
         return result;
     }
+
 }
