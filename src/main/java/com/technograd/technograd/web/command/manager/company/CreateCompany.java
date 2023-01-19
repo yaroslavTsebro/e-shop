@@ -35,9 +35,12 @@ public class CreateCompany extends Command {
         logger.trace("name_ua ->" + nameUa);
         String nameEn = request.getParameter("name_en");
         logger.trace("name_en ->" + nameEn);
+        System.out.println(nameUa);
+        System.out.println(nameEn);
 
         int countryId = Integer.parseInt(request.getParameter("country_id"));
         logger.trace("country_id ->" + countryId);
+        System.out.println(countryId);
 
         Country country = new Country();
         country.setId(countryId);
@@ -45,7 +48,7 @@ public class CreateCompany extends Command {
         try {
             CompanyDAO.createCompany(company);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e);
+            logger.error("errorMessage --> " + e.getStackTrace());
             throw new AppException(e);
         }
         logger.info("CreateCompany execute finished, path transferred to controller");

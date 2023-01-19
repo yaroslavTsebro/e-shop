@@ -3,8 +3,10 @@ package com.technograd.technograd.web.command.manager.company;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CompanyDAO;
+import com.technograd.technograd.dao.CountryDAO;
 import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Company;
+import com.technograd.technograd.dao.entity.Country;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
@@ -27,9 +29,12 @@ public class ViewCompany extends Command {
         logger.info("ViewCompany execute started");
 
         List<Company> companyList = null;
+        List<Country> countryList = null;
         try {
             companyList = CompanyDAO.getAllCompanies();
             logger.trace("companyList ->" + companyList);
+            countryList = CountryDAO.getAllCountries();
+            logger.trace("countryList ->" + countryList);
         } catch (DBException exception) {
             try {
                 throw new AppException(exception.getMessage());
@@ -38,6 +43,7 @@ public class ViewCompany extends Command {
             }
         } finally {
             request.setAttribute("companyList", companyList);
+            request.setAttribute("countryList", countryList);
         }
         logger.info("ViewCompany execute finished, path transferred to controller");
         return Path.COMPANY_PAGE;

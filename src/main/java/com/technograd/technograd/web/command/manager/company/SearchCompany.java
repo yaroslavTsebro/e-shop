@@ -28,9 +28,7 @@ public class SearchCompany extends Command {
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
-            String errorMessage = "error.occurred";
-            logger.error("Search pattern is empty");
-            throw new AppException(errorMessage);
+            return request.getContextPath() + "/controller?command=viewCompanies";
         }
         logger.debug("Pattern is => " + pattern);
         List<Company> companyList = null;
@@ -47,6 +45,6 @@ public class SearchCompany extends Command {
             request.setAttribute("companyList", companyList);
         }
         logger.info("SearchCompany execute finished, path transferred to controller");
-        return Path.CATEGORY_PAGE;
+        return Path.COMPANY_PAGE;
     }
 }

@@ -14,6 +14,12 @@
             <label for="name_en"><fmt:message key="company.add.form.label.text.en"/></label>
             <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                    title="${field.required}" id="name_en" name="name_en" placeholder="<fmt:message key="company.add.form.placeholder.text.en"/>" required>
+            <label><fmt:message key="company.choose.country.form.button"/></label>
+            <select name="country_id">
+                <c:forEach items="${requestScope.countryList}" var="country">
+                    <option value="${country.id}" >UA: ${country.nameUa}<br> EN: ${country.nameEn}</option>
+                </c:forEach>
+            </select>
             <input type="submit" value="<fmt:message key="company.add.form.button"/>">
         </form>
     </div>
@@ -21,8 +27,8 @@
         <hr>
     </div>
     <div class="wrapper">
-        <form action="/controller" method="get" name="searchCategoriesForm">
-            <input class="hidden" type="hidden" name="command" value="searchCategories"/>
+        <form action="/controller" method="get" name="searchCompaniesForm">
+            <input class="hidden" type="hidden" name="command" value="searchCompanies"/>
             <input type="search" name="pattern" placeholder="Search...">
             <input type="submit" value="Search"/>
         </form>
@@ -33,6 +39,8 @@
                 <th><fmt:message key="entity.id"/></th>
                 <th><fmt:message key="entity.name.ua"/></th>
                 <th><fmt:message key="entity.name.en"/></th>
+                <th><fmt:message key="country.name.ua"/></th>
+                <th><fmt:message key="country.name.en"/></th>
                 <th><fmt:message key="entity.delete"/></th>
                 <th><fmt:message key="entity.update"/></th>
             </tr>
@@ -73,6 +81,12 @@
                 <input type="text" id="updated_name_ua" name="updated_name_ua" placeholder="Company name_ua" required>
                 <label for="updated_name_en">name_en</label>
                 <input type="text" id="updated_name_en" name="updated_name_en" placeholder="Company name_en" required>
+                <label><fmt:message key="company.choose.country.form.button"/></label>
+                <select name="updated_country_id">
+                    <c:forEach items="${requestScope.countryList}" var="country">
+                        <option value="${country.id}" >UA: ${country.nameUa}<br> EN: ${country.nameEn}</option>
+                    </c:forEach>
+                </select>
                 <input type="submit" value="Submit">
             </form>
         </div>
@@ -93,6 +107,9 @@
         if (event.target === modal) {
             modal.style.display = "none";
         }
+    }
+    function chooseCountry(){
+        document.getElementById("country_id").value = document.getElementById("chooseCountrySelect" + id).value
     }
 </script>
 <style>

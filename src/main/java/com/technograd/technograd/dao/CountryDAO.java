@@ -16,7 +16,7 @@ public class CountryDAO {
     private static final String SQL__UPDATE_COUNTRY = "UPDATE country SET name_ua = ?, name_en = ? WHERE id =?";
     private static final String SQL__CREATE_COUNTRY = "INSERT INTO country (name_ua, name_en) VALUES(?, ?);";
 
-    public static List<Country> getAllCompanies() throws DBException {
+    public static List<Country> getAllCountries() throws DBException {
         List<Country>  countries = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
