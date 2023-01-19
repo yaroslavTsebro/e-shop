@@ -2,9 +2,11 @@ package com.technograd.technograd.web.command.manager.product;
 
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CategoryDAO;
+import com.technograd.technograd.dao.CharacteristicDAO;
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.PhotoDAO;
 import com.technograd.technograd.dao.entity.Category;
+import com.technograd.technograd.dao.entity.Characteristic;
 import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
@@ -38,11 +40,14 @@ public class AddProductServlet extends HttpServlet {
 
         List<Category> categoryList = null;
         List<Company> companyList = null;
+        List<Characteristic> characteristicList = null;
         try {
             categoryList = CategoryDAO.getAllCategories();
             logger.trace("categoryList ->" + categoryList);
             companyList = CompanyDAO.getAllCompanies();
             logger.trace("companyList ->" + categoryList);
+            characteristicList = CharacteristicDAO.getAllCharacteristics();
+            logger.trace("characteristicList ->" + characteristicList);
         } catch (DBException exception) {
             try {
                 throw new AppException(exception.getMessage());
@@ -52,6 +57,7 @@ public class AddProductServlet extends HttpServlet {
         } finally {
             request.setAttribute("categoryList", categoryList);
             request.setAttribute("companyList", companyList);
+            request.setAttribute("characteristicList", characteristicList);
         }
         logger.info("AddProductServlet execute finished, path transferred to controller");
         RequestDispatcher dispatcher = request.getRequestDispatcher(Path.PRODUCT_PAGE);
