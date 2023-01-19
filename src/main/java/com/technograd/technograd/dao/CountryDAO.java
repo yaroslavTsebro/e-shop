@@ -40,7 +40,7 @@ public class CountryDAO {
         return countries;
     }
 
-    public static Country getCompanyById(int id) throws DBException {
+    public static Country getCountryById(int id) throws DBException {
         Country country = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -52,7 +52,9 @@ public class CountryDAO {
             preparedStatement = connection.prepareStatement(SQL__FIND_COUNTRY_BY_ID);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
-            country = mapper.mapRow(resultSet);
+            if (resultSet.next()) {
+                country = mapper.mapRow(resultSet);
+            }
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
             throw new DBException();

@@ -5,7 +5,8 @@
 <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
 <%--    <%@ include file="/WEB-INF/jspf/part/header.jspf" %>--%>
-    <a href='<c:url value="/controller?command=viewCategories" />'><c:url value="/controller?command=viewCategories" /></a>
-    <a href='<c:url value="/product" />'><c:url value="/product" /></a>
+    <a href='<c:url value="/controller?command=viewCategories" />'><c:url value="/controller?command=viewCategories" /></a> <br/>
+    <a href='<c:url value="/product" />'><c:url value="/product" /></a>  <br/>
+    <a href='<c:url value="/controller?command=viewCompanies" />'><c:url value="/controller?command=viewCompanies" /></a>  <br/>
 </body>
 </html>

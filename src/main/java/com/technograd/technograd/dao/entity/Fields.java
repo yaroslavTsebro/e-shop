@@ -59,4 +59,6 @@ public class Fields {
     public static final String INTEND_SENDING_OR_RECEIVING = "sending_or_receiving";
     public static final String INTEND_ADDRESS = "address";
     public static final String INTEND_CONDITION = "condition";
+
+    public static final String COUNTRY_ID = "country_id";
 }
