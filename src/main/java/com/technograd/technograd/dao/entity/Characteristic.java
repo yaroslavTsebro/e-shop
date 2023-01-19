@@ -40,6 +40,11 @@ public class Characteristic implements Serializable {
         this.nameUa = nameUa;
         this.nameEn = nameEn;
     }
+
+    public Characteristic(String nameUa, String nameEn) {
+        this.nameUa = nameUa;
+        this.nameEn = nameEn;
+    }
     public Characteristic(){}
     @Override
     public boolean equals(Object o) {

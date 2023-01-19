@@ -113,7 +113,7 @@
     }
 </script>
 <style>
-    <%@include file='../../../style/admin_category.css' %>
+    <%@include file='../../../style/admin_style.css' %>
 </style>
 </body>
 </html>

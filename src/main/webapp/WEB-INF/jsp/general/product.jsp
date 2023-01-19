@@ -32,15 +32,15 @@
                        title="${field.required}" id="description_en" name="description_en" placeholder="<fmt:message key="product.add.form.placeholder.text.description.en"/>" required>
 
                 <label><fmt:message key="product.add.form.placeholder.text.category"/></label>
-                <select  id="mySelect1">
+                <select name="category_id">
                     <c:forEach items="${requestScope.categoryList}" var="category">
-                        <option>UA: ${category.nameUa}<br> EN: ${category.nameEn}</option>
+                        <option value="${category.id}" >UA: ${category.nameUa}<br> EN: ${category.nameEn}</option>
                     </c:forEach>
                 </select>
                 <label><fmt:message key="product.add.form.placeholder.text.company"/></label>
-                <select  id="mySelect2">
+                <select name="company_id">
                     <c:forEach items="${requestScope.companyList}" var="company">
-                        <option onclick="">UA: ${company.nameUa}<br> EN: ${company.nameEn}</option>
+                        <option value="${company.id}" >UA: ${company.nameUa}<br> EN: ${company.nameEn}</option>
                     </c:forEach>
                 </select>
                 <div id="photos">
@@ -49,12 +49,13 @@
                 <input type="submit" value="<fmt:message key="category.add.form.button"/>">
             </form>
             <button onclick="addPhotoFolder()">Add PhotoFolder</button>
+            <button onclick="addCharacteristic()">Add Characteristic</button>
         </div>
     </div>
 <script>
     let count = 0;
     function addPhotoFolder(){
-        if(count < 3){
+        if(count <= 3){
             var tag = document.createElement("input");
             tag.type = "file";
             tag.name = "file";
@@ -63,9 +64,16 @@
             count++;
         }
     }
+    function addCharacteristic(){
+        var tag = document.createElement("input");
+        tag.type = "file";
+        tag.name = "file";
+        var element = document.getElementById("photos");
+        element.appendChild(tag);
+    }
 </script>
 <style>
-    <%@include file='../../../style/admin_category.css' %>
+    <%@include file='../../../style/admin_style.css' %>
 </style>
 </body>
 </html>

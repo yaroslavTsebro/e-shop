@@ -1,6 +1,7 @@
 package com.technograd.technograd.web.command;
 
 import com.technograd.technograd.web.command.manager.category.*;
+import com.technograd.technograd.web.command.manager.characteristic.*;
 import com.technograd.technograd.web.command.manager.company.*;
 
 import java.util.Map;
@@ -23,6 +24,12 @@ public class CommandContainer {
         commands.put("deleteCompany", new DeleteCompany());
         commands.put("updateCompany", new UpdateCompany());
         commands.put("searchCompanies", new SearchCompany());
+
+        commands.put("viewCharacteristics", new ViewCharacteristic());
+        commands.put("createCharacteristic", new CreateCharacteristic());
+        commands.put("deleteCharacteristic", new DeleteCharacteristic());
+        commands.put("updateCharacteristic", new UpdateCharacteristic());
+        commands.put("searchCharacteristics", new SearchCharacteristic());
 
     }
 

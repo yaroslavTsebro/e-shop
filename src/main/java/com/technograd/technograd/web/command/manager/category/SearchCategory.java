@@ -26,9 +26,7 @@ public class SearchCategory extends Command {
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
-            String errorMessage = "error.occurred";
-            logger.error("Search pattern is empty");
-            throw new AppException(errorMessage);
+            return request.getContextPath() + "/controller?command=viewCategories";
         }
         logger.debug("Pattern is => " + pattern);
         List<Category> categoryList = null;
