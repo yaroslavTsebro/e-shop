@@ -40,6 +40,6 @@ public class ViewCompany extends Command {
             request.setAttribute("companyList", companyList);
         }
         logger.info("ViewCompany execute finished, path transferred to controller");
-        return Path.CATEGORY_PAGE;
+        return Path.COMPANY_PAGE;
     }
 }

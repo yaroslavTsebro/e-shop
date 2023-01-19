@@ -1,6 +1,7 @@
 package com.technograd.technograd.web.command;
 
 import com.technograd.technograd.web.command.manager.category.*;
+import com.technograd.technograd.web.command.manager.company.*;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,6 +17,12 @@ public class CommandContainer {
         commands.put("deleteCategory", new DeleteCategory());
         commands.put("updateCategory", new UpdateCategory());
         commands.put("searchCategories", new SearchCategory());
+
+        commands.put("viewCompanies", new ViewCompany());
+        commands.put("createCompany", new CreateCompany());
+        commands.put("deleteCompany", new DeleteCompany());
+        commands.put("updateCompany", new UpdateCompany());
+        commands.put("searchCompanies", new SearchCompany());
 
     }
 

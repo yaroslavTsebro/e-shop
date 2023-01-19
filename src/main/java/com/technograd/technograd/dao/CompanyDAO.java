@@ -19,7 +19,7 @@ public class CompanyDAO {
     private static final String SQL__CREATE_COMPANY = "INSERT INTO category (name_ua, name_en, country_id) VALUES(?, ?, ?);";
     private static final String SQL__DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
     private static final String SQL__FIND_COMPANY_BY_SEARCH = "SELECT * FROM company WHERE name_ua LIKE ? OR name_en LIKE ?;";
-    private static final String SQL__UPDATE_COMPANY = "UPDATE category SET name_ua = ?, name_en = ? WHERE id =?";
+    private static final String SQL__UPDATE_COMPANY = "UPDATE category SET name_ua = ?, name_en = ?, country_id = ? WHERE id =?";
 
     public static List<Company> getAllCompanies() throws DBException {
         List<Company>  companies = new ArrayList<>();
@@ -54,7 +54,8 @@ public class CompanyDAO {
             preparedStatement = connection.prepareStatement(SQL__UPDATE_COMPANY);
             preparedStatement.setString(1, company.getNameUa());
             preparedStatement.setString(2, company.getNameEn());
-            preparedStatement.setInt(3, company.getId());
+            preparedStatement.setInt(3, company.getCountry().getId());
+            preparedStatement.setInt(4, company.getId());
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
@@ -181,7 +182,7 @@ public class CompanyDAO {
                 company.setId(rs.getInt(Fields.ID));
                 company.setNameUa(rs.getString(Fields.NAME_UA));
                 company.setNameEn(rs.getString(Fields.NAME_EN));
-                company.setCountry(CountryDAO.getCompanyById(rs.getInt(Fields.ID)));
+                company.setCountry(CountryDAO.getCountryById(rs.getInt(Fields.COUNTRY_ID)));
                 return company;
             } catch (SQLException e) {
                 throw new RuntimeException(e);

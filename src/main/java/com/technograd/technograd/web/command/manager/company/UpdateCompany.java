@@ -4,6 +4,7 @@ import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Company;
+import com.technograd.technograd.dao.entity.Country;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
@@ -40,12 +41,12 @@ public class UpdateCompany extends Command {
         String nameEn = request.getParameter("updated_name_en");
         logger.trace("updated_name_en ->" + nameEn);
 
-        String countryUa = request.getParameter("updated_country_ua");
-        logger.trace("updated_country_ua ->" + countryUa);
-        String countryEn = request.getParameter("updated_country_en");
-        logger.trace("updated_country_en ->" + countryUa);
+        int countryId = Integer.parseInt(request.getParameter("updated_country_id"));
+        logger.trace("updated_country_id ->" + countryId);
 
-        Company company = new Company(id ,nameUa, nameEn, countryUa, countryEn);
+        Country country = new Country();
+        country.setId(countryId);
+        Company company = new Company(id ,nameUa, nameEn, country);
         try {
             CompanyDAO.updateCompany(company);
         } catch (DBException e) {

@@ -36,12 +36,11 @@ public class CreateCompany extends Command {
         String nameEn = request.getParameter("name_en");
         logger.trace("name_en ->" + nameEn);
 
-        String countryUa = request.getParameter("country_ua");
-        logger.trace("country_ua ->" + countryUa);
-        String countryEn = request.getParameter("country_en");
-        logger.trace("country_en ->" + countryEn);
+        int countryId = Integer.parseInt(request.getParameter("country_id"));
+        logger.trace("country_id ->" + countryId);
 
-        Country country = new Country(countryUa, countryEn);
+        Country country = new Country();
+        country.setId(countryId);
         Company company = new Company(nameUa, nameEn, country);
         try {
             CompanyDAO.createCompany(company);

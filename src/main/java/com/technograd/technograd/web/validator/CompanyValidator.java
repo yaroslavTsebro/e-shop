@@ -12,9 +12,7 @@ public class CompanyValidator implements Validator<Company> {
     public boolean validator(Company company) throws AppException {
         try {
             return validateCompanyNameUa(company.getNameUa()) &&
-                    validateCompanyNameEn(company.getNameEn()) &&
-                    validateCompanyCountryUa(company.getCountryUa()) &&
-                    validateCompanyCountryEn(company.getCountryEn());
+                    validateCompanyNameEn(company.getNameEn());
         } catch (AppException e) {
             throw new AppException(e);
         }
