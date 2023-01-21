@@ -5,9 +5,7 @@ import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CharacteristicDAO;
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.PhotoDAO;
-import com.technograd.technograd.dao.entity.Category;
-import com.technograd.technograd.dao.entity.Characteristic;
-import com.technograd.technograd.dao.entity.Company;
+import com.technograd.technograd.dao.entity.*;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.RequestDispatcher;
@@ -22,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,17 +66,35 @@ public class AddProductServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try{
-            Part filePart = req.getPart("file");
-            String fileName = filePart.getSubmittedFileName();
-            for (Part part : req.getParts()) {
-                int id = PhotoDAO.getNextId();
-                if(id == -1){
-                    throw new AppException();
-                }
-                id++;
-                part.write("C:\\Users\\User\\Desktop\\" + id + ".jpg");
+            logger.info("AddProductServlet execute started");
+            int id = Integer.parseInt(req.getParameter("product_create_id"));
+            logger.trace("product_create_id ->" + id);
+            String[] characteristicIds = req.getParameterValues("characteristic_id");
+            String[] characteristicValues = req.getParameterValues("characteristic_value");
+            Product product = new Product();
+
+            List<Photo> photos = new ArrayList<>();
+            int nameId = PhotoDAO.getNextId();
+            if(nameId == -1){
+                throw new AppException();
             }
-            resp.getWriter().print("The file uploaded successfully.");
+
+            int tmpNameId = nameId;
+            for (int i = 0; i < req.getParts().size(); i++) {
+                photos.add(new Photo(Integer. toString(tmpNameId)));
+                tmpNameId++;
+            }
+            product.setPhoto(photos);
+
+
+
+
+            int tmpNameIdForFiles = nameId;
+            for (Part part : req.getParts()) {
+                part.write("C:\\Users\\User\\Desktop\\" + tmpNameIdForFiles + ".jpg");
+                tmpNameIdForFiles++;
+            }
+            resp.getWriter().print("The files uploaded successfully.");
         } catch (Exception e){
             System.out.println(Arrays.toString(e.getStackTrace()));
         }

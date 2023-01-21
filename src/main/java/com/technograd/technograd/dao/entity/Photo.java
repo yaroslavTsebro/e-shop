@@ -41,6 +41,9 @@ public class Photo implements Serializable {
         this.name = name;
     }
 
+    public Photo( String name) {
+        this.name = name;
+    }
     public Photo() {
     }
 

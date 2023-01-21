@@ -1,6 +1,8 @@
 package com.technograd.technograd.dao.entity;
 
+import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.web.command.manager.category.CreateCategory;
+import com.technograd.technograd.web.exeption.DBException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import javax.naming.Context;
@@ -10,7 +12,7 @@ import java.util.Properties;
 public class DBManager {
 
     private static DBManager instance;
-    private static final Logger log = LogManager.getLogger(CreateCategory.class.getName());
+   private final  Logger log = LogManager.getLogger(getClass());
     private DBManager() {
     }
 
@@ -24,7 +26,7 @@ public class DBManager {
      public Connection getConnection() throws SQLException {
         Connection con = null;
         try {
-            String url = "jdbc:postgresql://localhost:5432/technograd";
+            String url = "jdbc:postgresql://localhost:5432/test";
             Properties props = new Properties();
             props.setProperty("user", "postgres");
             props.setProperty("password", "zsbldqpk56");

@@ -10,34 +10,34 @@
                 <label for="name_ua"><fmt:message key="product.add.form.label.text.ua"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="name_ua" name="name_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.name.ua"/>" required>
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.en"/></label>
+                <label for="name_en"><fmt:message key="product.add.form.label.text.en"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="name_en" name="name_en" placeholder="<fmt:message key="product.add.form.placeholder.text.name.en"/>" required>
 
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.price"/></label>
+                <label for="price"><fmt:message key="product.add.form.label.text.price"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" min="0" id="price" name="price" placeholder="<fmt:message key="product.add.form.placeholder.text.price"/>" required>
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.weight"/></label>
+                <label for="weight"><fmt:message key="product.add.form.label.text.weight"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" min="0" id="weight" name="weight" placeholder="<fmt:message key="product.add.form.placeholder.text.weight"/>" required>
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.count"/></label>
+                <label for="count"><fmt:message key="product.add.form.label.text.count"/></label>
                 <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" min="0" id="count" name="count" placeholder="<fmt:message key="product.add.form.placeholder.text.count"/>" required>
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.warranty"/></label>
+                <label for="warranty"><fmt:message key="product.add.form.label.text.warranty"/></label>
                 <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" min="0" id="warranty" name="warranty" placeholder="<fmt:message key="product.add.form.placeholder.text.warranty"/>" required>
 
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.title.ua"/></label>
+                <label for="title_ua"><fmt:message key="product.add.form.label.text.title.ua"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="title_ua" name="title_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.title.ua"/>" required>
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.description.ua"/></label>
+                <label for="description_ua"><fmt:message key="product.add.form.label.text.description.ua"/></label>
                 <input class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="description_ua" name="description_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.description.ua"/>" required>
 
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.title.en"/></label>
+                <label for="title_en"><fmt:message key="product.add.form.label.text.title.en"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="title_en" name="title_en" placeholder="<fmt:message key="product.add.form.placeholder.text.title.en"/>" required>
-                <label for="name_ua"><fmt:message key="product.add.form.label.text.description.en"/></label>
+                <label for="description_en"><fmt:message key="product.add.form.label.text.description.en"/></label>
                 <input class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="description_en" name="description_en" placeholder="<fmt:message key="product.add.form.placeholder.text.description.en"/>" required>
 
@@ -65,7 +65,7 @@
                             <c:forEach items="${requestScope.characteristicList}" var="characteristic">
                                 <option onclick="disableSelected()" value="${characteristic.id}" >UA: ${characteristic.nameUa}<br> EN: ${characteristic.nameEn}</option>
                             </c:forEach>
-                            <input type="text" name="characteristic">
+                            <input type="text" name="characteristic_value">
                             <div class="wrapper">
                                 <hr>
                             </div>
