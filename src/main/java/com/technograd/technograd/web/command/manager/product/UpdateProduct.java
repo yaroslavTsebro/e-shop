@@ -30,43 +30,7 @@ public class UpdateProduct extends Command {
             logger.info("AddProductServlet execute started");
             Product product = readProductDataFromRequest(req);
 
-            String[] characteristicIds = req.getParameterValues("characteristic_id");
-            String[] characteristicValues = req.getParameterValues("characteristic_value");
-            List<Characteristic> characteristics = new ArrayList<>();
-            List<ProductCharacteristic> productCharacteristics = new ArrayList<>();
-            if(characteristicIds.length == characteristicValues.length){
-                for (int i = 0; i < characteristicIds.length; i++) {
-                    Characteristic tmpChar = new Characteristic();
-                    tmpChar.setId(Integer.parseInt(characteristicIds[i]));
-                    characteristics.add(tmpChar);
-
-                    ProductCharacteristic tmpProdChar = new ProductCharacteristic();
-                    tmpProdChar.setValue(characteristicValues[i]);
-                    productCharacteristics.add(tmpProdChar);
-                }
-            } else{
-                throw new AppException();
-            }
-            product.setProductCharacteristics(productCharacteristics);
-
-
-            List<Part> fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName()) && part.getSize() > 0).collect(Collectors.toList());
-
-            List<Photo> photos = new ArrayList<>();
-            int nameId = PhotoDAO.getNextId();
-            if(nameId == -1){
-                throw new AppException();
-            }
-
-            int tmpNameId = nameId;
-            for (Part filePart : fileParts) {
-                photos.add(new Photo(Integer. toString(tmpNameId)));
-                tmpNameId++;
-            }
-            product.setPhoto(photos);
-
-            ProductDAO.createProductAndPhotosAndCharacteristics(product, characteristics);
-            writePhotos(fileParts, nameId);
+            ProductDAO.updateProduct(product);
             resp.getWriter().print("The files uploaded successfully.");
         } catch (Exception e){
             System.out.println(Arrays.toString(e.getStackTrace()));
@@ -130,11 +94,4 @@ public class UpdateProduct extends Command {
         return product;
     }
 
-    private static void writePhotos(List<Part> fileParts, int nameId) throws IOException {
-        int tmpNameIdForFiles = nameId;
-        for (Part filePart : fileParts) {
-            filePart.write("src/main/webapp/static/images" + tmpNameIdForFiles + ".jpg");
-            tmpNameIdForFiles++;
-        }
-    }
 }

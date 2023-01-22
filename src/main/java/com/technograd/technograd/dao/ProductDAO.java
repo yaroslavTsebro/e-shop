@@ -20,8 +20,55 @@ public class ProductDAO {
             "INSERT INTO product_characteristic(product_id, compatibility_id, value) VALUES(?, ?, ?);";
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
     private static final String SQL__CREATE_COMPATIBILITY = "INSERT INTO compatibility(category_id, characteristic_id) VALUES(?, ?) RETURNING id;";
+    private static final String SQL__UPDATE_PRODUCT = "UPDATE product SET name_ua = ?, name_en = ?, price = ?," +
+            "weigth = ?, category_id= ?, company_id= ?, count= ?, warranty= ?, title_ua= ?, title_en= ?, description_ua= ?, description_en= ?  WHERE id =?;";
+    private static final String SQL__UPDATE_COUNT_BY_ID = "UPDATE product SET count = ? WHERE id = ?;";
 
+    public static void updateCountById(int id, int count) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__UPDATE_COUNT_BY_ID);
+            preparedStatement.setInt(1, count);
+            preparedStatement.setInt(2, id);
+            preparedStatement.execute();
 
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+    public static void updateProduct(Product product) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__UPDATE_PRODUCT);
+            preparedStatement.setString(1, product.getNameUa());
+            preparedStatement.setString(2, product.getNameEn());
+            preparedStatement.setBigDecimal(3, product.getPrice());
+            preparedStatement.setInt(4, product.getWeight());
+            preparedStatement.setInt(5, product.getCategory().getId());
+            preparedStatement.setInt(6, product.getCompany().getId());
+            preparedStatement.setInt(7, product.getCount());
+            preparedStatement.setInt(8, product.getWarranty());
+            preparedStatement.setString(9, product.getTitleUa());
+            preparedStatement.setString(10, product.getTitleEn());
+            preparedStatement.setString(11, product.getDescriptionUa());
+            preparedStatement.setString(12, product.getDescriptionEn());
+            preparedStatement.setInt(13, product.getId());
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
     //I`ve done it because of inserting rubbish data with case with trouble
     public static void createProductAndPhotosAndCharacteristics(Product product, List<Characteristic> characteristics) throws DBException {
         Connection connection = null;

@@ -17,7 +17,24 @@ public class PhotoDAO {
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
     private static final String SQL__FIND_NEXT_ID =  "SELECT nextval(pg_get_serial_sequence('photo', 'id')) AS new_id;";
 
-
+    public static void insertListOfPhotos(List<Photo> photos) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            for (Photo photo : photos) {
+                preparedStatement = connection.prepareStatement(SQL__CREATE_PHOTO);
+                preparedStatement.setInt(1, photo.getProductId());
+                preparedStatement.setString(2, photo.getName());
+                preparedStatement.execute();
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        }finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
     public static List<Photo> getPhotosById(int id) throws DBException {
         List<Photo> photos = new ArrayList<>();
         Connection connection = null;
@@ -81,20 +98,26 @@ public class PhotoDAO {
     }
 
 
-    public static void deletePhotoById(int id) throws DBException {
+    public static String deletePhotoById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String name = null;
         try {
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__DELETE_PHOTO_BY_ID);
             preparedStatement.setInt(1, id);
-            preparedStatement.execute();
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                name = resultSet.getString(1);
+            }
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
             throw new DBException(e);
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
+        return name;
     }
 
     public static void createPhoto(Photo photo) throws DBException {

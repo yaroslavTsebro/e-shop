@@ -1,5 +1,8 @@
 package com.technograd.technograd.web.command;
 
+import com.technograd.technograd.web.command.general.user.LoginCommand;
+import com.technograd.technograd.web.command.general.user.LogoutCommand;
+import com.technograd.technograd.web.command.general.user.RegisterCommand;
 import com.technograd.technograd.web.command.manager.category.*;
 import com.technograd.technograd.web.command.manager.characteristic.*;
 import com.technograd.technograd.web.command.manager.company.*;
@@ -31,6 +34,9 @@ public class CommandContainer {
         commands.put("updateCharacteristic", new UpdateCharacteristic());
         commands.put("searchCharacteristics", new SearchCharacteristic());
 
+        commands.put("loginCommand", new LoginCommand());
+        commands.put("logoutCommand", new LogoutCommand());
+        commands.put("registerCommand", new RegisterCommand());
     }
 
     public static Command get(String commandName) {

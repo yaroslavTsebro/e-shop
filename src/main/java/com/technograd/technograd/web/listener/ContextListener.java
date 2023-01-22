@@ -40,7 +40,7 @@ public class ContextListener implements ServletContextListener {
         logger.debug("Command container initialization started");
 
         try {
-            Class.forName("com.technograd.technograd.command.CommandContainer");
+            Class.forName("com.technograd.technograd.web.command.CommandContainer");
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }

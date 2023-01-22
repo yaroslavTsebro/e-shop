@@ -44,6 +44,10 @@ public class Photo implements Serializable {
     public Photo( String name) {
         this.name = name;
     }
+    public Photo( String name, int productId) {
+        this.name = name;
+        this.productId = productId;
+    }
     public Photo() {
     }
 

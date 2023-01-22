@@ -18,7 +18,25 @@ public class ProductCharacteristicDAO {
     private static final String SQL__FIND_ALL_PRODUCT_CHARACTERISTICS =
             "SELECT * FROM product_characteristic;";
     private static final String SQL__CREATE_PRODUCT_CHARACTERISTIC =
-            "INSERT INTO product_characteristic(product_id, compatibility_id, value) VALUES(?, ?, ?);";
+            "INSERT INTO product_characteristic(product_id, compatibility_id, value) VALUES(?, ?, ?) ON CONFLICT DO NOTHING;";
+    private static final String SQL__DELETE_PRODUCT_CHARACTERISTIC = "DELETE FROM product_characteristic WHERE id=?";
+
+    public static void deleteById(int id) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__DELETE_PRODUCT_CHARACTERISTIC);
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (Exception e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
 
     public static List<ProductCharacteristic> findProductCharacteristicsByProductId(int productId) throws DBException {
         Connection connection = null;
