@@ -9,7 +9,7 @@
     <display-name>TechnoGrad</display-name>
 
     <welcome-file-list>
-        <welcome-file>\WEB-INF\jsp\general\menu.jsp</welcome-file>
+        <welcome-file>\WEB-INF\jsp\general\login.jsp</welcome-file>
     </welcome-file-list>
 
     <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
@@ -62,4 +62,7 @@
       <servlet-name>Controller</servlet-name>
   </filter-mapping>
 -->
+    <listener>
+        <listener-class>com.technograd.technograd.web.listener.ContextListener</listener-class>
+    </listener>
 </web-app>

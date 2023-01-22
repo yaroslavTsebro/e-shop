@@ -6,18 +6,35 @@
 <body>
 <div class="container">
   <div class="wrapper">
-    <form action="/controller" method="post" name="createCategoryForm">
-      <input type="hidden" name="command" value="createCategory"/>
-      <label for="name_ua"><fmt:message key="category.add.form.label.text.ua"/></label>
+    <form action="/controller" method="post" name="loginForm">
+      <input type="hidden" name="command" value="loginCommand"/>
+      <label for="email"><fmt:message key="login.text.email"/></label>
       <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
-             id="name_ua" name="name_ua" placeholder="<fmt:message key="category.add.form.placeholder.text.ua"/>" required>
-      <label for="name_en"><fmt:message key="category.add.form.label.text.en"/></label>
+             id="email" name="email" placeholder="<fmt:message key="login.placeholder.email"/>" required>
+      <label for="password"><fmt:message key="login.text.password"/></label>
       <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
-             title="${field.required}" id="name_en" name="name_en" placeholder="<fmt:message key="category.add.form.placeholder.text.en"/>" required>
-      <input type="submit" value="<fmt:message key="category.add.form.button"/>">
+             title="${field.required}" id="password" name="password" placeholder="<fmt:message key="login.placeholder.password"/>" required>
+      <input type="submit" value="<fmt:message key="login.button.confirm"/>">
     </form>
   </div>
 </div>
+<script>
+  let modal = document.getElementById("myModal");
+  let btn = document.getElementsByClassName('myBtn');
+  let span = document.getElementsByClassName("close")[0];
+  function openModal(id){
+    modal.style.display = "block";
+    document.getElementById("updateIdTo").value = document.getElementById("updateIdFrom" + id).value
+  }
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+  window.onclick = function(event) {
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  }
+</script>
 <style>
   <%@include file='../../../style/admin_style.css' %>
 </style>
