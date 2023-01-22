@@ -6,7 +6,7 @@
 <body>
     <div class="container">
         <div class="wrapper">
-            <form action="/product" method="post" name="customInputForm" enctype="multipart/form-data">
+            <form action="/product" method="post" name="productAddForm" enctype="multipart/form-data">
                 <label for="name_ua"><fmt:message key="product.add.form.label.text.ua"/></label>
                 <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="name_ua" name="name_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.name.ua"/>" required>

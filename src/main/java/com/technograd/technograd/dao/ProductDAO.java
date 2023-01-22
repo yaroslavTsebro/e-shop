@@ -14,14 +14,16 @@ public class ProductDAO {
     private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT (id, name_ua, name_en, title_ua, title_en, price) FROM product WHERE id=?;";
     private static final String SQL__FIND_ALL_PRODUCTS = "SELECT * FROM product;";
     private static final String SQL__FIND_PRODUCT_BY_ID = "SELECT * FROM product WHERE product.id=?;";
-    private static final String SQL__CREATE_PRODUCT = "INSERT INTO product(name_ua, name_en, price, weight, category_id," +
-            " company_id, count, warranty, title_ua, title_en, description_ua, description_en) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String SQL__CREATE_PRODUCT = "INSERT INTO product(name_ua, name_en, price, weigth, category_id," +
+            " company_id, count, warranty, title_ua, title_en, description_ua, description_en) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
     private static final String SQL__CREATE_PRODUCT_CHARACTERISTIC =
             "INSERT INTO product_characteristic(product_id, compatibility_id, value) VALUES(?, ?, ?);";
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
-    private static final String SQL__CREATE_COMPATIBILITY = "INSERT INTO compatibility(category_id, characteristic_id) VALUES(?, ?);";
+    private static final String SQL__CREATE_COMPATIBILITY = "INSERT INTO compatibility(category_id, characteristic_id) VALUES(?, ?) RETURNING id;";
 
-    public static void createProduct(Product product, List<Characteristic> characteristics) throws DBException {
+
+    //I`ve done it because of inserting rubbish data with case with trouble
+    public static void createProductAndPhotosAndCharacteristics(Product product, List<Characteristic> characteristics) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -29,7 +31,7 @@ public class ProductDAO {
             connection = DBManager.getInstance().getConnection();
             connection.setAutoCommit(false);
             //Create product
-            preparedStatement = connection.prepareStatement(SQL__CREATE_PRODUCT, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement(SQL__CREATE_PRODUCT);
             preparedStatement.setString(1, product.getNameUa());
             preparedStatement.setString(2, product.getNameEn());
             preparedStatement.setBigDecimal(3, product.getPrice());
@@ -42,7 +44,7 @@ public class ProductDAO {
             preparedStatement.setString(10, product.getTitleEn());
             preparedStatement.setString(11, product.getDescriptionUa());
             preparedStatement.setString(12, product.getDescriptionEn());
-            resultSet = preparedStatement.getGeneratedKeys();
+            resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 product.setId(resultSet.getInt(1));
             }
@@ -50,17 +52,17 @@ public class ProductDAO {
             //Create photos
             for (Photo photo : product.getPhoto()) {
                 preparedStatement = connection.prepareStatement(SQL__CREATE_PHOTO);
-                preparedStatement.setInt(1, photo.getProductId());
+                preparedStatement.setInt(1, product.getId());
                 preparedStatement.setString(2, photo.getName());
                 preparedStatement.execute();
             }
 
             //Create compatibility and productCharacteristic
             for (int i = 0; i < characteristics.size(); i++) {
-                preparedStatement = connection.prepareStatement(SQL__CREATE_COMPATIBILITY, Statement.RETURN_GENERATED_KEYS);
+                preparedStatement = connection.prepareStatement(SQL__CREATE_COMPATIBILITY);
                 preparedStatement.setInt(1, product.getCategory().getId());
                 preparedStatement.setInt(2, characteristics.get(i).getId());
-                resultSet = preparedStatement.getGeneratedKeys();
+                resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
                     characteristics.get(i).setId(resultSet.getInt(1));
                 }

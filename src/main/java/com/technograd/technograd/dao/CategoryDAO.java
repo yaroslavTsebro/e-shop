@@ -43,7 +43,7 @@ public class CategoryDAO {
             }
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
-            throw new DBException();
+            throw new DBException(e);
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
