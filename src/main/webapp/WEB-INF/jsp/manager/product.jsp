@@ -8,10 +8,10 @@
         <div class="wrapper">
             <form action="/product" method="post" name="productAddForm" enctype="multipart/form-data">
                 <label for="name_ua"><fmt:message key="product.add.form.label.text.ua"/></label>
-                <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="name_ua" name="name_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.name.ua"/>" required>
                 <label for="name_en"><fmt:message key="product.add.form.label.text.en"/></label>
-                <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="name_en" name="name_en" placeholder="<fmt:message key="product.add.form.placeholder.text.name.en"/>" required>
 
                 <label for="price"><fmt:message key="product.add.form.label.text.price"/></label>
@@ -28,17 +28,17 @@
                        title="${field.required}" min="0" id="warranty" name="warranty" placeholder="<fmt:message key="product.add.form.placeholder.text.warranty"/>" required>
 
                 <label for="title_ua"><fmt:message key="product.add.form.label.text.title.ua"/></label>
-                <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="title_ua" name="title_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.title.ua"/>" required>
                 <label for="description_ua"><fmt:message key="product.add.form.label.text.description.ua"/></label>
-                <input class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                <input maxlength="500" class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="description_ua" name="description_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.description.ua"/>" required>
 
                 <label for="title_en"><fmt:message key="product.add.form.label.text.title.en"/></label>
-                <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="title_en" name="title_en" placeholder="<fmt:message key="product.add.form.placeholder.text.title.en"/>" required>
                 <label for="description_en"><fmt:message key="product.add.form.label.text.description.en"/></label>
-                <input class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                <input maxlength="500" class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
                        title="${field.required}" id="description_en" name="description_en" placeholder="<fmt:message key="product.add.form.placeholder.text.description.en"/>" required>
 
                 <label><fmt:message key="product.add.form.placeholder.text.category"/></label>
@@ -53,12 +53,15 @@
                         <option value="${company.id}" >UA: ${company.nameUa}<br> EN: ${company.nameEn}</option>
                     </c:forEach>
                 </select>
+                <label><fmt:message key="product.add.label.photo"/></label>
                 <div id="photos">
+                    <br>
                     <input type="file" name="file"/>
                 </div>
                 <div class="wrapper">
                     <hr>
                 </div>
+                <label><fmt:message key="product.add.label.characteristic"/></label>
                 <div id="characteristics">
                     <div id="characteristic">
                         <select name="characteristic_id" class="char_selector" >
@@ -75,32 +78,15 @@
                 <input type="submit" value="<fmt:message key="category.add.form.button"/>">
             </form>
             <button onclick="addPhotoFolder()">Add PhotoFolder</button>
+            <button onclick="deletePhotoFolder()">Delete PhotoFolder</button>
             <br>
             <button onclick="addCharacteristic()">Add Characteristic</button>
+            <button onclick="deleteCharacteristic()">Delete Characteristic</button>
         </div>
     </div>
-<script>
-    let count = 0;
-    function addPhotoFolder(){
-        if(count <= 3){
-            var br = document.createElement("br");
-            var tag = document.createElement("input");
-            tag.type = "file";
-            tag.name = "file";
-            var element = document.getElementById("photos");
-            element.appendChild(br);
-            element.appendChild(tag);
-            count++;
-        }
-    }
-    function addCharacteristic(){
-        const node = document.getElementById("characteristic");
-        const clone = node.cloneNode(true);
-        document.getElementById("characteristics").appendChild(clone);
-    }
-</script>
+<script src="../../../js/product.js"></script>
 <style>
-    <%@include file='../../../style/admin_style.css' %>
+    <%@include file='../../../style/admin.css' %>
 </style>
 </body>
 </html>

@@ -1,37 +1,29 @@
-<%@ page pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/jspf/link/taglib.jspf" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+
 
 
 <div id="header_container">
     <div class="navbar">
         <a href="/controller?command=viewMenu"><fmt:message key="header.menu.main.menu"/></a>
-        <c: if test="${empty sessionScope.user}">
-            <a href="/controller?command=login"><fmt:message key="header.menu.login"/></a>
-        </c:>
-        <c: if  test="${not empty sessionScope.user}">
-            <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
-            <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
-        </c:>
-        <c:if test="${sessionScope.userRole.name().toLowerCase() == 'manager'}">
-            <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-        </c:if>
-        <c:if test="${sessionScope.userRole.name().toLowerCase() == 'customer'}">
-            <a href="/controller?command=cart"><fmt:message key="header.menu.cart"/></a>
-        </c:if>
-            <form  action="controller" method="post">
+        <a href="/controller?command=login"><fmt:message key="header.menu.login"/></a>
+        <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
+        <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
+        <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
+        <a href="/controller?command=cart"><fmt:message key="header.menu.cart"/></a>
+        <div class="language-container">
+            <form class="header-local-en" action="controller" method="post">
                 <input type="hidden" name="command" value="changeLanguage"/>
                 <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>
                 <input type="hidden" name="language" value="ua"/>
                 <input type="submit" value="UA" class="lang_button"/>
             </form>
-        </a>
-        <a href="#" class="header-local-en">
-            <form  action="controller" method="post">
+            <form class="header-local-en"  action="controller" method="post">
                 <input type="hidden" name="command" value="changeLanguage"/>
                 <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>
                 <input type="hidden" name="language" value="en"/>
                 <input type="submit" value="EN" class="lang_button"/>
             </form>
-        </a>
+        </div>
     </div>
 </div>

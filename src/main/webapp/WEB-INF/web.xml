@@ -9,7 +9,7 @@
     <display-name>TechnoGrad</display-name>
 
     <welcome-file-list>
-        <welcome-file>\WEB-INF\jsp\general\login.jsp</welcome-file>
+        <welcome-file>\WEB-INF\jsp\general\menu.jsp</welcome-file>
     </welcome-file-list>
 
     <!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
