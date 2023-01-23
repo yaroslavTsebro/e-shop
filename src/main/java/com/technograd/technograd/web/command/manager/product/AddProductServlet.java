@@ -16,9 +16,10 @@ import jakarta.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -99,7 +100,7 @@ public class AddProductServlet extends HttpServlet {
 
             int tmpNameId = nameId;
             for (Part filePart : fileParts) {
-                photos.add(new Photo(Integer. toString(tmpNameId)));
+                photos.add(new Photo(Integer. toString(tmpNameId) + ".jpg"));
                 tmpNameId++;
             }
             product.setPhoto(photos);
@@ -125,7 +126,7 @@ public class AddProductServlet extends HttpServlet {
         int weight = Integer.parseInt(req.getParameter("weight"));
         logger.trace("weight ->" + weight);
 
-        int count = Integer.parseInt(req.getParameter("price"));
+        int count = Integer.parseInt(req.getParameter("count"));
         logger.trace("count ->" + count);
         int warranty = Integer.parseInt(req.getParameter("warranty"));
         logger.trace("warranty ->" + warranty);
@@ -171,9 +172,9 @@ public class AddProductServlet extends HttpServlet {
     private static void writePhotos(List<Part> fileParts, int nameId) throws IOException {
         int tmpNameIdForFiles = nameId;
         for (Part filePart : fileParts) {
-            //filePart.write("C:\\Users\\User\\Desktop\\" + tmpNameIdForFiles + ".jpg");
-            filePart.write("src/main/webapp/static/images" + tmpNameIdForFiles + ".jpg");
+            filePart.write("D:\\IDEA projects\\TechnoGrad\\src\\main\\webapp\\static\\images\\" + tmpNameIdForFiles + ".jpg");
             tmpNameIdForFiles++;
         }
     }
+
 }

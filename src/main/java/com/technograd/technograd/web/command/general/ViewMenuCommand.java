@@ -31,17 +31,7 @@ public class ViewMenuCommand extends Command {
 
     private static final long serialVersionUID = -1227114065336794942L;
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
-    private final ProductDAO productDAO;
-    private final CategoryDAO categoryDAO;
 
-    public ViewMenuCommand(ProductDAO productDAO, CategoryDAO categoryDAO) {
-        this.productDAO = productDAO;
-        this.categoryDAO = categoryDAO;
-    }
-    public ViewMenuCommand() {
-        productDAO = new ProductDAO();
-        categoryDAO = new CategoryDAO();
-    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {

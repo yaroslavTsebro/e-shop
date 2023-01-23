@@ -4,7 +4,6 @@ import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.web.exeption.AppException;
 
 public class CompanyValidator implements Validator<Company> {
-    private static final String companyUaPattern = "^[а-яА-ЯІіЇї\\s]+";
     private static final String companyEnPattern = "^[a-zA-Z\\s]+";
     private static final int nameSize = 50;
 
@@ -25,9 +24,6 @@ public class CompanyValidator implements Validator<Company> {
         }
         if(nameUa.length() > nameSize){
             throw new AppException("company.validator.name.ua.length.doesnt.matches");
-        }
-        if(!nameUa.matches(companyUaPattern)){
-            throw new AppException("company.validator.name.ua.doesnt.matches");
         }
         return true;
     }
@@ -51,9 +47,6 @@ public class CompanyValidator implements Validator<Company> {
         }
         if(countryUa.length() > nameSize){
             throw new AppException("company.validator.country.ua.length.doesnt.matches");
-        }
-        if(!countryUa.matches(companyUaPattern)){
-            throw new AppException("company.validator.country.ua.doesnt.matches");
         }
         return true;
     }

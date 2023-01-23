@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command;
 
+import com.technograd.technograd.web.command.general.ViewMenuCommand;
 import com.technograd.technograd.web.command.general.user.LoginCommand;
 import com.technograd.technograd.web.command.general.user.LogoutCommand;
 import com.technograd.technograd.web.command.general.user.RegisterCommand;
@@ -15,6 +16,7 @@ public class CommandContainer {
 
     static {
         commands.put("noCommand", new NoCommand());
+        commands.put("changeLanguage", new ChangeLanguage());
 
         commands.put("viewCategories", new ViewCategory());
         commands.put("createCategory", new CreateCategory());
@@ -37,6 +39,8 @@ public class CommandContainer {
         commands.put("loginCommand", new LoginCommand());
         commands.put("logoutCommand", new LogoutCommand());
         commands.put("registerCommand", new RegisterCommand());
+
+        commands.put("viewMenu", new ViewMenuCommand());
     }
 
     public static Command get(String commandName) {

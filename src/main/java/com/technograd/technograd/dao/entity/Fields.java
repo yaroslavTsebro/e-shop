@@ -11,7 +11,7 @@ public class Fields {
     public static final String COMPANY_COUNTRY_EN = "country_en";
 
     public static final String PRODUCT_PRICE = "price";
-    public static final String PRODUCT_WEIGHT = "weight";
+    public static final String PRODUCT_WEIGHT = "weigth";
     public static final String PRODUCT_CATEGORY_ID = "category_id";
     public static final String PRODUCT_COMPANY_ID = "company_id";
     public static final String PRODUCT_COUNT = "count";

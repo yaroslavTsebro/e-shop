@@ -4,7 +4,6 @@ import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.web.exeption.AppException;
 
 public class CategoryValidator implements Validator<Category>{
-    private static final String categoryUaPattern = "^[а-яА-ЯІіЇї\\s]+";
     private static final String categoryEnPattern = "^[a-zA-Z\\s]+";
     private static final int nameSize = 50;
     @Override
@@ -25,9 +24,6 @@ public class CategoryValidator implements Validator<Category>{
         }
         if(nameUa.length() > nameSize){
             throw new AppException("category.validator.name.ua.length.doesnt.matches");
-        }
-        if(!nameUa.matches(categoryUaPattern)){
-           throw new AppException("category.validator.name.ua.doesnt.matches");
         }
         return true;
     }

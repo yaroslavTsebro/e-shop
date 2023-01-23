@@ -106,7 +106,10 @@ public class CompanyDAO {
             preparedStatement = connection.prepareStatement(SQL__FIND_COMPANY_BY_ID);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
-            company = mapper.mapRow(resultSet);
+            while(resultSet.next()){
+                company = mapper.mapRow(resultSet);
+            }
+
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
             throw new DBException();
@@ -183,10 +186,12 @@ public class CompanyDAO {
         public Company mapRow(ResultSet rs) {
             try {
                 Company company = new Company();
+                Country country = new Country();
+                company.setCountry(country);
                 company.setId(rs.getInt(Fields.ID));
                 company.setNameUa(rs.getString(Fields.NAME_UA));
                 company.setNameEn(rs.getString(Fields.NAME_EN));
-                company.setCountry(CountryDAO.getCountryById(rs.getInt(Fields.COUNTRY_ID)));
+                company.setCountry(new CountryDAO().getCountryById(rs.getInt(Fields.COUNTRY_ID)));
                 return company;
             } catch (SQLException e) {
                 throw new RuntimeException(e);

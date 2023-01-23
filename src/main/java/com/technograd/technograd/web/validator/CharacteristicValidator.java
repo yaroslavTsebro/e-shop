@@ -4,7 +4,6 @@ import com.technograd.technograd.dao.entity.Characteristic;
 import com.technograd.technograd.web.exeption.AppException;
 
 public class CharacteristicValidator implements Validator<Characteristic> {
-private static final String characteristicUaPattern = "^[а-яА-ЯІіЇї\\s]+";
 private static final String characteristicEnPattern = "^[a-zA-Z\\s]+";
 private static final int nameSize = 50;
 
@@ -25,9 +24,6 @@ private static boolean validateCharacteristicNameUa(String nameUa) throws AppExc
         }
         if(nameUa.length() > nameSize){
         throw new AppException("characteristic.validator.name.ua.length.doesnt.matches");
-        }
-        if(!nameUa.matches(characteristicUaPattern)){
-        throw new AppException("characteristic.validator.name.ua.doesnt.matches");
         }
         return true;
         }
