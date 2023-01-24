@@ -57,6 +57,131 @@
     padding: 20px;
 }
 
-.header-local-en .header-local-ua{
-
+.category-selector{
+    margin-left: -16px;
+    margin-right: -16px;
+    margin-top: 11px;
+    white-space: nowrap;
 }
+.category-selector_wrapper{
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+}
+
+.category-selector .slider-item {
+    display: inline-block;
+    padding: 5px 0 5px 8px;
+}
+.slider{
+    position: relative;
+}
+.slider-item-link{
+    display: block;
+    font-size: 18px;
+    line-height: 16px;
+    white-space: nowrap;
+    color: #303030;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    transition: all .3s ease;
+    padding: 7px 15px;
+}
+
+
+.marquee-wrapper {
+    width: 900px;
+    overflow: hidden;
+    position: relative;
+}
+
+.marquee-wrapper:after {
+    position: absolute;
+    content: ' ';
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    background-image: linear-gradient(to right, transparent, #fff);
+}
+
+.marquee {
+    font-size: 18px;
+    font-weight: bold;
+    white-space: nowrap;
+    transform: translateX(100%);
+}
+
+.dropbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+}
+
+.dropdownCategory {
+    position: fixed;
+    top: 100px;
+    left: 200px;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdownCategory:hover .dropdown-content {display: grid;}
+
+.dropdownCategory:hover .dropbtn {background-color: #3e8e41;}
+
+.dropdownCompany {
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    display: inline-block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdownCompany:hover .dropdown-content {display: grid;}
+
+.dropdownCompany:hover .dropbtn {background-color: #3e8e41;}
+
+.slider-item-link:hover{background-color: #e3e3e3;}
+
+
+
+.dropdownSort {
+    position: fixed;
+    top: 100px;
+    left: 300px;
+    display: inline-block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdownSort:hover .dropdown-content {display: grid;}
+
+.dropdownSort:hover .dropbtn {background-color: #3e8e41;}

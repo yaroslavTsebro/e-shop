@@ -41,14 +41,32 @@ public class ViewMenuCommand extends Command {
         List<Category> categoryList = new ArrayList<>();
         List<Company> companyList = new ArrayList<>();
 
+        String sort = request.getParameter("sortBy");
+        String category =request.getParameter("category");
+        String company = request.getParameter("company");
+        int categoryId = 0;
+        int companyId = 0;
+        if(category != null){
+            categoryId = Integer.parseInt(category);
+        }
+
+        if(company != null){
+            companyId = Integer.parseInt(company);
+        }
+
         try{
-            productList =  ProductDAO.getAllReducedProducts();
+            String query = ProductDAO.menuQueryBuilder(companyId, categoryId, sort);
+            productList =  ProductDAO.getAllReducedProducts(query);
         } catch (DBException exception) {
             String errorMessage = "product.dao.find.all";
             logger.error("errorMessage --> " + exception);
             throw new AppException(errorMessage);
         }
         request.setAttribute("productList", productList);
+
+
+
+
 
         try{
             categoryList = Stream.concat(categoryList.stream(), CategoryDAO.getAllCategories().stream()).collect(Collectors.toList());

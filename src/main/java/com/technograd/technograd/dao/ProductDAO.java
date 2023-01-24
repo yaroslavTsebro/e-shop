@@ -11,8 +11,8 @@ import java.util.List;
 public class ProductDAO {
     private static final String SQL__FIND_PRODUCTS_BY_COMPANY = "SELECT * FROM product WHERE product.company_id =?;";
     private static final String SQL__FIND_PRODUCTS_BY_CATEGORY = "SELECT * FROM product WHERE product.category =?;";
-    private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT (id, name_ua, name_en, title_ua, title_en, price) FROM product WHERE id=?;";
-    private static final String SQL__FIND_ALL_PRODUCTS = "SELECT * FROM product;";
+    private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT (id, name_ua, name_en, title_ua, title_en, price) FROM product WHERE id=?";
+    private static final String SQL__FIND_ALL_PRODUCTS = "SELECT * FROM product";
     private static final String SQL__FIND_PRODUCT_BY_ID = "SELECT * FROM product WHERE product.id=?;";
     private static final String SQL__CREATE_PRODUCT = "INSERT INTO product(name_ua, name_en, price, weigth, category_id," +
             " company_id, count, warranty, title_ua, title_en, description_ua, description_en) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
@@ -128,14 +128,14 @@ public class ProductDAO {
         }
     }
 
-    public static List<Product> getAllReducedProducts() throws DBException {
+    public static List<Product> getAllReducedProducts(String query) throws DBException {
         List<Product> products = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
             connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__FIND_ALL_PRODUCTS);
+            preparedStatement = connection.prepareStatement(query);
             rs = preparedStatement.executeQuery();
             while (rs.next()){
                 Product product = new Product();
@@ -153,6 +153,37 @@ public class ProductDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
         }
         return products;
+    }
+    public static String menuQueryBuilder(int company,int category, String sortCondition){
+        String queryBase = SQL__FIND_ALL_PRODUCTS;
+
+        if(company >0){
+            queryBase += " WHERE company_id =" + company;
+        }
+        if(company >0 && category >0){
+            queryBase += " AND WHERE category_id =" + company;
+        }
+        if(category >0){
+            queryBase += " WHERE category_id =" + category;
+        }
+
+        if(sortCondition != null && !sortCondition.isEmpty()){
+            if(sortCondition.equals("priceAsc")){
+                queryBase += " ORDER BY price ASC";
+            } else if (sortCondition.equals("priceDesc")) {
+                queryBase += " ORDER BY price DESC";
+            } else if (sortCondition.equals("nameAsc")) {
+                queryBase += " ORDER BY name_en ASC";
+            } else if (sortCondition.equals("nameDesc")) {
+                queryBase += " ORDER BY name_en DESC";
+            } else if (sortCondition.equals("avaliable")) {
+                queryBase += " ORDER BY count ASC";
+            } else {
+
+            }
+        }
+        queryBase += ";";
+        return queryBase;
     }
 
     public static List<Product> getAllProducts() throws DBException {
