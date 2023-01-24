@@ -37,21 +37,18 @@ public class ViewMenuCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.debug("ViewMenuCommand command started");
 
-        HttpSession session = request.getSession();
-
-        List<Product> productList = new ArrayList<>();
+        List<Product> productList = null;
         List<Category> categoryList = new ArrayList<>();
         List<Company> companyList = new ArrayList<>();
 
         try{
-            productList = Stream.concat(productList.stream(), ProductDAO.getAllProducts().stream()).collect(Collectors.toList());
+            productList =  ProductDAO.getAllReducedProducts();
         } catch (DBException exception) {
             String errorMessage = "product.dao.find.all";
             logger.error("errorMessage --> " + exception);
             throw new AppException(errorMessage);
         }
-        logger.debug("Set session attribute : updated current productList info => " + productList);
-        session.setAttribute("productList", productList);
+        request.setAttribute("productList", productList);
 
         try{
             categoryList = Stream.concat(categoryList.stream(), CategoryDAO.getAllCategories().stream()).collect(Collectors.toList());
@@ -60,8 +57,8 @@ public class ViewMenuCommand extends Command {
             logger.error("errorMessage --> " + exception);
             throw new AppException(errorMessage);
         }
-        logger.debug("Set session attribute : updated current categoryList info => " + productList);
-        session.setAttribute("categoryList", categoryList);
+        logger.debug("Set session attribute : updated current categoryList info => " + categoryList);
+        request.setAttribute("categoryList", categoryList);
 
         try{
             companyList = Stream.concat(companyList.stream(), CompanyDAO.getAllCompanies().stream()).collect(Collectors.toList());
@@ -71,7 +68,7 @@ public class ViewMenuCommand extends Command {
             throw new AppException(errorMessage);
         }
         logger.debug("Set session attribute : updated current companyList info => " + companyList);
-        session.setAttribute("companyList", companyList);
+        request.setAttribute("companyList", companyList);
 
         logger.debug("View menu command is finished");
         return Path.MENU_PAGE;

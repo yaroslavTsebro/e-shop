@@ -15,14 +15,14 @@
             <c:forEach items="${requestScope.productList}" var="product">
                     <div class="menu_grid-element element">
                         <div class="element-image">
-                            <img src="../../../static/images/${product.photo[0]}.jpg">
+                            <c:forEach items="${product.photos}" var="photo">
+                                <img src="../../../static/images/${photo.name}">
+                            </c:forEach>
                         </div>
                         <div class="element-text">
-                            ${product.name}
+                            <a href='<c:url value="/controller?command=viewCategories" />'><c:url value="/controller?command=viewCategories" /></a>${product.nameUa}
                         </div>
-                        <div class="element-price">
-                            •  •  •  ${product.price}  •  •  •
-                        </div>
+                        <div class="element-price">•  •  •  ${product.price}  •  •  •</div>
                     </div>
             </c:forEach>
         </div>

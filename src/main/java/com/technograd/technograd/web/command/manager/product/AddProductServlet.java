@@ -103,7 +103,7 @@ public class AddProductServlet extends HttpServlet {
                 photos.add(new Photo(Integer. toString(tmpNameId) + ".jpg"));
                 tmpNameId++;
             }
-            product.setPhoto(photos);
+            product.setPhotos(photos);
 
             ProductDAO.createProductAndPhotosAndCharacteristics(product, characteristics);
             writePhotos(fileParts, nameId);

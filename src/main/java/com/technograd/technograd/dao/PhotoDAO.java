@@ -12,6 +12,7 @@ import java.util.List;
 
 public class PhotoDAO {
     private static final String SQL__FIND_PHOTOS_BY_PRODUCT_ID = "SELECT * FROM photo WHERE product_id = ?;";
+    private static final String SQL__FIND_FIRST_PHOTO_BY_PRODUCT_ID = "SELECT * FROM photo WHERE product_id = ? LIMIT 1;";
     private static final String SQL__FIND_PHOTO_BY_NAME = "SELECT * FROM photo WHERE name = ?;";
     private static final String SQL__DELETE_PHOTO_BY_ID = "DELETE FROM photo WHERE id = ?;";
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
@@ -35,6 +36,30 @@ public class PhotoDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
+
+    public static List<Photo> getFirstPhotoByProductId(int id) throws DBException {
+        List<Photo> photos = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            PhotoMapper mapper = new PhotoMapper();
+            preparedStatement = connection.prepareStatement(SQL__FIND_FIRST_PHOTO_BY_PRODUCT_ID);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                photos.add(mapper.mapRow(resultSet));
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
+        }
+        return photos;
+    }
+
     public static List<Photo> getPhotosById(int id) throws DBException {
         List<Photo> photos = new ArrayList<>();
         Connection connection = null;

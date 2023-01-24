@@ -23,6 +23,24 @@ public class Product implements Serializable {
     private List<Photo> photos;
     private List<ProductCharacteristic> productCharacteristics;
 
+    public List<Photo> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+
+    public Photo getPreview() {
+        return preview;
+    }
+
+    public void setPreview(Photo preview) {
+        this.preview = preview;
+    }
+
+    private Photo preview;
+
     public int getId() {
         return id;
     }
@@ -125,14 +143,6 @@ public class Product implements Serializable {
 
     public void setDescriptionEn(String descriptionEn) {
         this.descriptionEn = descriptionEn;
-    }
-
-    public List<Photo> getPhoto() {
-        return photos;
-    }
-
-    public void setPhoto(List<Photo> photos) {
-        this.photos = photos;
     }
 
     public List<ProductCharacteristic> getProductCharacteristics() {

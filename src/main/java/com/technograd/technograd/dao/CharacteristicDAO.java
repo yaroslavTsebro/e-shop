@@ -101,7 +101,9 @@ public class CharacteristicDAO {
             preparedStatement = connection.prepareStatement(SQL__FIND_CHARACTERISTIC_BY_ID);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
-            characteristic = mapper.mapRow(resultSet);
+            while(resultSet.next()){
+                characteristic = mapper.mapRow(resultSet);
+            }
         } catch (Exception e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
             throw new DBException();

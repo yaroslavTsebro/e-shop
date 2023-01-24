@@ -97,7 +97,7 @@ public class ProductDAO {
             }
 
             //Create photos
-            for (Photo photo : product.getPhoto()) {
+            for (Photo photo : product.getPhotos()) {
                 preparedStatement = connection.prepareStatement(SQL__CREATE_PHOTO);
                 preparedStatement.setInt(1, product.getId());
                 preparedStatement.setString(2, photo.getName());
@@ -126,6 +126,33 @@ public class ProductDAO {
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
+    }
+
+    public static List<Product> getAllReducedProducts() throws DBException {
+        List<Product> products = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_ALL_PRODUCTS);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                Product product = new Product();
+                product.setId(rs.getInt(Fields.ID));
+                product.setNameUa(rs.getString(Fields.NAME_UA));
+                product.setNameEn(rs.getString(Fields.NAME_EN));
+                product.setPrice(rs.getBigDecimal(Fields.PRODUCT_PRICE));
+                product.setPhotos(new PhotoDAO().getFirstPhotoByProductId(rs.getInt(Fields.ID)));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
+        }
+        return products;
     }
 
     public static List<Product> getAllProducts() throws DBException {
@@ -220,7 +247,7 @@ private static class ProductMapper implements EntityMapper<Product>{
             product.setTitleEn(rs.getString(Fields.PRODUCT_TITLE_EN));
             product.setDescriptionUa(rs.getString(Fields.PRODUCT_DESCRIPTION_UA));
             product.setDescriptionEn(rs.getString(Fields.PRODUCT_DESCRIPTION_EN));
-            product.setPhoto(new PhotoDAO().getPhotosById(rs.getInt(Fields.ID)));
+            product.setPhotos(new PhotoDAO().getPhotosById(rs.getInt(Fields.ID)));
             product.setProductCharacteristics(new ProductCharacteristicDAO().findProductCharacteristicsByProductId(rs.getInt(Fields.ID)));
             return product;
         } catch (SQLException e) {
