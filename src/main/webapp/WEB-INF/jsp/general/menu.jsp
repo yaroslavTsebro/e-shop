@@ -53,7 +53,7 @@
                             </c:forEach>
                         </div>
                         <div class="element-text">
-                            <a href='<c:url value="/controller?command=viewCategories" />'><c:url value="/controller?command=viewCategories" /></a>${product.nameUa}
+                            <a href='<c:url value="/controller?command=viewProductPage&id=${product.id}" />'><c:url value="${product.nameUa}" /></a>
                         </div>
                         <div class="element-price">•  •  •  ${product.price}  •  •  •</div>
                     </div>

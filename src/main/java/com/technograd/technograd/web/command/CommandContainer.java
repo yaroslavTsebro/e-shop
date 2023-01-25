@@ -1,6 +1,7 @@
 package com.technograd.technograd.web.command;
 
 import com.technograd.technograd.web.command.general.ViewMenuCommand;
+import com.technograd.technograd.web.command.general.ViewProductCommand;
 import com.technograd.technograd.web.command.general.user.LoginCommand;
 import com.technograd.technograd.web.command.general.user.LogoutCommand;
 import com.technograd.technograd.web.command.general.user.RegisterCommand;
@@ -41,6 +42,7 @@ public class CommandContainer {
         commands.put("registerCommand", new RegisterCommand());
 
         commands.put("viewMenu", new ViewMenuCommand());
+        commands.put("viewProductPage", new ViewProductCommand());
     }
 
     public static Command get(String commandName) {

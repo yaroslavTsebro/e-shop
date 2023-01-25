@@ -21,7 +21,7 @@ public class CompanyDAO {
     private static final String SQL__FIND_COMPANY_BY_SEARCH = "SELECT *" +
             " FROM company JOIN country ON company.country_id = country.id" +
             " WHERE company.name_ua LIKE ? OR company.name_en LIKE ? OR country.name_ua LIKE ? OR country.name_en LIKE ?;";
-    private static final String SQL__UPDATE_COMPANY = "UPDATE company SET name_ua = ?, name_en = ?, country_id = ? WHERE id =?";
+    private static final String SQL__UPDATE_COMPANY = "UPDATE company SET name_ua = ?, name_en = ?, country_id = ? WHERE id =?;";
 
     public static List<Company> getAllCompanies() throws DBException {
         List<Company>  companies = new ArrayList<>();
