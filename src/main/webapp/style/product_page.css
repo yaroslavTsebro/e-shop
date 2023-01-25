@@ -1,0 +1,117 @@
+* {box-sizing:border-box}
+
+.slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+}
+.container{
+
+    max-width: 1200px;
+    margin: auto;
+    width: 50%;
+    padding: 20px;
+}
+
+.mySlides {
+    display: none;
+}
+
+.language-container{
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    z-index: 2;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #555555;
+    padding: 20px;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+    background-color: rgba(0,0,0,0.6);
+}
+
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+
+.prev:hover, .next:hover, .text:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+
+.text {
+    transition: 0.6s ease;
+    background-color: rgba(0,0,0,0.6);
+    color: #f2f2f2;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 8px 12px;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.numbertext {
+    background-color: rgba(0,0,0,0.6);
+    color: #f2f2f2;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+    border-radius: 0 0 3px 0;
+}
+
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+.product-data{
+    box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.6);
+    font-size: 25px;
+    margin-top: 70px;
+    padding: 10px 20px 10px 20px;
+    background-color: #04AA6D;
+    color: white;
+    font-weight: 400;
+    border-radius: 20px;
+}
+.column {
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}

@@ -161,9 +161,9 @@ public class ProductDAO {
             queryBase += " WHERE company_id =" + company;
         }
         if(company >0 && category >0){
-            queryBase += " AND WHERE category_id =" + company;
+            queryBase += " AND category_id =" + category;
         }
-        if(category >0){
+        if(category >0 && company <=0){
             queryBase += " WHERE category_id =" + category;
         }
 
