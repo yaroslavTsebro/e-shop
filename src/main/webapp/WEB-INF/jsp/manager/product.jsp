@@ -77,11 +77,11 @@
                 </div>
                 <input type="submit" value="<fmt:message key="category.add.form.button"/>">
             </form>
-            <button onclick="addPhotoFolder()">Add PhotoFolder</button>
-            <button onclick="deletePhotoFolder()">Delete PhotoFolder</button>
+            <button onclick="addPhotoFolder()"><fmt:message key="manager.product.add.photo.folder"/></button>
+            <button onclick="deletePhotoFolder()"><fmt:message key="manager.product.delete.photo.folder"/></button>
             <br>
-            <button onclick="addCharacteristic()">Add Characteristic</button>
-            <button onclick="deleteCharacteristic()">Delete Characteristic</button>
+            <button onclick="addCharacteristic()"><fmt:message key="manager.product.add.characteristic.folder"/></button>
+            <button onclick="deleteCharacteristic()"><fmt:message key="manager.product.delete.characteristic.folder"/></button>
         </div>
     </div>
 <script src="../../../js/product.js"></script>

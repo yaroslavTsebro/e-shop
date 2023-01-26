@@ -12,36 +12,56 @@
     <a href='<c:url value="/controller?command=viewCharacteristics" />'><c:url value="/controller?command=viewCharacteristics" /></a>  <br/>
     <div class=marquee-wrapper>
         <p class=marquee>
-            Магазин TechnoGrad - якісно та швидко
+            <fmt:message key="menu.marquee.text"/>
         </p>
     </div>
     <div class="dropdownCategory">
-        <button class="dropbtn">Категорії</button>
+        <button class="dropbtn"><fmt:message key="menu.category.selector"/></button>
         <div class="dropdown-content">
-            <button onclick="selectByParam(`category` ,-1)" class="slider-item-link" type="button">Нічого</button>
+            <button onclick="selectByParam(`category` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
             <c:forEach items="${requestScope.categoryList}" var="category">
+                <c:if test="${sessionScope.lang == 'ua'}">
                     <button onclick="selectByParam(`category` ,${category.id})" class="slider-item-link" type="button">${category.nameUa}</button>
+                </c:if>
+                <c:if test="${sessionScope.lang == 'en' || empty sessionScope.lang}">
+                    <button onclick="selectByParam(`category` ,${category.id})" class="slider-item-link" type="button">${category.nameEn}</button>
+                </c:if>
             </c:forEach>
         </div>
     </div>
     <div class="dropdownCompany">
-        <button class="dropbtn">Компанії</button>
+        <button class="dropbtn"><fmt:message key="menu.company.selector"/></button>
         <div class="dropdown-content">
-            <button onclick="selectByParam(`company` ,-1)" class="slider-item-link" type="button">Нічого</button>
+            <button onclick="selectByParam(`company` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
             <c:forEach items="${requestScope.companyList}" var="company">
+                <c:if test="${sessionScope.lang == 'ua'}">
                     <button onclick="selectByParam(`company` ,${company.id})" class="slider-item-link" type="button">${company.nameUa}</button>
+                </c:if>
+                <c:if test="${sessionScope.lang == 'en' || empty sessionScope.lang}">
+                    <button onclick="selectByParam(`company` ,${company.id})" class="slider-item-link" type="button">${company.nameEn}</button>
+                </c:if>
             </c:forEach>
         </div>
     </div>
     <div class="dropdownSort">
-        <button class="dropbtn">Сортування</button>
+        <button class="dropbtn"><fmt:message key="menu.sort.selector"/></button>
         <div class="dropdown-content">
-            <button onclick="selectByParam(`sortBy` ,-1)" class="slider-item-link" type="button">Нічого</button>
-            <button onclick="selectByParam(`sortBy` ,`priceAsc`)" class="slider-item-link" type="button">Від дешевих до дорогих</button>
-            <button onclick="selectByParam(`sortBy` ,`priceDesc`)" class="slider-item-link" type="button">Від дорогих до дешевих</button>
-            <button onclick="selectByParam(`sortBy` ,`nameAsc`)" class="slider-item-link" type="button">A-Я</button>
-            <button onclick="selectByParam(`sortBy` ,`nameDesc`)" class="slider-item-link" type="button">Я-А</button>
-            <button onclick="selectByParam(`sortBy` ,`avaliable`)" class="slider-item-link" type="button">Є у наявності</button>
+            <c:if test="${sessionScope.lang == 'ua'}">
+                <button onclick="selectByParam(`sortBy` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
+                <button onclick="selectByParam(`sortBy` ,`priceAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.asc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`priceDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.desc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`nameAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.asc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`nameDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.desc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`avaliable`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.avaliable"/></button>
+            </c:if>
+            <c:if test="${sessionScope.lang == 'en' || empty sessionScope.lang}">
+                <button onclick="selectByParam(`sortBy` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
+                <button onclick="selectByParam(`sortBy` ,`priceAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.asc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`priceDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.desc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`nameAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.asc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`nameDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.desc"/></button>
+                <button onclick="selectByParam(`sortBy` ,`avaliable`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.avaliable"/></button>
+            </c:if>
         </div>
     </div>
         <div class="menu_grid-container">
@@ -53,7 +73,12 @@
                             </c:forEach>
                         </div>
                         <div class="element-text">
-                            <a href='<c:url value="/controller?command=viewProductPage&id=${product.id}" />'><c:url value="${product.nameUa}" /></a>
+                            <c:if test="${sessionScope.lang == 'ua'}">
+                                <a href='<c:url value="/controller?command=viewProductPage&id=${product.id}" />'><c:url value="${product.nameUa}" /></a>
+                            </c:if>
+                            <c:if test="${sessionScope.lang == 'en' || empty sessionScope.lang}">
+                                <a href='<c:url value="/controller?command=viewProductPage&id=${product.id}" />'><c:url value="${product.nameEn}" /></a>
+                            </c:if>
                         </div>
                         <div class="element-price">•  •  •  ${product.price}  •  •  •</div>
                     </div>

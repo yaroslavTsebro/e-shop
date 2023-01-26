@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command.general.user;
 
+import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
@@ -80,7 +81,7 @@ public class LoginCommand extends Command {
             logger.trace("Set the session attribute: user --> " + user);
             session.setAttribute("userPost", userPost);
             logger.info("User " + user + " logged as " + userPost.toString().toLowerCase());
-            forward = Commands.VIEW_MENU_COMMAND;
+            forward = Path.MENU_PAGE;
 
             String userLocaleName = user.getLocaleName();
             logger.debug("userLocalName --> " + userLocaleName);

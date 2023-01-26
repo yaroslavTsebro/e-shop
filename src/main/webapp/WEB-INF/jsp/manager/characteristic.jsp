@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <html>
-<c:set var="title" value="category.title"/>
+<c:set var="title" value="characteristic.title"/>
 <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
 <div class="container">
@@ -23,8 +23,8 @@
   <div class="wrapper">
     <form action="/controller" method="get" name="searchCharacteristicForm">
       <input class="hidden" type="hidden" name="command" value="searchCharacteristics"/>
-      <input type="search" name="pattern" placeholder="Search...">
-      <input type="submit" value="Search"/>
+      <input type="search" name="pattern" placeholder="<fmt:message key="manager.add.search"/>">
+      <input type="submit" value="<fmt:message key="manager.add.search.button"/>"/>
     </form>
   </div>
   <div class="wrapper">
@@ -45,7 +45,7 @@
             <form action="/controller" method="post" name="deleteCharacteristicForm">
               <input class="hidden" type="hidden" name="command" value="deleteCharacteristic"/>
               <input class="hidden" type="hidden" name="delete_by_id" value="${characteristic.id}"/>
-              <input class="deleteButton" type="submit" value="Delete"/>
+              <input class="deleteButton" type="submit" value="<fmt:message key="entity.delete"/>"/>
             </form>
           </td>
           <td>
@@ -61,17 +61,17 @@
   <div class="modal-content">
     <div class="modal-header">
       <span class="close">&times;</span>
-      <h2>Change characteristic settings</h2>
+      <h2><fmt:message key="entity.update.characteristic.title"/></h2>
     </div>
     <div class="modal-body">
       <form action="/controller" method="post" name="updateCharacteristicForm">
         <input type="hidden" name="command" value="updateCharacteristic"/>
         <input id="updateIdTo" type="hidden" name="update_by_id" value=""/>
-        <label for="updated_name_ua">name_ua</label>
-        <input type="text" id="updated_name_ua" name="updated_name_ua" placeholder="Characteristic name_ua" required>
-        <label for="updated_name_en">name_en</label>
-        <input type="text" id="updated_name_en" name="updated_name_en" placeholder="Characteristic name_en" required>
-        <input type="submit" value="Submit">
+        <label for="updated_name_ua"><fmt:message key="entity.update.characteristic.label.name.ua"/></label>
+        <input type="text" id="updated_name_ua" name="updated_name_ua" placeholder="<fmt:message key="entity.update.characteristic.name.ua"/>" required>
+        <label for="updated_name_en"><fmt:message key="entity.update.characteristic.label.name.en"/></label>
+        <input type="text" id="updated_name_en" name="updated_name_en" placeholder="<fmt:message key="entity.update.characteristic.name.en"/>" required>
+        <input type="submit" value="<fmt:message key="entity.update.characteristic.submit"/>">
       </form>
     </div>
   </div>

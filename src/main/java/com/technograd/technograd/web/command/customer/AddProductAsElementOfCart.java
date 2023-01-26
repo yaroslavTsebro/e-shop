@@ -58,7 +58,7 @@ public class AddProductAsElementOfCart extends Command {
             try{
                 IntendDAO.createIntendSending(id, employeeId);
                 cart = IntendDAO.findCartById(id);
-                logger.trace("Intend with this id was deleted:" + id);
+                logger.trace("Intend with this id was inserted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }

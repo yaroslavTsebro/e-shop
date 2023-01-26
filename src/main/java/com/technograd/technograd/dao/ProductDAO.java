@@ -95,30 +95,34 @@ public class ProductDAO {
             if (resultSet.next()) {
                 product.setId(resultSet.getInt(1));
             }
-
             //Create photos
-            for (Photo photo : product.getPhotos()) {
-                preparedStatement = connection.prepareStatement(SQL__CREATE_PHOTO);
-                preparedStatement.setInt(1, product.getId());
-                preparedStatement.setString(2, photo.getName());
-                preparedStatement.execute();
+            if( product.getPhotos() != null){
+                for (Photo photo : product.getPhotos()) {
+                    preparedStatement = connection.prepareStatement(SQL__CREATE_PHOTO);
+                    preparedStatement.setInt(1, product.getId());
+                    preparedStatement.setString(2, photo.getName());
+                    preparedStatement.execute();
+                }
             }
 
             //Create compatibility and productCharacteristic
-            for (int i = 0; i < characteristics.size(); i++) {
-                preparedStatement = connection.prepareStatement(SQL__CREATE_COMPATIBILITY);
-                preparedStatement.setInt(1, product.getCategory().getId());
-                preparedStatement.setInt(2, characteristics.get(i).getId());
-                resultSet = preparedStatement.executeQuery();
-                if (resultSet.next()) {
-                    characteristics.get(i).setId(resultSet.getInt(1));
+            if(characteristics != null){
+                for (int i = 0; i < characteristics.size(); i++) {
+                    preparedStatement = connection.prepareStatement(SQL__CREATE_COMPATIBILITY);
+                    preparedStatement.setInt(1, product.getCategory().getId());
+                    preparedStatement.setInt(2, characteristics.get(i).getId());
+                    resultSet = preparedStatement.executeQuery();
+                    if (resultSet.next()) {
+                        characteristics.get(i).setId(resultSet.getInt(1));
+                    }
+                    preparedStatement = connection.prepareStatement(SQL__CREATE_PRODUCT_CHARACTERISTIC);
+                    preparedStatement.setInt(1, product.getId());
+                    preparedStatement.setInt(2,characteristics.get(i).getId());
+                    preparedStatement.setString(3,product.getProductCharacteristics().get(i).getValue());
+                    preparedStatement.execute();
                 }
-                preparedStatement = connection.prepareStatement(SQL__CREATE_PRODUCT_CHARACTERISTIC);
-                preparedStatement.setInt(1, product.getId());
-                preparedStatement.setInt(2,characteristics.get(i).getId());
-                preparedStatement.setString(3,product.getProductCharacteristics().get(i).getValue());
-                preparedStatement.execute();
             }
+
 
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);

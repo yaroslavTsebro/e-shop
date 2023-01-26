@@ -1,7 +1,9 @@
 package com.technograd.technograd.web.command.manager.product;
 
 import com.technograd.technograd.dao.PhotoDAO;
+import com.technograd.technograd.dao.ProductDAO;
 import com.technograd.technograd.dao.entity.Photo;
+import com.technograd.technograd.dao.entity.Product;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
@@ -34,6 +36,17 @@ public class AddNewPhotoToProduct extends HttpServlet {
         List<Part> fileParts = req.getParts().stream().filter(part -> "new_files".equals(part.getName()) && part.getSize() > 0).collect(Collectors.toList());
 
         List<Photo> photos = new ArrayList<>();
+
+        try{
+            Product product = ProductDAO.getProductById(id);
+        } catch (DBException e){
+            try {
+                throw new AppException(e);
+            } catch (AppException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+
         int nameId = 0;
         try {
             nameId = PhotoDAO.getNextId();

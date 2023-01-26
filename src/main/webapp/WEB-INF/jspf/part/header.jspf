@@ -6,7 +6,7 @@
 <div id="header_container">
     <div class="navbar">
         <a href="/controller?command=viewMenu"><fmt:message key="header.menu.main.menu"/></a>
-        <a href="/controller?command=login"><fmt:message key="header.menu.login"/></a>
+        <a href="/controller?command=loginPage"><fmt:message key="header.menu.login"/></a>
         <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
         <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
         <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>

@@ -16,10 +16,10 @@
   <c:remove scope="session" var="errorMessage"/>
   <hr>
   <c:if test="${not empty sessionScope.user}">
-  <p><fmt:message key="error.page.not.empty.user"/></p><a href="\">Menu</a>
+  <p><fmt:message key="error.page.not.empty.user"/></p><a href="/controller?command=viewMenu"><fmt:message key="error.page.menu"/></a>
   </c:if>
   <c:if test="${empty sessionScope.user}">
-  <p><fmt:message key="error.page.empty.user"/><a href="${pageContext.request.contextPath}/login.jsp">Login page</a>.
+  <p><fmt:message key="error.page.empty.user"/><a href="/controller?command=loginPage"><fmt:message key="error.page.login"/></a>.
   </p>
   </c:if>
 </body>

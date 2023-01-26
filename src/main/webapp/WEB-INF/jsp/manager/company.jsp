@@ -29,8 +29,8 @@
     <div class="wrapper">
         <form action="/controller" method="get" name="searchCompaniesForm">
             <input class="hidden" type="hidden" name="command" value="searchCompanies"/>
-            <input type="search" name="pattern" placeholder="Search...">
-            <input type="submit" value="Search"/>
+            <input type="search" name="pattern" placeholder="<fmt:message key="manager.add.search"/>">
+            <input type="submit" value="<fmt:message key="manager.add.search.button"/>"/>
         </form>
     </div>
     <div class="wrapper">
@@ -71,23 +71,23 @@
     <div class="modal-content">
         <div class="modal-header">
             <span class="close">&times;</span>
-            <h2>Change company settings</h2>
+            <h2><fmt:message key="entity.update.company.title"/></h2>
         </div>
         <div class="modal-body">
             <form action="/controller" method="post" name="updateCompanyForm">
                 <input type="hidden" name="command" value="updateCompany"/>
                 <input id="updateIdTo" type="hidden" name="update_by_id" value=""/>
-                <label for="updated_name_ua">name_ua</label>
-                <input type="text" id="updated_name_ua" name="updated_name_ua" placeholder="Company name_ua" required>
-                <label for="updated_name_en">name_en</label>
-                <input type="text" id="updated_name_en" name="updated_name_en" placeholder="Company name_en" required>
+                <label for="updated_name_ua"><fmt:message key="entity.update.company.label.name.ua"/></label>
+                <input type="text" id="updated_name_ua" name="updated_name_ua" placeholder="<fmt:message key="entity.update.company.name.ua"/>" required>
+                <label for="updated_name_en"><fmt:message key="entity.update.company.label.name.en"/></label>
+                <input type="text" id="updated_name_en" name="updated_name_en" placeholder="<fmt:message key="entity.update.company.name.en"/>" required>
                 <label><fmt:message key="company.choose.country.form.button"/></label>
                 <select name="updated_country_id">
                     <c:forEach items="${requestScope.countryList}" var="country">
                         <option value="${country.id}" >UA: ${country.nameUa}<br> EN: ${country.nameEn}</option>
                     </c:forEach>
                 </select>
-                <input type="submit" value="Submit">
+                <input type="submit" value="<fmt:message key="entity.update.company.submit"/>">
             </form>
         </div>
     </div>
