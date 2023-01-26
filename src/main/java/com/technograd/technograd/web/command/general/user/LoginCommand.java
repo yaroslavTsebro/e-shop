@@ -81,7 +81,7 @@ public class LoginCommand extends Command {
             logger.trace("Set the session attribute: user --> " + user);
             session.setAttribute("userPost", userPost);
             logger.info("User " + user + " logged as " + userPost.toString().toLowerCase());
-            forward = Path.MENU_PAGE;
+            forward = request.getContextPath() + "/controller?command=menuPage";
 
             String userLocaleName = user.getLocaleName();
             logger.debug("userLocalName --> " + userLocaleName);

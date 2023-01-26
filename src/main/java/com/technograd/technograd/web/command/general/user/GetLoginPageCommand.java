@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class getLoginPageCommand extends Command {
+public class GetLoginPageCommand extends Command {
 
     private static final long serialVersionUID = 4970515600054541841L;
 

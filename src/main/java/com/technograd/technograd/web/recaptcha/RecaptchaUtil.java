@@ -15,8 +15,8 @@ import java.net.URL;
 public class RecaptchaUtil {
     public static final String RECAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify";
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
-    public static final String SECRET_KEY = "*****************************";
-    public static final String SITE_KEY = "*****************************";
+    public static final String SECRET_KEY = "6LfBxiwkAAAAAP3G4DHb0cqUSIn1z-tcPziJpsCq";
+    public static final String SITE_KEY = "6LfBxiwkAAAAANXv9zbsFWpqeOsPzrpVD-v8_UOb";
     
     public static boolean verify(String recaptchaResponse){
         logger.info("RecaptchaUtil verify started");
