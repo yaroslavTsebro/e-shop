@@ -9,6 +9,10 @@ public enum Post implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString();
+        if(this.equals(Post.MANAGER)){
+            return "MANAGER";
+        } else {
+            return "CUSTOMER";
+        }
     }
 }

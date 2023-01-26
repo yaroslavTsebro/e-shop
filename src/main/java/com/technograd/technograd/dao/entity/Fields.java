@@ -30,7 +30,7 @@ public class Fields {
     public static final String USER_POST = "post";
     public static final String USER_PASSWORD = "password";
     public static final String USER_SALT = "salt";
-    public static final String USER_LANGUAGE = "locale_name";
+    public static final String USER_LANGUAGE = "local_name";
 
     public static final String USER_DETAILS_CODE = "code";
     public static final String USER_DETAILS_SALT = "salt";

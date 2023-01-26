@@ -13,19 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    private static final String SQL__CREATE_USER = "INSERT INTO user(lastname, name, email ,post, password, salt, local_name) VALUES(?, ?, ?, ? ,? ,?, ?);";
-    private static final String SQL__FIND_USER_BY_ID = "SELECT * FROM user WHERE id = ?;";
-    private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM user WHERE email = ?;";
-    private static final String SQL__FIND_ALL_USERS = "SELECT * FROM user;";
-    private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE user SET locale_name=? WHERE id=?;";
+    private static final String SQL__CREATE_USER = "INSERT INTO \"user\"(lastname, name, email ,post, password, salt, local_name) VALUES(?, ?, ?, 'CUSTOMER' ,? ,?, ?);";
+    private static final String SQL__FIND_USER_BY_ID = "SELECT * FROM \"user\" WHERE id = ?;";
+    private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM \"user\" WHERE email = ?;";
+    private static final String SQL__FIND_ALL_USERS = "SELECT * FROM \"user\";";
+    private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE \"user\" SET locale_name=? WHERE id=?;";
     private static final String SQL__FIRST_PART_OF_EVENT = "CREATE EVENT IF NOT EXISTS delete_code";
     private static final String SQL__SECOND_PART_OF_EVENT = " ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR DO DELETE FROM user_details WHERE code=?;";
     private static final String SQL__ADD_CONFIRMATION_CODE = "INSERT INTO user_details(user_id, code, salt) VALUE (?, ?, ?);";
     private static final String SQL__GET_SALT_FROM_USER_DETAILS = "SELECT salt FROM user_details WHERE user_id=?;";
     private static final String SQL__GET_CODE_FROM_USER_DETAILS = "SELECT code FROM user_details WHERE user_id=?;";
-    private static final String SQL__UPDATE_USER_PASSWORD = "UPDATE user SET password=?, salt=? WHERE id=?;";
+    private static final String SQL__UPDATE_USER_PASSWORD = "UPDATE \"user\" SET password=?, salt=? WHERE id=?;";
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
-    private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS = "SELECT id FROM user WHERE post='MANAGER' AND (SELECT COUNT(*) FROM intend WHERE user_id=id ORDER BY ASC LIMIT 1)";
+    private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS = "SELECT id FROM \"user\" WHERE post='MANAGER' AND (SELECT COUNT(*) FROM intend WHERE user_id=id ORDER BY ASC LIMIT 1)";
 
     public void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
         Connection connection = null;
@@ -152,10 +152,9 @@ public class UserDAO {
             preparedStatement.setString(1, user.getLastname());
             preparedStatement.setString(2, user.getName());
             preparedStatement.setString(3, user.getEmail());
-            preparedStatement.setString(4, user.getPost().toString());
-            preparedStatement.setString(5, user.getPassword());
-            preparedStatement.setString(6, user.getSalt());
-            preparedStatement.setString(7, "en");
+            preparedStatement.setString(4, user.getPassword());
+            preparedStatement.setString(5, user.getSalt());
+            preparedStatement.setString(6, "en");
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
