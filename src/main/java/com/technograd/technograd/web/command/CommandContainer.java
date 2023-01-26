@@ -3,10 +3,7 @@ package com.technograd.technograd.web.command;
 import com.technograd.technograd.web.command.customer.AddProductAsElementOfCart;
 import com.technograd.technograd.web.command.general.ViewMenuCommand;
 import com.technograd.technograd.web.command.general.ViewProductCommand;
-import com.technograd.technograd.web.command.general.user.LoginCommand;
-import com.technograd.technograd.web.command.general.user.LogoutCommand;
-import com.technograd.technograd.web.command.general.user.RegisterCommand;
-import com.technograd.technograd.web.command.general.user.getLoginPageCommand;
+import com.technograd.technograd.web.command.general.user.*;
 import com.technograd.technograd.web.command.manager.category.*;
 import com.technograd.technograd.web.command.manager.characteristic.*;
 import com.technograd.technograd.web.command.manager.company.*;
@@ -39,7 +36,8 @@ public class CommandContainer {
         commands.put("updateCharacteristic", new UpdateCharacteristic());
         commands.put("searchCharacteristics", new SearchCharacteristic());
 
-        commands.put("loginPage", new getLoginPageCommand());
+        commands.put("loginPage", new GetLoginPageCommand());
+        commands.put("registerPage", new GetRegisterPage());
 
         commands.put("loginCommand", new LoginCommand());
         commands.put("logoutCommand", new LogoutCommand());
