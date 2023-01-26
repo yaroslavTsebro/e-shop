@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command.general.user;
 
+import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
@@ -60,13 +61,11 @@ public class RegisterCommand extends Command {
         }
         logger.debug("captcha is valid");
 
-        User user;
+        User user = null;
         try {
             user = new UserDAO().getUserByEmail(email);
-        } catch (DBException exception) {
-            errorMessage = "user.dao.find.user.error";
-            logger.error("errorMessage --> " + exception);
-            throw new AppException(errorMessage);
+        } catch (Exception ignored) {
+
         }
 
         logger.trace("Found user at DB: user-> " + user);
@@ -76,17 +75,17 @@ public class RegisterCommand extends Command {
             logger.error("errorMessage --> " + "This Email have used");
             throw new AppException(errorMessage);
         } else {
+            User newUser = new User();
             String salt = PasswordSecurityUtil.getSalt(50);
-            String hashedPass = Arrays.toString(PasswordSecurityUtil.hash(password.toCharArray(), salt.getBytes()));
-            user.setLastname(lastname);
-            user.setName(name);
-            user.setEmail(email);
-            user.setPost(String.valueOf(Post.CUSTOMER));
-            user.setPassword(hashedPass);
-            user.setSalt(salt);
-            forward = Commands.VIEW_MENU_COMMAND;
+            String hashedPass =  PasswordSecurityUtil.generateSecurePassword(password, salt);
+            newUser.setLastname(lastname);
+            newUser.setName(name);
+            newUser.setEmail(email);
+            newUser.setPassword(hashedPass);
+            newUser.setSalt(salt);
+            forward = request.getContextPath() + "/controller?command=loginPage";
             try {
-                UserDAO.createUser(user);
+                UserDAO.createUser(newUser);
             } catch (DBException exception) {
                 errorMessage = "user.dao.find.user.error";
                 logger.error("errorMessage --> " + exception);

@@ -11,5 +11,6 @@ public final class Path {
     public static final String VIEW_PRODUCT_PAGE = "/WEB-INF/jsp/general/product.jsp";
     public static final String COMPANY_PAGE ="/WEB-INF/jsp/general/company.jsp";
     public static final String LOGIN_PAGE = "/WEB-INF/jsp/general/login.jsp";
+    public static final String REGISTER_PAGE = "/WEB-INF/jsp/general/register.jsp";
 
 }

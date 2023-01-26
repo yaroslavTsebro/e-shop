@@ -53,5 +53,4 @@ public class PasswordSecurityUtil {
         isEquals = newSecurePassword.equals(securePassword);
         return isEquals;
     }
-
 }
