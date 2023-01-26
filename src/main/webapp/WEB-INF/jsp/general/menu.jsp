@@ -46,22 +46,12 @@
     <div class="dropdownSort">
         <button class="dropbtn"><fmt:message key="menu.sort.selector"/></button>
         <div class="dropdown-content">
-            <c:if test="${sessionScope.lang == 'ua'}">
-                <button onclick="selectByParam(`sortBy` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
-                <button onclick="selectByParam(`sortBy` ,`priceAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.asc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`priceDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.desc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`nameAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.asc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`nameDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.desc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`avaliable`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.avaliable"/></button>
-            </c:if>
-            <c:if test="${sessionScope.lang == 'en' || empty sessionScope.lang}">
-                <button onclick="selectByParam(`sortBy` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
-                <button onclick="selectByParam(`sortBy` ,`priceAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.asc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`priceDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.desc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`nameAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.asc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`nameDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.desc"/></button>
-                <button onclick="selectByParam(`sortBy` ,`avaliable`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.avaliable"/></button>
-            </c:if>
+            <button onclick="selectByParam(`sortBy` ,-1)" class="slider-item-link" type="button"><fmt:message key="menu.selector.nothing"/></button>
+            <button onclick="selectByParam(`sortBy` ,`priceAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.asc"/></button>
+            <button onclick="selectByParam(`sortBy` ,`priceDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.price.desc"/></button>
+            <button onclick="selectByParam(`sortBy` ,`nameAsc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.asc"/></button>
+            <button onclick="selectByParam(`sortBy` ,`nameDesc`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.alphabet.desc"/></button>
+            <button onclick="selectByParam(`sortBy` ,`avaliable`)" class="slider-item-link" type="button"><fmt:message key="menu.sort.selector.avaliable"/></button>
         </div>
     </div>
         <div class="menu_grid-container">
