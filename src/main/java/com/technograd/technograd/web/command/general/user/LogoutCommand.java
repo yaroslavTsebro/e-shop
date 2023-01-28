@@ -21,6 +21,6 @@ public class LogoutCommand extends Command {
             session.invalidate();
         }
 
-        return Path.MENU_PAGE;
+        return request.getContextPath() + "/controller?command=viewMenu";
     }
 }

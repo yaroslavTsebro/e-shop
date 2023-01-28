@@ -40,7 +40,7 @@ public class CommandContainer {
         commands.put("registerPage", new GetRegisterPage());
 
         commands.put("loginCommand", new LoginCommand());
-        commands.put("logoutCommand", new LogoutCommand());
+        commands.put("logout", new LogoutCommand());
         commands.put("registerCommand", new RegisterCommand());
 
         commands.put("viewMenu", new ViewMenuCommand());

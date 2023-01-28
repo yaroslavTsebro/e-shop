@@ -17,7 +17,7 @@ public class UserDAO {
     private static final String SQL__FIND_USER_BY_ID = "SELECT * FROM \"user\" WHERE id = ?;";
     private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM \"user\" WHERE email = ?;";
     private static final String SQL__FIND_ALL_USERS = "SELECT * FROM \"user\";";
-    private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE \"user\" SET locale_name=? WHERE id=?;";
+    private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE \"user\" SET local_name=? WHERE id=?;";
     private static final String SQL__FIRST_PART_OF_EVENT = "CREATE EVENT IF NOT EXISTS delete_code";
     private static final String SQL__SECOND_PART_OF_EVENT = " ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR DO DELETE FROM user_details WHERE code=?;";
     private static final String SQL__ADD_CONFIRMATION_CODE = "INSERT INTO user_details(user_id, code, salt) VALUE (?, ?, ?);";
@@ -36,6 +36,40 @@ public class UserDAO {
             preparedStatement.setString(1, newSecurePassword);
             preparedStatement.setString(2, newSalt);
             preparedStatement.setInt(3, userId);
+            preparedStatement.execute();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+
+    public static void updateUserLanguageToUa(int id) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__UPDATE_USER_LANGUAGE);
+            preparedStatement.setString(1, "ua");
+            preparedStatement.setInt(2, id);
+            preparedStatement.execute();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+
+    public static void updateUserLanguageToEn(int id) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__UPDATE_USER_LANGUAGE);
+            preparedStatement.setString(1, "en");
+            preparedStatement.setInt(2, id);
             preparedStatement.execute();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);

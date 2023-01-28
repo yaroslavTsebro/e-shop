@@ -62,6 +62,9 @@ public class User implements Serializable {
     public Post getPost() {
         return post;
     }
+    public void setPost(Post post) {
+       this.post = post;
+    }
 
     public String getPassword() {
         return password;
