@@ -32,14 +32,25 @@ public class AddProductAsElementOfCart extends Command {
         int id = user.getId();
         logger.trace("id ->" + id);
 
-        int product_count = Integer.parseInt(request.getParameter("product_count"));
-        logger.trace("product_count ->" + product_count);
+        int productCount = Integer.parseInt(request.getParameter("product_count"));
+        logger.trace("product_count ->" + productCount);
 
-        int product_id = Integer.parseInt(request.getParameter("product_id"));
-        logger.trace("product_id ->" + product_id);
+        int addToCartCount = Integer.parseInt(request.getParameter("add_to_cart_count"));
+        logger.trace("add_to_cart_count ->" + addToCartCount);
 
-        BigDecimal product_price = BigDecimal.valueOf(Integer.parseInt(request.getParameter("product_price")));
-        logger.trace("product_price ->" + product_price);
+        int productId = Integer.parseInt(request.getParameter("product_id"));
+        logger.trace("product_id ->" + productId);
+
+        String price = request.getParameter("product_price");
+        System.out.println(price);
+        BigDecimal productPrice = new BigDecimal(price);
+        logger.trace("product_price ->" + productPrice);
+
+
+        if(productCount < addToCartCount){
+            throw new RuntimeException();
+        }
+
 
         Intend cart;
         try{
@@ -63,14 +74,14 @@ public class AddProductAsElementOfCart extends Command {
                 throw new RuntimeException(e);
             }
             try {
-                ListIntendDAO.createListIntend(cart.getId(), product_count, product_id, product_price);
+                ListIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
                 logger.trace("listIntend with this id was inserted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
         } else{
             try {
-                ListIntendDAO.createListIntend(cart.getId(), product_count, product_id, product_price);
+                ListIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
                 logger.trace("listIntend with this id was deleted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);

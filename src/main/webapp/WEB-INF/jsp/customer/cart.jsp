@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <c:set var="title" value="cart.title"/>
 <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
@@ -6,14 +7,18 @@
     <%@ include file="/WEB-INF/jspf/part/header.jspf" %>
     <div class="wrapper">
         <c:if test="${empty sessionScope.user}">
-            <div class="cart-trouble">
-                <a href="/controller?command=loginPage"><fmt:message key="cart.user.empty"/></a>
+            <div class="container">
+                <div class="cart-trouble">
+                    <a href="/controller?command=loginPage"><fmt:message key="cart.user.empty"/></a>
+                </div>
             </div>
         </c:if>
         <c:if test="${not empty sessionScope.user}">
             <c:if test="${empty requestScope.cart}">
-                <div class="cart-trouble">
-                    <fmt:message key="cart.empty"/>
+                <div class="container">
+                    <div class="cart-trouble">
+                        <fmt:message key="cart.empty"/>
+                    </div>
                 </div>
             </c:if>
             <c:if test="${not empty requestScope.cart}">
@@ -92,7 +97,7 @@
                         <div class="modal-body">
                             <form action="/controller" method="post" name="registerIntend">
                                 <input type="hidden" name="command" value="registerIntend"/>
-                                <label for="updated_name_ua"><fmt:message key="cart.address.label"/></label>
+                                <label for="address"><fmt:message key="cart.address.label"/></label>
                                 <input type="text" id="address" name="address" placeholder="<fmt:message key="cart.address.placeholder"/>" required>
                                 <input type="submit" value="<fmt:message key="entity.update.category.submit"/>">
                             </form>
@@ -120,7 +125,7 @@
         }
     </script>
     <style>
-        <%@include file='../../../style/admin.css' %>
+        <%@include file='../../../style/header.css' %>
     </style>
 </body>
 </html>
