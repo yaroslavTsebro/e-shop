@@ -20,6 +20,7 @@
     box-shadow: 0 0 10px rgb(0 0 0 / 7%);
     padding: 20px 0;
     color: black;
+    justify-content: flex-end;
 }
 
 .menu_grid-element:hover{
@@ -41,21 +42,6 @@
     font-weight: bold;
     font-size: 20px;
 }
-.language-container{
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    z-index: 2;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-color: #555555;
-    padding: 20px;
-}
 
 .category-selector{
     margin-left: -16px;
@@ -75,18 +61,6 @@
 }
 .slider{
     position: relative;
-}
-.slider-item-link{
-    display: block;
-    font-size: 18px;
-    line-height: 16px;
-    white-space: nowrap;
-    color: #303030;
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    transition: all .3s ease;
-    padding: 7px 15px;
 }
 
 

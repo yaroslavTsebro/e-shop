@@ -30,6 +30,7 @@
   </div>
 </div>
 <style>
+  <%@include file='../../../style/header.css' %>
   <%@include file='../../../style/login.css' %>
 </style>
 </body>

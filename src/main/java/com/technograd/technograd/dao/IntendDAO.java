@@ -15,10 +15,10 @@ public class IntendDAO {
             "VALUES (current_timestamp, ?, ?, 'SENDING', '', 'CART');";
     private static final String SQL__UPDATE_INTEND_CONDITION = "UPDATE intend SET condition = ? WHERE id=?;";
     private static final String SQL__CREATE_INTEND_RECEIVING = "INSERT INTO intend(start_date, supplier_id, employee_id, sending_or_receiving, address, condition)" +
-            "VALUES (?, ?, ?, 'RECEIVING', 'STORAGE', 'NEW');";
+            "VALUES (current_timestamp, ?, ?, 'RECEIVING', 'STORAGE', 'NEW');";
 
     private static final String SQL__FIND_INTEND_BY_ID = "SELECT * FROM intend WHERE id=?;";
-    private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE id=? AND condition='CART';";
+    private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE user_id=? AND condition='CART';";
     private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET condition = 'NEW', address=? WHERE id=?;";
     private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
     private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING';";
@@ -184,7 +184,7 @@ public class IntendDAO {
             preparedStatement = connection.prepareStatement(SQL__FIND_CART_BY_ID);
             IntendMapper mapper = new IntendMapper();
             preparedStatement.setInt(1, id);
-            preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 intend = mapper.mapRow(resultSet);
             }
@@ -213,7 +213,7 @@ public class IntendDAO {
                 intend.setAddress(rs.getString(Fields.INTEND_ADDRESS));
                 intend.setCondition(rs.getString(Fields.INTEND_CONDITION));
                 intend.setListIntends(new ListIntendDAO().getAllListIntendsByIntendId(rs.
-                        getInt(Fields.LIST_INTEND_PRODUCT_ID)));
+                        getInt(Fields.ID)));
                 return intend;
             } catch (SQLException e) {
                 throw new IllegalStateException(e);

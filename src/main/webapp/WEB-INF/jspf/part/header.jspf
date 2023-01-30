@@ -10,7 +10,7 @@
             <c:if test="${sessionScope.user.post.toString() == 'CUSTOMER'}">
                 <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
                 <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
-                <a href="/controller?command=cart"><fmt:message key="header.menu.cart"/></a>
+                <a href="/controller?command=viewCart"><fmt:message key="header.menu.cart"/></a>
             </c:if>
             <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
                 <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>

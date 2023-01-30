@@ -121,6 +121,7 @@
     var interval = setInterval(move, 4);
 </script>
 <style>
+    <%@include file='../../../style/header.css' %>
     <%@include file='../../../style/menu.css' %>
 </style>
 

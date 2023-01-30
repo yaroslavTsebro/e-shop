@@ -118,6 +118,28 @@
                 </div>
             </c:forEach>
         </div>
+        <c:if test="${not empty sessionScope.user}">
+        <div class="product-data white">
+                <c:if test="${sessionScope.user.post.toString() == 'CUSTOMER'}">
+                    <form action="/controller" method="post" name="addToCartForm">
+                        <input type="hidden" name="command" value="addToCart"/>
+                        <input type="hidden" id="product_id" name="product_id" value="${requestScope.product.id}">
+                        <input type="hidden" id="product_count" name="product_count" value="${requestScope.product.count}">
+                        <input type="hidden" id="product_price" name="product_price" value="${requestScope.product.price}">
+                        <label for="add_to_cart_count"><fmt:message key="cart.add.count.label"/></label>
+                        <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                               title="${field.required}" min="0" max="${requestScope.product.count}" id="add_to_cart_count" name="add_to_cart_count"
+                               placeholder="<fmt:message key="cart.add.count.placeholder"/>" required>
+                        <input type="submit" class="white-button" value="<fmt:message key="cart.add.button"/>">
+                    </form>
+                </c:if>
+                <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
+                    <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
+                    <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
+                    <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
+                </c:if>
+        </div>
+        </c:if>
         <div class="product-data">
             <c:if test="${sessionScope.lang == 'ua'}">
                 <div class="title">
@@ -138,6 +160,7 @@
         </div>
     </div>
     <style>
+        <%@include file='../../../style/header.css' %>
         <%@include file='../../../style/product_page.css' %>
     </style>
 <script>

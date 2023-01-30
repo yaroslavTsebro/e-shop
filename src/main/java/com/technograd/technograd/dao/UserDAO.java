@@ -25,7 +25,7 @@ public class UserDAO {
     private static final String SQL__GET_CODE_FROM_USER_DETAILS = "SELECT code FROM user_details WHERE user_id=?;";
     private static final String SQL__UPDATE_USER_PASSWORD = "UPDATE \"user\" SET password=?, salt=? WHERE id=?;";
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
-    private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS = "SELECT id FROM \"user\" WHERE post='MANAGER' AND (SELECT COUNT(*) FROM intend WHERE user_id=id ORDER BY ASC LIMIT 1)";
+    private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS =    "select id from \"user\" WHERE post='MANAGER' ORDER BY random() LIMIT 1;";
 
     public void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
         Connection connection = null;
@@ -86,7 +86,7 @@ public class UserDAO {
         int id = 0;
         try {
             connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__UPDATE_USER_PASSWORD);
+            preparedStatement = connection.prepareStatement(SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS);
             preparedStatement.execute();
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
