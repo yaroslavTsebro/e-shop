@@ -60,14 +60,8 @@ public class AddProductAsElementOfCart extends Command {
         }
 
         if(cart == null){
-            int employeeId;
             try{
-                 employeeId = UserDAO.getManagerWithLowestCountOfIntends();
-            } catch (DBException e) {
-                throw new RuntimeException(e);
-            }
-            try{
-                IntendDAO.createIntendSending(id, employeeId);
+                IntendDAO.createIntendSending(id);
                 cart = IntendDAO.findCartById(id);
                 logger.trace("Intend with this id was inserted:" + id);
             } catch (DBException e) {

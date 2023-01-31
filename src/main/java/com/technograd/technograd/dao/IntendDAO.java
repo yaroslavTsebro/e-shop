@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IntendDAO {
-    private static final String SQL__CREATE_INTEND_SENDING = "INSERT INTO intend(start_date, user_id, employee_id, sending_or_receiving, address, condition)" +
-            "VALUES (current_timestamp, ?, ?, 'SENDING', '', 'CART');";
+    private static final String SQL__CREATE_INTEND_SENDING = "INSERT INTO intend(start_date, user_id, sending_or_receiving, address, condition)" +
+            "VALUES (current_timestamp, ?, 'SENDING', '', 'CART');";
     private static final String SQL__UPDATE_INTEND_CONDITION = "UPDATE intend SET condition = ? WHERE id=?;";
     private static final String SQL__CREATE_INTEND_RECEIVING = "INSERT INTO intend(start_date, supplier_id, employee_id, sending_or_receiving, address, condition)" +
             "VALUES (current_timestamp, ?, ?, 'RECEIVING', 'STORAGE', 'NEW');";
@@ -23,14 +23,13 @@ public class IntendDAO {
     private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
     private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING';";
 
-    public static void createIntendSending(int userId, int employeeId) throws DBException {
+    public static void createIntendSending(int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__CREATE_INTEND_SENDING);
             preparedStatement.setInt(1, userId);
-            preparedStatement.setInt(2, employeeId);
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
