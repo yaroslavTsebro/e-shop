@@ -25,14 +25,14 @@
             <form class="header-local-en" action="controller" method="post">
                 <input type="hidden" name="command" value="changeLanguage"/>
                 <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>
-                <input type="hidden" name="language" value="ua"/>
-                <input type="submit" value="UA" class="lang_button"/>
+                <input type="hidden" name="language" class="lang-button" value="ua"/>
+                <button type="submit" class="lang-button">UA</button>
             </form>
             <form class="header-local-en"  action="controller" method="post">
                 <input type="hidden" name="command" value="changeLanguage"/>
                 <input type="hidden" name="queryString" value="${pageContext.request.queryString}"/>
-                <input type="hidden" name="language" value="en"/>
-                <input type="submit" value="EN" class="lang_button"/>
+                <input type="hidden" name="language" class="lang-button" value="en"/>
+                <button type="submit" class="lang-button">EN</button>
             </form>
         </div>
     </div>
