@@ -30,6 +30,9 @@ public class RegisterIntend extends Command {
         int id = user.getId();
         logger.trace("id ->" + id);
 
+        int cartId = Integer.parseInt(request.getParameter("register_by_id"));
+        logger.trace("register_by_id ->" + cartId);
+
         String address = request.getParameter("address");
         logger.trace("address ->" + address);
 
@@ -39,14 +42,19 @@ public class RegisterIntend extends Command {
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
+
+        if(intend.getId() != cartId){
+            throw new RuntimeException();
+        }
+
        if(intend != null){
            try {
-               IntendDAO.changeCartIntoIntend(address, id);
+               IntendDAO.changeCartIntoIntend(address, cartId);
            } catch (DBException e) {
                throw new RuntimeException(e);
            }
        }
         logger.info("RegisterIntend execute finished, path transferred to controller");
-        return Path.MENU_PAGE;
+        return request.getContextPath() + "/controller?command=viewMenu";
     }
 }
