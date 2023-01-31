@@ -11,7 +11,7 @@ import java.util.List;
 public class ProductDAO {
     private static final String SQL__FIND_PRODUCTS_BY_COMPANY = "SELECT * FROM product WHERE product.company_id =?;";
     private static final String SQL__FIND_PRODUCTS_BY_CATEGORY = "SELECT * FROM product WHERE product.category =?;";
-    private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT (id, name_ua, name_en, title_ua, title_en, price) FROM product WHERE id=?";
+    private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT * FROM product WHERE id=?;";
     private static final String SQL__FIND_ALL_PRODUCTS = "SELECT * FROM product";
     private static final String SQL__FIND_PRODUCT_BY_ID = "SELECT * FROM product WHERE product.id=?;";
     private static final String SQL__CREATE_PRODUCT = "INSERT INTO product(name_ua, name_en, price, weigth, category_id," +
@@ -254,6 +254,8 @@ public class ProductDAO {
                 product.setTitleUa(resultSet.getString(Fields.PRODUCT_TITLE_UA));
                 product.setTitleEn(resultSet.getString(Fields.PRODUCT_TITLE_EN));
                 product.setPrice(resultSet.getBigDecimal(Fields.PRODUCT_PRICE));
+                product.setCount(resultSet.getInt(Fields.PRODUCT_COUNT));
+                product.setPhotos(new PhotoDAO().getFirstPhotoByProductId(resultSet.getInt(Fields.ID)));
             }
 
         } catch (SQLException e) {

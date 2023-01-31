@@ -1,7 +1,6 @@
 package com.technograd.technograd.web.command;
 
-import com.technograd.technograd.web.command.customer.AddProductAsElementOfCart;
-import com.technograd.technograd.web.command.customer.ViewCartPage;
+import com.technograd.technograd.web.command.customer.*;
 import com.technograd.technograd.web.command.general.ViewMenuCommand;
 import com.technograd.technograd.web.command.general.ViewProductCommand;
 import com.technograd.technograd.web.command.general.user.*;
@@ -49,6 +48,10 @@ public class CommandContainer {
         commands.put("addToCart", new AddProductAsElementOfCart());
 
         commands.put("viewCart", new ViewCartPage());
+        commands.put("updateProductCountInCart", new UpdateProductCountInCart());
+        commands.put("deleteFromCart", new DeleteFromCart());
+        commands.put("registerIntend", new RegisterIntend());
+
 
     }
 

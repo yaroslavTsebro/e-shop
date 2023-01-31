@@ -19,7 +19,7 @@ public class IntendDAO {
 
     private static final String SQL__FIND_INTEND_BY_ID = "SELECT * FROM intend WHERE id=?;";
     private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE user_id=? AND condition='CART';";
-    private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET condition = 'NEW', address=? WHERE id=?;";
+    private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET start_date = current_timestamp, condition = 'NEW', address=? WHERE id=?;";
     private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
     private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING';";
 
@@ -102,14 +102,14 @@ public class IntendDAO {
         return intendList;
     }
 
-    public static void changeCartIntoIntend(String address, int userId) throws DBException {
+    public static void changeCartIntoIntend(String address, int cartId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__CHANGE_CART_INTO_INTEND);
             preparedStatement.setString(1, address);
-            preparedStatement.setInt(2, userId);
+            preparedStatement.setInt(2, cartId);
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
