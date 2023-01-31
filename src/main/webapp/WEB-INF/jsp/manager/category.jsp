@@ -95,6 +95,7 @@
         }
     </script>
     <style>
+        <%@include file='../../../style/header.css' %>
         <%@include file='../../../style/admin.css' %>
     </style>
 </body>

@@ -39,6 +39,6 @@ public class ViewSending extends Command {
             request.setAttribute("sendingList", sendingList);
         }
         logger.info("ViewSending execute finished, path transferred to controller");
-        return Path.RECEIVING_PAGE;
+        return Path.SENDING_PAGE;
     }
 }

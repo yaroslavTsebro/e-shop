@@ -15,7 +15,7 @@
             <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
                 <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
                 <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
-                <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
+                <a href="/controller?command=viewAdminPanel"><fmt:message key="header.menu.admin"/></a>
             </c:if>
         </c:if>
         <c:if test="${empty sessionScope.user}">

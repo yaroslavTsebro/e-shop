@@ -7,6 +7,7 @@ import com.technograd.technograd.web.command.general.user.*;
 import com.technograd.technograd.web.command.manager.category.*;
 import com.technograd.technograd.web.command.manager.characteristic.*;
 import com.technograd.technograd.web.command.manager.company.*;
+import com.technograd.technograd.web.command.manager.viewAdminPanel;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -51,6 +52,8 @@ public class CommandContainer {
         commands.put("updateProductCountInCart", new UpdateProductCountInCart());
         commands.put("deleteFromCart", new DeleteFromCart());
         commands.put("registerIntend", new RegisterIntend());
+
+        commands.put("viewAdminPanel", new viewAdminPanel());
 
 
     }
