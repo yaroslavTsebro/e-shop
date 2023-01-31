@@ -21,8 +21,8 @@ public class DeleteFromCart extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("DeleteFromCart execute started");
 
-        int id = Integer.parseInt(request.getParameter("element_of_cart_id"));
-        logger.trace("element_of_cart_id ->" + id);
+        int id = Integer.parseInt(request.getParameter("delete_li_by_id"));
+        logger.trace("delete_li_by_id ->" + id);
 
         try {
             ListIntendDAO.deleteListIntendById(id);
