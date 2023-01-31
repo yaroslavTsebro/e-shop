@@ -2,7 +2,9 @@ package com.technograd.technograd.web.command.customer;
 
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.IntendDAO;
+import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
+import com.technograd.technograd.dao.entity.ListIntend;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
@@ -34,9 +36,25 @@ public class ViewCartPage extends Command {
         try{
             intend = IntendDAO.findCartById(id);
             logger.trace("cart ->" + intend);
+            if(intend == null){
+                return Path.CART_PAGE;
+            }
+            for (ListIntend li: intend.getListIntends()) {
+                if(0 != (li.getProductPrice()).compareTo(li.getProduct().getPrice())){
+                    try {
+                        ListIntendDAO.updatePriceInListIntendById(li.getProduct().getPrice(), li.getId());
+                        li.setProductPrice(li.getProduct().getPrice());
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
+
+
+        System.out.println(intend);
         request.setAttribute("cart", intend);
         logger.info("ViewCartPage execute finished, path transferred to controller");
         return Path.CART_PAGE;
