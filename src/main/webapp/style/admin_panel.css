@@ -5,9 +5,7 @@
     padding: 20px;
 }
 
-.panel-wrapper{
-    margin: 200px 0 0 0 ;
-}
+
 .panel-item{
     width: 100%;
     background-color: #04AA6D;
@@ -18,6 +16,14 @@
     cursor: pointer;
     text-align: center;
     transition-duration: 0.4ms;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 500;
+
+}
+
+a{
+    flex: auto;
 }
 
 .panel-item:not(.panel-item:last-child){
@@ -26,9 +32,8 @@
 .panel-item:hover{
     background-color: rgba(4, 170, 109, 0.86);
 }
-.panel-item > a{
-    text-decoration: none;
-    font-size: 30px;
-    font-weight: 500;
-    color: white;
+.panel{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }

@@ -9,24 +9,10 @@
     <div class="container">
         <div class="panel-wrapper">
             <div class="panel">
-                <div class="panel-item">
-                    <a class="item panel" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
-                </div>
-                <div class="panel-item">
-                    <a class="item panel" href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-                </div>
-                <div class="panel-item">
-                    <a class="item panel" href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-                </div>
-                <div class="panel-item">
-                    <a class="item panel" href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-                </div>
-                <div class="panel-item">
-                    <a class="item panel" href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-                </div>
-                <div class="panel-item">
-                    <a class="item panel" href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-                </div>
+                    <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
+                    <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
+                    <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
+                    <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
             </div>
         </div>
     </div>
