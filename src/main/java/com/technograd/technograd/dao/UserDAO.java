@@ -238,6 +238,36 @@ public class UserDAO {
         return user;
     }
 
+    public static User getReducedUserById(int id) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        User user = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            UserMapper mapper = new UserMapper();
+            preparedStatement = connection.prepareStatement(SQL__FIND_USER_BY_ID);
+            preparedStatement.setInt(1, id);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                User mappedUser = new User();
+                mappedUser.setId(rs.getInt(Fields.ID));
+                mappedUser.setLastname(rs.getString(Fields.USER_LASTNAME));
+                mappedUser.setName(rs.getString(Fields.USER_NAME));
+                mappedUser.setEmail(rs.getString(Fields.USER_EMAIL));
+                mappedUser.setPost(rs.getString(Fields.USER_POST));
+                mappedUser.setLocaleName(rs.getString(Fields.USER_LANGUAGE));
+                user = mappedUser;
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
+        }
+        return user;
+    }
+
     public static User getUserByEmail(String email) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

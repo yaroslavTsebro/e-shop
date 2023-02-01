@@ -41,6 +41,6 @@ public class ViewReceiving extends Command {
             request.setAttribute("receivingList", receivingList);
         }
         logger.info("ViewReceiving execute finished, path transferred to controller");
-        return Path.RECEIVING_PAGE;
+        return Path.SENDING_PAGE;
     }
 }

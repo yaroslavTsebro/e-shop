@@ -2,12 +2,14 @@ package com.technograd.technograd.web.command.customer;
 
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.ProductDAO;
+import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +23,12 @@ public class UpdateProductCountInCart extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("UpdateProductCountInCart execute started");
+
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int userId = user.getId();
+        logger.trace("userId ->" + userId);
 
         int id = Integer.parseInt(request.getParameter("update_by_id"));
         logger.trace("update_by_id ->" + id);
@@ -49,14 +57,14 @@ public class UpdateProductCountInCart extends Command {
 
         if(newCount <= 0){
             try {
-                ListIntendDAO.deleteListIntendById(id);
+                ListIntendDAO.deleteListIntendByIdInCart(id, userId);
                 logger.trace("listIntend with this id was deleted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
         } else{
             try {
-                ListIntendDAO.updateCountInListIntendById(id, newCount);
+                ListIntendDAO.updateCountInListIntendByIdInCart(id, newCount);
                 logger.trace("listIntend with this id was updated:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);

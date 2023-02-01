@@ -78,7 +78,7 @@ public class IntendDAO {
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__FIND_SENDING_INTEND);
-            preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
             while (rs.next()){
                 Intend intend = new Intend();
                 intend.setId(rs.getInt(Fields.ID));
@@ -161,7 +161,7 @@ public class IntendDAO {
             preparedStatement = connection.prepareStatement(SQL__FIND_INTEND_BY_ID);
             IntendMapper mapper = new IntendMapper();
             preparedStatement.setInt(1, id);
-            preparedStatement.executeQuery();
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 intend = mapper.mapRow(resultSet);
             }

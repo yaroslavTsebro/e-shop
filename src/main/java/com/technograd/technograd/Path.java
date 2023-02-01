@@ -13,5 +13,6 @@ public final class Path {
     public static final String LOGIN_PAGE = "/WEB-INF/jsp/general/login.jsp";
     public static final String REGISTER_PAGE = "/WEB-INF/jsp/general/register.jsp";
     public static final String ADMIN_PANEL = "/WEB-INF/jsp/manager/admin.jsp";
+    public static final String ADMIN_CURRENT_SENDING_PAGE = "/WEB-INF/jsp/manager/current_sending.jsp";
 
 }
