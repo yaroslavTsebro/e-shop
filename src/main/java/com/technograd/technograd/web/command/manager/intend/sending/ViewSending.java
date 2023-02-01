@@ -30,11 +30,7 @@ public class ViewSending extends Command {
             sendingList = IntendDAO.findAllSendings();
             logger.trace("sendingList ->" + sendingList);
         } catch (DBException exception) {
-            try {
-                throw new AppException(exception.getMessage());
-            } catch (AppException e) {
-                throw new RuntimeException(e);
-            }
+            throw new RuntimeException(exception);
         } finally {
             request.setAttribute("sendingList", sendingList);
         }
