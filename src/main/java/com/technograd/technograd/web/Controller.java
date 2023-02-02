@@ -59,8 +59,7 @@ public class Controller extends HttpServlet {
 
         if (request.getMethod().equals("GET")) {
             if (forward != null) {
-                RequestDispatcher dispatcher = request.getRequestDispatcher(forward);
-                dispatcher.forward(request, response);
+                request.getRequestDispatcher(forward).forward(request, response);
             }
         } else {
             response.sendRedirect(forward);

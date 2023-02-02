@@ -17,6 +17,8 @@ public class IntendDAO {
     private static final String SQL__CREATE_INTEND_RECEIVING = "INSERT INTO intend(start_date, supplier_id, employee_id, sending_or_receiving, address, condition)" +
             "VALUES (current_timestamp, ?, ?, 'RECEIVING', 'STORAGE', 'NEW');";
 
+    private static final String SQL__CREATE_INTEND_RETURN = "INSERT INTO intend_return(intend_id, date, reason) VALUES (?,current_timestamp, ?);";
+
     private static final String SQL__FIND_INTEND_BY_ID = "SELECT * FROM intend WHERE id=?;";
     private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE user_id=? AND condition='CART';";
     private static final String SQL__FIND_INTENDS_BY_USER_ID = "SELECT * FROM intend WHERE user_id=? AND condition!='CART';";
@@ -137,6 +139,81 @@ public class IntendDAO {
                 preparedStatement.setInt(2, productId);
                 preparedStatement.execute();
             }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+
+    public static void updateConditionTurnedBackFromUserWithReason(String query, int intendId, String reason) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        Intend intend = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, intendId);
+            preparedStatement.execute();
+
+            preparedStatement = connection.prepareStatement(SQL__FIND_INTEND_BY_ID);
+            preparedStatement.setInt(1, intendId);
+            IntendMapper mapper = new IntendMapper();
+            rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                Intend i = mapper.mapRow(rs);
+                intend = i;
+            }
+
+            for (int i = 0; i < intend.getListIntends().size(); i++) {
+                int productId = intend.getListIntends().get(i).getProduct().getId();
+                int productCount = intend.getListIntends().get(i).getProduct().getCount();
+                int intendedCount = intend.getListIntends().get(i).getCount();
+
+                int rest = productCount + intendedCount;
+                if(productCount > rest){
+                    throw new DBException();
+                }
+
+                preparedStatement = connection.prepareStatement(SQL__UPDATE_COUNT_BY_ID);
+                preparedStatement.setInt(1, rest);
+                preparedStatement.setInt(2, productId);
+                preparedStatement.execute();
+            }
+
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__CREATE_INTEND_RETURN);
+            preparedStatement.setInt(1, intendId);
+            preparedStatement.setString(2, reason);
+            preparedStatement.execute();
+
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+
+
+    public static void updateConditionTurnedBackFromUser(String query, int intendId, String reason) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        Intend intend = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, intendId);
+            preparedStatement.execute();
+
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__CREATE_INTEND_RETURN);
+            preparedStatement.setInt(1, intendId);
+            preparedStatement.setString(2, reason);
+            preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
             throw new DBException(e);

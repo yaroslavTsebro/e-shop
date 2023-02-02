@@ -65,6 +65,8 @@ public class CommandContainer {
 
         commands.put("viewProfilePage", new ViewProfilePage());
         commands.put("viewCurrentIntend", new ViewCurrentIntend());
+        commands.put("turnIntendBack", new TurnIntendBack());
+
     }
 
     public static Command get(String commandName) {

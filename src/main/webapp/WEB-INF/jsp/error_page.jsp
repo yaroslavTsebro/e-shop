@@ -2,10 +2,10 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page isErrorPage="true" %>
 <html>
-<head>
   <c:set var="title" value="error.page.title"/>
-</head>
+    <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
+<%@ include file="/WEB-INF/jspf/part/header.jspf" %>
 
   <c:if test="${not empty sessionScope.errorMessage and empty exception and empty code}">
     <h3>${sessionScope.errorMessage}</h3>
@@ -19,8 +19,12 @@
   <p><fmt:message key="error.page.not.empty.user"/></p><a href="/controller?command=viewMenu"><fmt:message key="error.page.menu"/></a>
   </c:if>
   <c:if test="${empty sessionScope.user}">
-  <p><fmt:message key="error.page.empty.user"/><a href="/controller?command=loginPage"><fmt:message key="error.page.login"/></a>.
+  <p><fmt:message key="error.page.empty.user"/><a href="/controller?command=loginPage"><fmt:message key="error.page.login"/></a>
+    <button onclick="history.back()">GET BACK</button>
   </p>
   </c:if>
+<style>
+  <%@include file='../../style/header.css' %>
+</style>
 </body>
 </html>

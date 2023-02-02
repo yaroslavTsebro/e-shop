@@ -61,4 +61,8 @@ public class Fields {
     public static final String INTEND_CONDITION = "condition";
 
     public static final String COUNTRY_ID = "country_id";
+    public static final String INTEND_RETURN_DATE = "date";
+    public static final String INTEND_RETURN_INTEND_ID = "intend_id";
+    public static final String INTEND_RETURN_REASON = "reason";
+
 }

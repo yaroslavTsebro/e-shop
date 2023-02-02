@@ -1,0 +1,10 @@
+.turnBackButton{
+    width: 100%;
+    background-color: red;
+    color: white;
+    padding: 14px 10px;
+    margin: 20px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

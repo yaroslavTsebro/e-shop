@@ -86,8 +86,10 @@
           <th><fmt:message key="cart.table.chose"/></th>
           <th><fmt:message key="cart.table.avail"/></th>
           <th><fmt:message key="cart.table.total.price"/></th>
+        <c:if test="${requestScope.intend.condition.toString() ne 'TURNED_BACK'}">
           <th></th>
           <th></th>
+        </c:if>
         </tr>
         <c:forEach items="${requestScope.intend.listIntends}" var="item" varStatus="loop">
           <tr class="myBtn">
@@ -105,6 +107,7 @@
             <td>${item.count}</td>
             <td>${item.product.count}</td>
             <td>${item.product.price * item.count}</td>
+            <c:if test="${requestScope.intend.condition.toString() ne 'TURNED_BACK'}">
             <td>
               <form action="/controller" method="post" name="deleteFromCartForm">
                 <input class="hidden" type="hidden" name="command" value="deleteFromCart"/>
@@ -116,9 +119,21 @@
             <td>
               <button class="updateButton" onclick="openModal(${item.id}, ${item.product.id}, ${item.count})">+</button>
             </td>
+            </c:if>
           </tr>
         </c:forEach>
       </table>
+        <c:if test="${requestScope.intend.condition.toString() == 'TURNED_BACK'}">
+          <c:if test="${not empty requestScope.intendReturn.reason}">
+            <div class="data">
+              <div class="intend-data">
+                <div class=" intend name lastname">
+                  <fmt:message key="intend.return.reason.text"/> ${requestScope.intendReturn.reason}
+                </div>
+              </div>
+            </div>
+          </c:if>
+        </c:if>
         <c:if test="${requestScope.intend.condition.toString() == 'ACCEPTED'}">
         <div class="modal-body">
           <form action="/controller"   method="post" name="changeConditionForm">
