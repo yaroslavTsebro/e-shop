@@ -13,3 +13,43 @@
     font-size: 30px;
     font-weight: 400;
 }
+.green{
+    background-color: green;
+    color: white;
+}
+
+.grey{
+    background-color: grey;
+    color: white;
+}
+
+.red{
+    background-color: red;
+    color: white;
+}
+
+.blue{
+    background-color: blue;
+    color: white;
+}
+
+input[type=submit].blue{
+    background-color: blue;
+    color: white;
+}
+input[type=submit].red{
+    background-color: red;
+    color: white;
+}
+input[type=submit].grey{
+    background-color: grey;
+    color: white;
+}
+input[type=submit].green{
+    background-color: green;
+    color: white;
+}
+
+.modal-body{
+    padding-top: 20px;
+}

@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.intend.sending;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
+import com.technograd.technograd.dao.entity.SendingOrReceiving;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
@@ -24,10 +25,13 @@ public class ViewSending extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewSending execute started");
-
+        String condition = request.getParameter("condition");
         List<Intend> sendingList = null;
+
+
         try {
-            sendingList = IntendDAO.findAllSendings();
+            String query = IntendDAO.viewIntendsQueryBuilder(condition, SendingOrReceiving.SENDING.name());
+            sendingList = IntendDAO.findAllIntendsFormQueryBuilder(query);
             logger.trace("sendingList ->" + sendingList);
         } catch (DBException exception) {
             throw new RuntimeException(exception);
@@ -35,6 +39,6 @@ public class ViewSending extends Command {
             request.setAttribute("sendingList", sendingList);
         }
         logger.info("ViewSending execute finished, path transferred to controller");
-        return Path.SENDING_PAGE;
+        return Path.PROFILE_PAGE;
     }
 }

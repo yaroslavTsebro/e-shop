@@ -39,9 +39,41 @@
           <div class="code">
             <fmt:message key="admin.sending.intend.address"/> ${requestScope.intend.address}
           </div>
-          <div class="code">
-            <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
-          </div>
+          <c:if test="${requestScope.intend.condition.toString() == 'ACCEPTED'}">
+            <div class="green">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
+          <c:if test="${requestScope.intend.condition.toString() == 'CART'}">
+            <div class="grey">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
+          <c:if test="${requestScope.intend.condition.toString() == 'TURNED_BACK'}">
+            <div class="red">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
+          <c:if test="${requestScope.intend.condition.toString() == 'IN_WAY'}">
+            <div class="blue">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
+          <c:if test="${requestScope.intend.condition.toString() == 'NEW'}">
+            <div class="blue">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
+          <c:if test="${requestScope.intend.condition.toString() == 'DENIED'}">
+            <div class="red">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
+          <c:if test="${requestScope.intend.condition.toString() == 'COMPLETED'}">
+            <div class="green">
+              <fmt:message key="admin.sending.intend.condition"/> ${requestScope.intend.condition}
+            </div>
+          </c:if>
         </div>
       </div>
       <c:if test="${not empty requestScope.intend.listIntends}">
@@ -87,7 +119,81 @@
           </tr>
         </c:forEach>
       </table>
-<%--      <button class="registerIntend" onclick="openModal1(${item.id})"><fmt:message key="cart.register.pre.button"/></button>--%>
+        <c:if test="${requestScope.intend.condition.toString() == 'ACCEPTED'}">
+        <div class="modal-body">
+          <form action="/controller"   method="post" name="changeConditionForm">
+            <input type="hidden" name="command" value="changeCondition"/>
+            <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+            <input type="hidden" name="new_conditional" value="TURNED_BACK"/>
+            <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+            <input type="submit" class="red" value="<fmt:message key="admin.sending.intend.change.condition.turned.back"/>">
+          </form>
+        </div>
+          <div class="modal-body">
+            <form action="/controller"  method="post" name="changeConditionForm">
+              <input type="hidden" name="command" value="changeCondition"/>
+              <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+              <input type="hidden" name="new_conditional" value="IN_WAY"/>
+              <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+              <input type="submit" class="blue" value="<fmt:message key="admin.sending.intend.change.condition.in.way"/>">
+            </form>
+          </div>
+        </c:if>
+        <c:if test="${requestScope.intend.condition.toString() == 'CART'}">
+        </c:if>
+        <c:if test="${requestScope.intend.condition.toString() == 'DENIED'}">
+        </c:if>
+        <c:if test="${requestScope.intend.condition.toString() == 'NEW'}">
+          <div class="modal-body">
+            <form action="/controller"  method="post" name="changeConditionForm">
+              <input type="hidden" name="command" value="changeCondition"/>
+              <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+              <input type="hidden" name="new_conditional" value="ACCEPTED"/>
+              <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+              <input type="submit" class="green" value="<fmt:message key="admin.sending.intend.change.condition.accepted"/>">
+            </form>
+          </div>
+          <div class="modal-body">
+            <form action="/controller"  method="post" name="changeConditionForm">
+              <input type="hidden" name="command" value="changeCondition"/>
+              <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+              <input type="hidden" name="new_conditional" value="DENIED"/>
+              <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+              <input type="submit" class="red" value="<fmt:message key="admin.sending.intend.change.condition.denied"/>">
+            </form>
+          </div>
+        </c:if>
+        <c:if test="${requestScope.intend.condition.toString() == 'IN_WAY'}">
+          <div class="modal-body">
+            <form action="/controller"  method="post" name="changeConditionForm">
+              <input type="hidden" name="command" value="changeCondition"/>
+              <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+              <input type="hidden" name="new_conditional" value="COMPLETED"/>
+              <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+              <input type="submit" class="green" value="<fmt:message key="admin.sending.intend.change.condition.completed"/>">
+            </form>
+          </div>
+          <div class="modal-body">
+            <form action="/controller"  method="post" name="changeConditionForm">
+              <input type="hidden" name="command" value="changeCondition"/>
+              <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+              <input type="hidden" name="new_conditional" value="TURNED_BACK"/>
+              <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+              <input type="submit" class="green" value="<fmt:message key="admin.sending.intend.change.condition.turned.back"/>">
+            </form>
+          </div>
+        </c:if>
+        <c:if test="${requestScope.intend.condition.toString() == 'COMPLETED'}">
+          <div class="modal-body">
+            <form action="/controller" method="post" name="changeConditionForm">
+              <input type="hidden" name="command" value="changeCondition"/>
+              <input type="hidden" name="old_conditional" value="${requestScope.intend.condition}"/>
+              <input type="hidden" name="new_conditional" value="TURNED_BACK"/>
+              <input type="hidden" name="intend_id" value="${requestScope.intend.id}"/>
+              <input type="submit" class="red" value="<fmt:message key="admin.sending.intend.change.condition.turned.back"/>">
+            </form>
+          </div>
+        </c:if>
         <div id="myModal" class="modal">
           <div class="modal-content">
             <div class="modal-header">

@@ -1,6 +1,6 @@
 package com.technograd.technograd.web.command;
 
-import com.technograd.technograd.web.command.customer.*;
+import com.technograd.technograd.web.command.customer.intend.*;
 import com.technograd.technograd.web.command.general.ViewMenuCommand;
 import com.technograd.technograd.web.command.general.ViewProductCommand;
 import com.technograd.technograd.web.command.general.user.*;
@@ -8,6 +8,7 @@ import com.technograd.technograd.web.command.manager.ViewAdminPanel;
 import com.technograd.technograd.web.command.manager.category.*;
 import com.technograd.technograd.web.command.manager.characteristic.*;
 import com.technograd.technograd.web.command.manager.company.*;
+import com.technograd.technograd.web.command.manager.intend.sending.ChangeProductCondition;
 import com.technograd.technograd.web.command.manager.intend.sending.UpdateCountOfProductInIntend;
 import com.technograd.technograd.web.command.manager.intend.sending.ViewCurrentSending;
 import com.technograd.technograd.web.command.manager.intend.sending.ViewSending;
@@ -60,7 +61,10 @@ public class CommandContainer {
         commands.put("viewSending", new ViewSending());
         commands.put("viewCurrentSending", new ViewCurrentSending());
         commands.put("updateProductCountInIntendAsAdmin", new UpdateCountOfProductInIntend());
+        commands.put("changeCondition", new ChangeProductCondition());
 
+        commands.put("viewProfilePage", new ViewProfilePage());
+        commands.put("viewCurrentIntend", new ViewCurrentIntend());
     }
 
     public static Command get(String commandName) {
