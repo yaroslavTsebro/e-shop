@@ -4,6 +4,7 @@ import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Intend;
+import com.technograd.technograd.dao.entity.ListIntend;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
@@ -75,8 +76,13 @@ public class AddProductAsElementOfCart extends Command {
             }
         } else{
             try {
-                ListIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
-                logger.trace("listIntend with this id was deleted:" + id);
+                ListIntend checkCartForProduct = ListIntendDAO.checkCartForProduct(productId, cart.getId(), id);
+                    if(checkCartForProduct == null){
+                        ListIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
+                    } else {
+                        ListIntendDAO.updateCountInListIntendByIdInCart(checkCartForProduct.getId(), addToCartCount, id);
+                    }
+                logger.trace("listIntend with this id was inserted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }

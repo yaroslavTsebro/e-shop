@@ -17,12 +17,14 @@ public class ListIntendDAO {
             "WHERE list_intend.intend_id = intend.id AND list_intend.id=? AND intend.user_id=?;";
     private static final String SQL__DELETE_LIST_INTEND_BY_ID_IN_CART = "DELETE FROM list_intend USING intend " +
             "WHERE list_intend.intend_id = intend.id AND intend.condition ='CART' AND list_intend.id=? AND intend.user_id=?;";
-    private static final String SQL__UPDATE_COUNT_IN_LIST_INTEND_BY_ID = "UPDATE list_intend SET count=? FROM intend" +
-            "WHERE list_intend.intend_id = intend.id AND id=?;";
-    private static final String SQL__UPDATE_COUNT_IN_LIST_INTEND_BY_ID_IN_CART = "UPDATE list_intend SET count=? FROM intend" +
-            "WHERE list_intend.intend_id = intend.id AND id=? AND intend.condition ='CART';";
+    private static final String SQL__UPDATE_COUNT_IN_LIST_INTEND_BY_ID = "UPDATE list_intend SET count=? " +
+            "FROM intend WHERE list_intend.intend_id = intend.id AND id=?;";
+    private static final String SQL__UPDATE_COUNT_IN_LIST_INTEND_BY_ID_IN_CART = "UPDATE list_intend SET count=? " +
+            "FROM intend WHERE list_intend.intend_id = intend.id AND list_intend.id=? AND intend.user_id=? AND intend.condition ='CART';";
     private static final String SQL__UPDATE_PRICE_IN_LIST_INTEND_BY_ID = "UPDATE list_intend SET product_price=? WHERE id=?";
     private static final String SQL__FIND_ALL_LIST_INTENDS_BY_INTEND_ID = "SELECT * FROM list_intend WHERE intend_id=?;";
+    private static final String SQL__FIND_LIST_INTEND_BY_PRODUCT_ID_AND_USER_ID_IN_CART = "SELECT * FROM list_intend JOIN intend ON list_intend.intend_id = intend.id " +
+            "WHERE list_intend.product_id=? AND intend.id =? AND intend.user_id=? AND condition='CART';";
 
     public static List<ListIntend> getAllListIntendsByIntendId(int id) throws DBException {
         Connection connection = null;
@@ -47,6 +49,33 @@ public class ListIntendDAO {
         }
         return intends;
     }
+
+    public static ListIntend checkCartForProduct(int productId, int intendId, int userId) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        ListIntend intend = null;
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_LIST_INTEND_BY_PRODUCT_ID_AND_USER_ID_IN_CART);
+            ListIntendMapper mapper = new ListIntendMapper();
+            preparedStatement.setInt(1, productId);
+            preparedStatement.setInt(2, intendId);
+            preparedStatement.setInt(3, userId);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                ListIntend listIntend = mapper.mapRow(resultSet);
+                intend = listIntend;
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
+        }
+        return intend;
+    }
+
     public static void updateCountInListIntendById( int id, int count) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -64,7 +93,7 @@ public class ListIntendDAO {
         }
     }
 
-    public static void updateCountInListIntendByIdInCart( int id, int count) throws DBException {
+    public static void updateCountInListIntendByIdInCart( int id, int count, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -72,9 +101,10 @@ public class ListIntendDAO {
             preparedStatement = connection.prepareStatement(SQL__UPDATE_COUNT_IN_LIST_INTEND_BY_ID_IN_CART);
             preparedStatement.setInt(1, count);
             preparedStatement.setInt(2, id);
+            preparedStatement.setInt(3, userId);
             preparedStatement.execute();
         } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+                DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
             throw new DBException(e);
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);

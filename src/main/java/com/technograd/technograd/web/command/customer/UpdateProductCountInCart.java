@@ -64,7 +64,7 @@ public class UpdateProductCountInCart extends Command {
             }
         } else{
             try {
-                ListIntendDAO.updateCountInListIntendByIdInCart(id, newCount);
+                ListIntendDAO.updateCountInListIntendByIdInCart(id, newCount, userId);
                 logger.trace("listIntend with this id was updated:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
