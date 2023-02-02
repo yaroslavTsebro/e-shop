@@ -8,5 +8,6 @@ public enum Condition implements Serializable {
     ACCEPTED,
     DENIED,
     IN_WAY,
-    TURNED_BACK
+    TURNED_BACK,
+    COMPLETED
 }

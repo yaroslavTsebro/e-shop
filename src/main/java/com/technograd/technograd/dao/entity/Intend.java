@@ -125,6 +125,8 @@ public class Intend implements Serializable {
             this.condition = Condition.TURNED_BACK;
         }else if(Condition.CART.toString().equalsIgnoreCase(condition)){
             this.condition = Condition.CART;
+        }else if(Condition.COMPLETED.toString().equalsIgnoreCase(condition)){
+            this.condition = Condition.COMPLETED;
         }
     }
 

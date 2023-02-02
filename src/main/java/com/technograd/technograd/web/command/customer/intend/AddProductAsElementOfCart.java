@@ -1,8 +1,7 @@
-package com.technograd.technograd.web.command.customer;
+package com.technograd.technograd.web.command.customer.intend;
 
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.ListIntendDAO;
-import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.ListIntend;
 import com.technograd.technograd.dao.entity.User;

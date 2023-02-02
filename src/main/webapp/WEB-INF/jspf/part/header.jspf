@@ -9,12 +9,12 @@
         <c:if test="${not empty sessionScope.user}">
             <c:if test="${sessionScope.user.post.toString() == 'CUSTOMER'}">
                 <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
-                <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
+                <a href="/controller?command=viewProfilePage"><fmt:message key="header.menu.profile"/></a>
                 <a href="/controller?command=viewCart"><fmt:message key="header.menu.cart"/></a>
             </c:if>
             <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
                 <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
-                <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
+                <a href="/controller?command=viewProfilePage"><fmt:message key="header.menu.profile"/></a>
                 <a href="/controller?command=viewAdminPanel"><fmt:message key="header.menu.admin"/></a>
             </c:if>
         </c:if>

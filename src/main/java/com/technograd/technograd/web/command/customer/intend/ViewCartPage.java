@@ -1,4 +1,4 @@
-package com.technograd.technograd.web.command.customer;
+package com.technograd.technograd.web.command.customer.intend;
 
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.IntendDAO;
