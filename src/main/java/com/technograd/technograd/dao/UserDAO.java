@@ -27,7 +27,7 @@ public class UserDAO {
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
     private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS =    "select id from \"user\" WHERE post='MANAGER' ORDER BY random() LIMIT 1;";
 
-    public void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
+    public static void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -313,6 +313,81 @@ public class UserDAO {
         }
         return users;
     }
+
+    public void addConfirmationCode(int userId, String salt, String code) throws DBException {
+        PreparedStatement p = null;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            p = con.prepareStatement(SQL__DROP_CONFIRMATION_CODE);
+            p.setInt(1, userId);
+            p.execute();
+            p = con.prepareStatement(SQL__ADD_CONFIRMATION_CODE);
+            p.setInt(1, userId);
+            p.setString(2, salt);
+            p.setString(3, code);
+            p.execute();
+            String event = SQL__FIRST_PART_OF_EVENT +
+                    salt.substring(new SecureRandom().nextInt(salt.length() / 2)) +
+                    SQL__SECOND_PART_OF_EVENT;
+            p = con.prepareStatement(event);
+            p.setString(1, code);
+            p.execute();
+            con.commit();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con, p);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().closeResources(con, p);
+        }
+    }
+
+    public static String getCode(int userId) throws DBException {
+        PreparedStatement p = null;
+        Connection con = null;
+        ResultSet rs = null;
+        String code = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            p = con.prepareStatement(SQL__GET_CODE_FROM_USER_DETAILS);
+            p.setInt(1, userId);
+            rs = p.executeQuery();
+            if (rs.next()) {
+                code = rs.getString(Fields.USER_DETAILS_CODE);
+            }
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con, p, rs);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().commitAndClose(con, p, rs);
+        }
+        return code;
+    }
+
+    public static String getSalt(int userId) throws DBException {
+        PreparedStatement p = null;
+        Connection con = null;
+        ResultSet rs = null;
+        String salt = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            p = con.prepareStatement(SQL__GET_SALT_FROM_USER_DETAILS);
+            p.setInt(1, userId);
+            rs = p.executeQuery();
+            if (rs.next()) {
+                salt = rs.getString(Fields.USER_SALT);
+            }
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con, p, rs);
+            throw new DBException(ex.getMessage(), ex);
+        } finally {
+            DBManager.getInstance().commitAndClose(con, p, rs);
+        }
+        return salt;
+    }
+
+
 
     private static class UserMapper implements EntityMapper<User>{
 
