@@ -25,9 +25,13 @@
       </div>
       <input type="submit" value="<fmt:message key="login.button.confirm"/>">
     </form>
-    <div><fmt:message key="login.text.already"/>
-      <a href="/controller?command=registerPage"/><fmt:message key="login.text.url.text"/></a></div>
-  </div>
+    <div class="text"><fmt:message key="login.forget.password.label"/>
+      <a href="/controller?command=getChangePasswordPage"/><fmt:message key="login.forget.password"/></a>
+    </div>
+    <div class="text"><fmt:message key="login.text.already"/>
+      <a href="/controller?command=registerPage"/><fmt:message key="login.text.url.text"/></a>
+    </div>
+</div>
 </div>
 <style>
   <%@include file='../../../style/header.css' %>

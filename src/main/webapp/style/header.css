@@ -41,7 +41,8 @@
 }
 
 .lang-button  {
-    background-color: #04AA6D;
+    background-color:#ff7e5a;
+    transition: background-color 1s ease-out 100ms;
     border: none;
     color: white;
     padding: 10px;
@@ -52,3 +53,8 @@
     max-width: 100px;
     margin: 0 0 2px 0;
 }
+.lang-button:hover{
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
+

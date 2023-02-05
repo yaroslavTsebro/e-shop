@@ -84,7 +84,7 @@ html {
 
 * {
     scrollbar-width: auto;
-    scrollbar-color: #04aa6d #f2f2f2;
+    scrollbar-color: #ff898a #f2f2f2;
 }
 
 *::-webkit-scrollbar {
@@ -96,7 +96,7 @@ html {
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: #04aa6d;
+    background-color:#ff7e5a;
     border-radius: 10px;
     border: 3px none #ffffff;
 }
@@ -117,7 +117,8 @@ html {
 }
 
 .navbar a:hover {
-    background-color: #04AA6D;
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
 }
 
 @media screen and (max-width: 500px) {

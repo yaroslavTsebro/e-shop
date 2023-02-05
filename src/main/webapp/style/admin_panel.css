@@ -8,7 +8,7 @@
 
 .panel-item{
     width: 100%;
-    background-color: #04AA6D;
+    background-color:#ff7e5a;
     color: white;
     padding: 14px 10px;
     border: none;
@@ -19,7 +19,7 @@
     text-decoration: none;
     font-size: 30px;
     font-weight: 500;
-
+    transition: background-color 1s ease-out 100ms;
 }
 
 a{
@@ -30,7 +30,8 @@ a{
     margin: 0 0 8px 0;
 }
 .panel-item:hover{
-    background-color: rgba(4, 170, 109, 0.86);
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
 }
 .panel{
     display: flex;

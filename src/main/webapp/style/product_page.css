@@ -85,7 +85,8 @@
     font-size: 25px;
     margin-top: 70px;
     padding: 10px 20px 10px 20px;
-    background-color: #04AA6D;
+    background-color:#ff7e5a;
+    transition: background-color 1s ease-out 100ms;
     color: white;
     font-weight: 400;
     border-radius: 20px;
@@ -128,7 +129,8 @@ input[type=number], select {
 
 input[type=submit]:not(.language-container input[type=submit]) {
     width: 100%;
-    background-color: #04AA6D;
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
     color: white;
     padding: 14px 10px;
     margin: 8px 0;
@@ -139,7 +141,8 @@ input[type=submit]:not(.language-container input[type=submit]) {
 }
 
 input[type=submit]:hover:not(.language-container input[type=submit]) {
-    background-color: #038459;
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
 }
 
 .white{

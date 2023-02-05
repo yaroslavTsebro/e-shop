@@ -1,6 +1,8 @@
 package com.technograd.technograd.web.command;
 
 import com.technograd.technograd.web.command.customer.intend.*;
+import com.technograd.technograd.web.command.customer.profile.ChangePasswordCommand;
+import com.technograd.technograd.web.command.customer.profile.SendConfirmationLink;
 import com.technograd.technograd.web.command.general.ViewMenuCommand;
 import com.technograd.technograd.web.command.general.ViewProductCommand;
 import com.technograd.technograd.web.command.general.user.*;
@@ -47,6 +49,10 @@ public class CommandContainer {
         commands.put("loginCommand", new LoginCommand());
         commands.put("logout", new LogoutCommand());
         commands.put("registerCommand", new RegisterCommand());
+        commands.put("getChangePasswordPage", new GetSendCodePage());
+        commands.put("sendConfirmationLink", new SendConfirmationLink());
+        commands.put("changePasswordCommand", new ChangePasswordCommand());
+
 
         commands.put("viewMenu", new ViewMenuCommand());
         commands.put("viewProductPage", new ViewProductCommand());

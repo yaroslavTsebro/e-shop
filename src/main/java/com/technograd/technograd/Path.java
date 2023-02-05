@@ -16,7 +16,7 @@ public final class Path {
     public static final String ADMIN_CURRENT_SENDING_PAGE = "/WEB-INF/jsp/manager/current_sending.jsp";
     public static final String CURRENT_INTEND_PAGE = "/WEB-INF/jsp/customer/current_intend.jsp";
     public static final String PROFILE_PAGE = "/WEB-INF/jsp/customer/profile.jsp";
-
-    public static final String CHANGE_PASSWORD_PAGE = "/WEB-INF/jsp/customer/profile.jsp";
+    public static final String SEND_LINK_PAGE = "/WEB-INF/jsp/general/send_link.jsp";
+    public static final String CHANGE_PASSWORD_PAGE = "/WEB-INF/jsp/general/change_password.jsp";
 
 }

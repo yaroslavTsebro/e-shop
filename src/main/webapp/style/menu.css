@@ -38,7 +38,7 @@
     text-align: start;
 }
 .element-price{
-    color: #04AA6D;
+    transition: background-color 1s ease-out 100ms;
     font-weight: bold;
     font-size: 20px;
 }
@@ -88,7 +88,8 @@
 }
 
 .dropbtn {
-    background-color: #04AA6D;
+    background-color:#ff7e5a;
+    transition: background-color 1s ease-out 100ms;
     color: white;
     padding: 16px;
     font-size: 16px;
@@ -122,13 +123,19 @@
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
 
 .dropdown-content a:hover {background-color: #ddd;}
 
 .dropdownCategory:hover .dropdown-content {display: grid;}
 
-.dropdownCategory:hover .dropbtn {background-color: #3e8e41;}
+.dropdownCategory:hover .dropbtn {
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
 
 .dropdownCompany {
     position: fixed;
@@ -141,7 +148,10 @@
 
 .dropdownCompany:hover .dropdown-content {display: grid;}
 
-.dropdownCompany:hover .dropbtn {background-color: #3e8e41;}
+.dropdownCompany:hover .dropbtn {
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
 
 .slider-item-link:hover{background-color: #e3e3e3;}
 
@@ -162,4 +172,7 @@ a{
 
 .dropdownSort:hover .dropdown-content {display: grid;}
 
-.dropdownSort:hover .dropbtn {background-color: #3e8e41;}
+.dropdownSort:hover .dropbtn {
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}

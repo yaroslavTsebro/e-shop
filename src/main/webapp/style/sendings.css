@@ -76,14 +76,18 @@
 }
 
 .dropbtn {
-    background-color: #04AA6D;
+    background-color:#ff7e5a;
+    transition: background-color 1s ease-out 100ms;
     color: white;
     padding: 16px;
     font-size: 16px;
     border: none;
 }
 
-.dropdownFilter:hover .dropbtn {background-color: #3e8e41;}
+.dropdownFilter:hover .dropbtn {
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
 
 .dropdown-content {
     display: none;

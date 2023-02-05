@@ -46,7 +46,8 @@ input[type=number], select {
 
 input[type=submit]:not(.language-container input[type=submit]) {
     width: 100%;
-    background-color: #04AA6D;
+    background-color:#ff7e5a;
+    transition: background-color 1s ease-out 100ms;
     color: white;
     padding: 14px 10px;
     margin: 8px 0;
@@ -56,5 +57,10 @@ input[type=submit]:not(.language-container input[type=submit]) {
 }
 
 input[type=submit]:hover:not(.language-container input[type=submit]) {
-    background-color: rgba(4, 170, 109, 0.86);
+    background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
+
+.text{
+    margin: 10px 0 0 0 ;
 }
