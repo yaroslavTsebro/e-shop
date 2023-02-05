@@ -21,6 +21,15 @@ import java.io.IOException;
 public class ChangePasswordCommand extends Command {
     private static final long serialVersionUID = -4299858300032417356L;
     private static final Logger logger = LogManager.getLogger(ChangeLanguage.class.getName());
+    private final UserDAO userDao;
+
+    public ChangePasswordCommand() {
+        this.userDao = new UserDAO();
+    }
+
+    public ChangePasswordCommand(UserDAO userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -57,7 +66,7 @@ public class ChangePasswordCommand extends Command {
 
         User currentUser;
         try {
-            currentUser = UserDAO.getUserByEmail(email);
+            currentUser = userDao.getUserByEmail(email);
         } catch (DBException exception) {
             String errorMessage = "user.dao.find.user.error";
             logger.error("errorMessage --> " + exception);
@@ -71,8 +80,8 @@ public class ChangePasswordCommand extends Command {
         }
 
         try{
-            String userCode = UserDAO.getCode(currentUser.getId());
-            String userSalt = UserDAO.getSalt(currentUser.getId());
+            String userCode = userDao.getCode(currentUser.getId());
+            String userSalt = userDao.getSalt(currentUser.getId());
             if (!PasswordSecurityUtil.verifyPassword(userCode, code, userSalt)) {
                 String errorMessage = "change.password.link.invalid";
                 logger.error("Invalid link");
@@ -95,7 +104,7 @@ public class ChangePasswordCommand extends Command {
         String newSecurePassword = PasswordSecurityUtil.generateSecurePassword(newPass, newSalt);
 
         try {
-            UserDAO.updateUserPassword(newSecurePassword, newSalt, currentUser.getId());
+            userDao.updateUserPassword(newSecurePassword, newSalt, currentUser.getId());
         } catch (DBException exception) {
             String errorMessage = "change.password.update.password.error";
             logger.error("errorMessage --> " + exception);
@@ -116,7 +125,7 @@ public class ChangePasswordCommand extends Command {
 
         User currentUser;
         try {
-            currentUser = UserDAO.getUserByEmail(email);
+            currentUser = userDao.getUserByEmail(email);
         } catch (DBException exception) {
             String errorMessage = "user.dao.find.user.error";
             logger.error("errorMessage --> " + exception);
@@ -133,8 +142,8 @@ public class ChangePasswordCommand extends Command {
         String userCode;
         String userSalt;
         try {
-            userCode = UserDAO.getCode(currentUser.getId());
-            userSalt = UserDAO.getSalt(currentUser.getId());
+            userCode = userDao.getCode(currentUser.getId());
+            userSalt = userDao.getSalt(currentUser.getId());
         } catch (DBException exception) {
             String errorMessage = "error.occurred";
             logger.error("An error has occurred while retrieving code data");

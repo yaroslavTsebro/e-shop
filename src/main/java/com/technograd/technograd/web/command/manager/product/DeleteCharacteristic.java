@@ -17,13 +17,22 @@ public class DeleteCharacteristic extends Command {
 
     private static final long serialVersionUID = 738723467696073002L;
     private static final Logger logger = LogManager.getLogger(AddProductServlet.class.getName());
+    private final ProductCharacteristicDAO productCharacteristicDAO;
+
+    public DeleteCharacteristic() {
+        this.productCharacteristicDAO = new ProductCharacteristicDAO();
+    }
+
+    public DeleteCharacteristic(ProductCharacteristicDAO productCharacteristicDAO) {
+        this.productCharacteristicDAO = productCharacteristicDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, AppException {
         int id = Integer.parseInt(req.getParameter("product_characteristic_id"));
         logger.trace("product_characteristic_id ->" + id);
         try{
-            ProductCharacteristicDAO.deleteById(id);
+            productCharacteristicDAO.deleteById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }

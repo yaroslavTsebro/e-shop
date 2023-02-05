@@ -24,6 +24,17 @@ public class ChangeProductCondition extends Command {
 
     private static final Logger logger = LogManager.getLogger(ChangeProductCondition.class.getName());
 
+    private final IntendDAO intendDAO;
+    private final UserDAO  userDAO;
+    public ChangeProductCondition() {
+        this.intendDAO = new IntendDAO();
+        this.userDAO = new UserDAO();
+    }
+
+    public ChangeProductCondition(IntendDAO intendDAO, UserDAO userDAO) {
+        this.intendDAO = intendDAO;
+        this.userDAO = userDAO;
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
 
@@ -53,15 +64,15 @@ public class ChangeProductCondition extends Command {
 
             if(newCondition.equals(Condition.ACCEPTED.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateConditionAccepted(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateConditionAccepted(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
             } else if(newCondition.equals(Condition.DENIED.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateCondition(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateCondition(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
@@ -75,15 +86,15 @@ public class ChangeProductCondition extends Command {
 
             if(newCondition.equals(Condition.IN_WAY.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateCondition(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateCondition(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
             } else if(newCondition.equals(Condition.TURNED_BACK.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateConditionTurnedBack(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateConditionTurnedBack(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
@@ -97,15 +108,15 @@ public class ChangeProductCondition extends Command {
 
             if(newCondition.equals(Condition.COMPLETED.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateCondition(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateCondition(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
             } else if(newCondition.equals(Condition.TURNED_BACK.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateConditionTurnedBack(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateConditionTurnedBack(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
@@ -116,8 +127,8 @@ public class ChangeProductCondition extends Command {
 
             if(newCondition.equals(Condition.TURNED_BACK.toString())){
                 try {
-                    String query = IntendDAO.buildUpdateConditionQuery(newCondition);
-                    IntendDAO.updateConditionTurnedBack(query, intendId);
+                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                    intendDAO.updateConditionTurnedBack(query, intendId);
                 } catch (DBException e) {
                     throw new RuntimeException(e);
                 }
@@ -152,7 +163,7 @@ public class ChangeProductCondition extends Command {
     public void checkUser(int id, User user) throws AppException {
         User checkUser;
         try{
-            checkUser = UserDAO.getUserById(id);
+            checkUser = userDAO.getUserById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
@@ -164,7 +175,7 @@ public class ChangeProductCondition extends Command {
     public void checkIntend(int intendId) throws AppException {
         Intend intend;
         try{
-            intend = IntendDAO.findIntendById(intendId);
+            intend = intendDAO.findIntendById(intendId);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }

@@ -46,7 +46,7 @@ public class CreateCompany extends Command {
         country.setId(countryId);
         Company company = new Company(nameUa, nameEn, country);
         try {
-            CompanyDAO.createCompany(company);
+            companyDAO.createCompany(company);
         } catch (DBException e) {
             logger.error("errorMessage --> " + e.getStackTrace());
             throw new AppException(e);

@@ -20,14 +20,14 @@ public class UpdateCompany extends Command {
 
     private static final long serialVersionUID = 1108101221128289750L;
     private static final Logger logger = LogManager.getLogger(UpdateCompany.class.getName());
-    private final CategoryDAO categoryDAO;
+    private final CompanyDAO companyDAO;
 
-    public UpdateCompany(CategoryDAO categoryDAO) {
-        this.categoryDAO = categoryDAO;
+    public UpdateCompany(CompanyDAO companyDAO) {
+        this.companyDAO = companyDAO;
     }
 
     public UpdateCompany() {
-        this.categoryDAO = new CategoryDAO();
+        this.companyDAO = new CompanyDAO();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UpdateCompany extends Command {
         country.setId(countryId);
         Company company = new Company(id ,nameUa, nameEn, country);
         try {
-            CompanyDAO.updateCompany(company);
+            companyDAO.updateCompany(company);
         } catch (DBException e) {
             logger.error("errorMessage --> " + e);
             throw new AppException(e);

@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command.customer.intend;
 
+import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
@@ -22,6 +23,18 @@ public class AddProductAsElementOfCart extends Command {
 
     private static final long serialVersionUID = 238851840190904254L;
     private static final Logger logger = LogManager.getLogger(AddProductAsElementOfCart.class.getName());
+    private final IntendDAO intendDAO;
+    private final ListIntendDAO listIntendDAO;
+
+    public AddProductAsElementOfCart() {
+        this.intendDAO = new IntendDAO();
+        this.listIntendDAO = new ListIntendDAO();
+    }
+
+    public AddProductAsElementOfCart(IntendDAO intendDAO, ListIntendDAO listIntendDAO) {
+        this.intendDAO = intendDAO;
+        this.listIntendDAO = listIntendDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -51,35 +64,34 @@ public class AddProductAsElementOfCart extends Command {
             throw new RuntimeException();
         }
 
-
         Intend cart;
         try{
-            cart = IntendDAO.findCartById(id);
+            cart = intendDAO.findCartById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
 
         if(cart == null){
             try{
-                IntendDAO.createIntendSending(id);
+                intendDAO.createIntendSending(id);
                 cart = IntendDAO.findCartById(id);
                 logger.trace("Intend with this id was inserted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
             try {
-                ListIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
+                listIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
                 logger.trace("listIntend with this id was inserted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
         } else{
             try {
-                ListIntend checkCartForProduct = ListIntendDAO.checkCartForProduct(productId, cart.getId(), id);
+                ListIntend checkCartForProduct = listIntendDAO.checkCartForProduct(productId, cart.getId(), id);
                     if(checkCartForProduct == null){
-                        ListIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
+                        listIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
                     } else {
-                        ListIntendDAO.updateCountInListIntendByIdInCart(checkCartForProduct.getId(), addToCartCount, id);
+                        listIntendDAO.updateCountInListIntendByIdInCart(checkCartForProduct.getId(), addToCartCount, id);
                     }
                 logger.trace("listIntend with this id was inserted:" + id);
             } catch (DBException e) {

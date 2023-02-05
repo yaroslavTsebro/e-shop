@@ -20,13 +20,23 @@ public class ViewCategory extends Command {
     private static final long serialVersionUID = 8389809346058200398L;
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
+    private final CategoryDAO categoryDAO;
+
+    public ViewCategory() {
+        categoryDAO = new CategoryDAO();
+    }
+    public ViewCategory(CategoryDAO dao) {
+        categoryDAO = dao;
+    }
+
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewCategory execute started");
 
         List<Category> categoryList = null;
         try {
-            categoryList = CategoryDAO.getAllCategories();
+            categoryList = categoryDAO.getAllCategories();
             logger.trace("categoryList ->" + categoryList);
         } catch (DBException exception) {
             try {

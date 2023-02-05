@@ -26,6 +26,15 @@ public class RegisterCommand extends Command {
     private static final long serialVersionUID = 2258852763044653334L;
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
+    private final UserDAO userDAO;
+
+    public RegisterCommand(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+    public RegisterCommand() {
+        this.userDAO = new UserDAO();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.debug("Register command started");
@@ -63,7 +72,7 @@ public class RegisterCommand extends Command {
 
         User user = null;
         try {
-            user = new UserDAO().getUserByEmail(email);
+            user = userDAO.getUserByEmail(email);
         } catch (Exception ignored) {
 
         }
@@ -85,7 +94,7 @@ public class RegisterCommand extends Command {
             newUser.setSalt(salt);
             forward = request.getContextPath() + "/controller?command=loginPage";
             try {
-                UserDAO.createUser(newUser);
+                userDAO.createUser(newUser);
             } catch (DBException exception) {
                 errorMessage = "user.dao.find.user.error";
                 logger.error("errorMessage --> " + exception);

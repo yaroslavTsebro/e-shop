@@ -28,6 +28,16 @@ public class SendConfirmationLink extends Command {
     private static final int CODE_LENGTH = 20;
     private static final int SALT_LENGTH = 50;
 
+    private final UserDAO userDao;
+
+    public SendConfirmationLink() {
+        this.userDao = new UserDAO();
+    }
+
+    public SendConfirmationLink(UserDAO userDao) {
+        this.userDao = userDao;
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.debug("Send confirmation link command is started");
@@ -39,7 +49,7 @@ public class SendConfirmationLink extends Command {
 
         User currentUser;
         try {
-            currentUser = new UserDAO().getUserByEmail(email);
+            currentUser = userDao.getUserByEmail(email);
             if(currentUser.getPost().equals(Post.MANAGER)){
                 throw new AppException();
             }
@@ -80,7 +90,7 @@ public class SendConfirmationLink extends Command {
         String randomCode = PasswordSecurityUtil.getSalt(CODE_LENGTH);
         String saltRandomCode = PasswordSecurityUtil.getSalt(SALT_LENGTH);
         try {
-            new UserDAO().addConfirmationCode(userId, saltRandomCode, randomCode);
+            userDao.addConfirmationCode(userId, saltRandomCode, randomCode);
         } catch (DBException exception) {
             String errorMessage = "send.confirmation.message.get.code.error";
             logger.error("An error has occurred, maybe message is already sent, check your email");

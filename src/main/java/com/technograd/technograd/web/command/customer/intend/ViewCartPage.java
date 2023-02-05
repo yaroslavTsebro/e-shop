@@ -23,6 +23,18 @@ public class ViewCartPage extends Command {
 
     private static final long serialVersionUID = 2860258631707756273L;
     private static final Logger logger = LogManager.getLogger(ViewCartPage.class.getName());
+    private final IntendDAO intendDAO;
+    private final ListIntendDAO listIntendDAO;
+
+    public ViewCartPage() {
+        this.intendDAO = new IntendDAO();
+        this.listIntendDAO = new ListIntendDAO();
+    }
+
+    public ViewCartPage(IntendDAO intendDAO, ListIntendDAO listIntendDAO) {
+        this.intendDAO = intendDAO;
+        this.listIntendDAO = listIntendDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -34,7 +46,7 @@ public class ViewCartPage extends Command {
 
         Intend intend;
         try{
-            intend = IntendDAO.findCartById(id);
+            intend = intendDAO.findCartById(id);
             logger.trace("cart ->" + intend);
             if(intend == null){
                 return Path.CART_PAGE;
@@ -42,7 +54,7 @@ public class ViewCartPage extends Command {
             for (ListIntend li: intend.getListIntends()) {
                 if(0 != (li.getProductPrice()).compareTo(li.getProduct().getPrice())){
                     try {
-                        ListIntendDAO.updatePriceInListIntendById(li.getProduct().getPrice(), li.getId());
+                        listIntendDAO.updatePriceInListIntendById(li.getProduct().getPrice(), li.getId());
                         li.setProductPrice(li.getProduct().getPrice());
                     } catch (DBException e) {
                         throw new RuntimeException(e);

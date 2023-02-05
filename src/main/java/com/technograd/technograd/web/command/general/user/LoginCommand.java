@@ -1,6 +1,7 @@
 package com.technograd.technograd.web.command.general.user;
 
 import com.technograd.technograd.Path;
+import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
@@ -24,6 +25,15 @@ public class LoginCommand extends Command {
 
     private static final long serialVersionUID = 6274453467176873674L;
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
+
+    private final UserDAO userDAO;
+
+    public LoginCommand(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+    public LoginCommand() {
+        this.userDAO = new UserDAO();
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -61,7 +71,7 @@ public class LoginCommand extends Command {
 
         User user;
         try {
-            user = new UserDAO().getUserByEmail(email);
+            user = userDAO.getUserByEmail(email);
         } catch (DBException exception) {
             errorMessage = "user.dao.find.user.error";
             logger.error("errorMessage --> " + exception);

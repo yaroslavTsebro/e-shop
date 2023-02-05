@@ -40,7 +40,7 @@ public class UpdateCategory extends Command {
 
         Category category = new Category(id ,nameUa, nameEn);
         try {
-            CategoryDAO.updateCategory(category);
+            categoryDAO.updateCategory(category);
         } catch (DBException e) {
             logger.error("errorMessage --> " + e);
             throw new AppException(e);

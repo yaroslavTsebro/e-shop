@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.intend.sending;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.IntendReturnDAO;
+import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Condition;
 import com.technograd.technograd.dao.entity.Intend;
@@ -19,6 +20,21 @@ import java.io.IOException;
 
 public class ViewCurrentSending extends Command {
     private static final long serialVersionUID = 8591695459490297254L;
+    private final IntendDAO intendDAO;
+    private final UserDAO userDAO;
+    private final IntendReturnDAO intendReturnDAO;
+
+    public ViewCurrentSending() {
+        this.intendDAO = new IntendDAO();
+        this.userDAO = new UserDAO();
+        this.intendReturnDAO = new IntendReturnDAO();
+    }
+
+    public ViewCurrentSending(IntendDAO intendDAO, UserDAO userDAO, IntendReturnDAO intendReturnDAO) {
+        this.intendDAO = intendDAO;
+        this.userDAO = userDAO;
+        this.intendReturnDAO = intendReturnDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -26,19 +42,19 @@ public class ViewCurrentSending extends Command {
         Intend intend;
         User user;
         try{
-            intend = IntendDAO.findIntendById(id);
+            intend = intendDAO.findIntendById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
         try{
-            user = UserDAO.getReducedUserById(intend.getUserId());
+            user = userDAO.getReducedUserById(intend.getUserId());
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
         IntendReturn intendReturn = null;
         if(intend.getCondition().equals(Condition.TURNED_BACK)){
             try {
-                intendReturn = IntendReturnDAO.findIntendReturnByIntendId(intend.getId());
+                intendReturn = intendReturnDAO.findIntendReturnByIntendId(intend.getId());
             } catch (DBException e) {
                 throw new RuntimeException(e);
             } finally {

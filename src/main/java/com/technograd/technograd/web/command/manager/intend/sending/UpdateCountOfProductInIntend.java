@@ -22,6 +22,18 @@ public class UpdateCountOfProductInIntend extends Command {
 
     private static final Logger logger = LogManager.getLogger(UpdateCountOfProductInIntend.class.getName());
 
+    private final ListIntendDAO listIntendDAO;
+    private final ProductDAO productDAO;
+
+    public UpdateCountOfProductInIntend() {
+        this.listIntendDAO = new ListIntendDAO();
+        this.productDAO = new ProductDAO();
+    }
+
+    public UpdateCountOfProductInIntend(ListIntendDAO listIntendDAO, ProductDAO productDAO) {
+        this.listIntendDAO = listIntendDAO;
+        this.productDAO = productDAO;
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ChangeCountOfProductInIntendAsAdmin execute started");
@@ -61,14 +73,14 @@ public class UpdateCountOfProductInIntend extends Command {
 
         if(newCount <= 0){
             try {
-                ListIntendDAO.deleteListIntendById(id, userId);
+                listIntendDAO.deleteListIntendById(id, userId);
                 logger.trace("listIntend with this id was deleted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
         } else{
             try {
-                ListIntendDAO.updateCountInListIntendById(id, newCount);
+                listIntendDAO.updateCountInListIntendById(id, newCount);
                 logger.trace("listIntend with this id was updated:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);

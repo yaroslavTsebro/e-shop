@@ -53,7 +53,7 @@ public class SearchProductsCommand extends Command {
         String sort = request.getParameter("sort");
 
         try {
-            numberOfRows = ProductDAO.getAllProducts().size();
+            numberOfRows = productDAO.getAllProducts().size();
         } catch (DBException exception) {
             exception.printStackTrace();
             throw new AppException();

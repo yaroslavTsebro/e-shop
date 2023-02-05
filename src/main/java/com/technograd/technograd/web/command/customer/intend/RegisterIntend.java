@@ -20,6 +20,16 @@ public class RegisterIntend extends Command {
     private static final long serialVersionUID = 4941631989800207120L;
     private static final Logger logger = LogManager.getLogger(RegisterIntend.class.getName());
 
+    private final IntendDAO intendDAO;
+
+    public RegisterIntend(IntendDAO intendDAO) {
+        this.intendDAO = intendDAO;
+    }
+    public RegisterIntend() {
+        this.intendDAO = new IntendDAO();
+    }
+
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("RegisterIntend execute started");
@@ -37,7 +47,7 @@ public class RegisterIntend extends Command {
 
         Intend intend = null;
         try{
-            intend = IntendDAO.findCartById(id);
+            intend = intendDAO.findCartById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
@@ -48,7 +58,7 @@ public class RegisterIntend extends Command {
 
        if(intend != null){
            try {
-               IntendDAO.changeCartIntoIntend(address, cartId);
+               intendDAO.changeCartIntoIntend(address, cartId);
            } catch (DBException e) {
                throw new RuntimeException(e);
            }

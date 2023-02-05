@@ -33,7 +33,7 @@ public class DeleteCompany extends Command {
         int id = Integer.parseInt(request.getParameter("delete_by_id"));
         logger.trace("delete_by_id ->" + id);
         try{
-            CompanyDAO.deleteCompany(id);
+            companyDAO.deleteCompany(id);
         } catch (DBException e) {
             logger.error("errorMessage --> " + e);
             throw new AppException(e);

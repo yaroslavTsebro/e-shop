@@ -31,7 +31,20 @@ public class ViewMenuCommand extends Command {
 
     private static final long serialVersionUID = -1227114065336794942L;
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
+    private final ProductDAO productDAO;
+    private final CategoryDAO categoryDAO;
+    private final CompanyDAO companyDAO;
 
+    public ViewMenuCommand(ProductDAO productDAO, CategoryDAO categoryDAO, CompanyDAO companyDAO) {
+        this.productDAO = productDAO;
+        this.categoryDAO = categoryDAO;
+        this.companyDAO = companyDAO;
+    }
+    public ViewMenuCommand() {
+        this.productDAO = new ProductDAO();
+        this.categoryDAO = new CategoryDAO();
+        this.companyDAO = new CompanyDAO();
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -55,8 +68,8 @@ public class ViewMenuCommand extends Command {
         }
 
         try{
-            String query = ProductDAO.menuQueryBuilder(companyId, categoryId, sort);
-            productList =  ProductDAO.getAllReducedProducts(query);
+            String query = productDAO.menuQueryBuilder(companyId, categoryId, sort);
+            productList =  productDAO.getAllReducedProducts(query);
         } catch (DBException exception) {
             String errorMessage = "product.dao.find.all";
             logger.error("errorMessage --> " + exception);
@@ -65,11 +78,8 @@ public class ViewMenuCommand extends Command {
         request.setAttribute("productList", productList);
 
 
-
-
-
         try{
-            categoryList = Stream.concat(categoryList.stream(), CategoryDAO.getAllCategories().stream()).collect(Collectors.toList());
+            categoryList = Stream.concat(categoryList.stream(), categoryDAO.getAllCategories().stream()).collect(Collectors.toList());
         } catch (DBException exception) {
             String errorMessage = "category.dao.find.all";
             logger.error("errorMessage --> " + exception);
@@ -79,7 +89,7 @@ public class ViewMenuCommand extends Command {
         request.setAttribute("categoryList", categoryList);
 
         try{
-            companyList = Stream.concat(companyList.stream(), CompanyDAO.getAllCompanies().stream()).collect(Collectors.toList());
+            companyList = Stream.concat(companyList.stream(), companyDAO.getAllCompanies().stream()).collect(Collectors.toList());
         } catch (DBException exception) {
             String errorMessage = "characteristic.dao.find.all";
             logger.error("errorMessage --> " + exception);

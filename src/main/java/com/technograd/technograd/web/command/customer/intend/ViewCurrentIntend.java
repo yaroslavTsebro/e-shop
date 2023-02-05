@@ -19,6 +19,18 @@ import java.io.IOException;
 
 public class ViewCurrentIntend extends Command {
     private static final long serialVersionUID = -4235651235160596309L;
+    private final IntendReturnDAO intendReturnDAO;
+    private final IntendDAO intendDAO;
+
+    public ViewCurrentIntend() {
+        this.intendReturnDAO = new IntendReturnDAO();
+        this.intendDAO = new IntendDAO();
+    }
+
+    public ViewCurrentIntend(IntendReturnDAO intendReturnDAO, IntendDAO intendDAO) {
+        this.intendReturnDAO = intendReturnDAO;
+        this.intendDAO = intendDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -32,7 +44,7 @@ public class ViewCurrentIntend extends Command {
         IntendReturn intendReturn = null;
         if(intend.getCondition().equals(Condition.TURNED_BACK)){
             try {
-                intendReturn = IntendReturnDAO.findIntendReturnByIntendId(intend.getId());
+                intendReturn = intendReturnDAO.findIntendReturnByIntendId(intend.getId());
             } catch (DBException e) {
                 throw new RuntimeException(e);
             } finally {

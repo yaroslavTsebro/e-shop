@@ -20,7 +20,15 @@ public class CreateCharacteristic extends Command {
 
     private static final long serialVersionUID = -5068493456362968676L;
     private static final Logger logger = LogManager.getLogger(CreateCharacteristic.class.getName());
+    private final CharacteristicDAO characteristicDAO;
 
+    public CreateCharacteristic(CharacteristicDAO characteristicDAO) {
+        this.characteristicDAO = characteristicDAO;
+    }
+
+    public CreateCharacteristic() {
+        this.characteristicDAO = new CharacteristicDAO();
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -32,7 +40,7 @@ public class CreateCharacteristic extends Command {
 
         Characteristic characteristic = new Characteristic(nameUa, nameEn);
         try {
-            CharacteristicDAO.createCharacteristic(characteristic);
+            characteristicDAO.createCharacteristic(characteristic);
         } catch (DBException e) {
             logger.error("errorMessage --> " + e);
             throw new AppException(e);

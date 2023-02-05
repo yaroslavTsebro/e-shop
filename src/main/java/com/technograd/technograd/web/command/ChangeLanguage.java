@@ -18,6 +18,15 @@ public class ChangeLanguage extends Command {
 
     private static final long serialVersionUID = 5604700245317955539L;
     private static final Logger logger = LogManager.getLogger(ChangeLanguage.class.getName());
+    private final UserDAO userDAO;
+
+    public ChangeLanguage() {
+        this.userDAO = new UserDAO();
+    }
+
+    public ChangeLanguage(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -39,9 +48,9 @@ public class ChangeLanguage extends Command {
         if(user != null){
             try{
                 if(language.equals("ua")){
-                    UserDAO.updateUserLanguageToUa(user.getId());
+                    userDAO.updateUserLanguageToUa(user.getId());
                 } else if (language.equals("en")) {
-                    UserDAO.updateUserLanguageToEn(user.getId());
+                    userDAO.updateUserLanguageToEn(user.getId());
                 }
             } catch (DBException e) {
                 throw new RuntimeException(e);

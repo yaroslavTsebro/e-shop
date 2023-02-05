@@ -22,6 +22,15 @@ public class TurnIntendBack extends Command {
     private static final long serialVersionUID = 2547799794825488154L;
 
     private static final Logger logger = LogManager.getLogger(TurnIntendBack.class.getName());
+
+    private final IntendDAO intendDAO;
+
+    public TurnIntendBack(IntendDAO intendDAO) {
+        this.intendDAO = intendDAO;
+    }
+    public TurnIntendBack() {
+        this.intendDAO = new IntendDAO();
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
 
@@ -37,7 +46,7 @@ public class TurnIntendBack extends Command {
 
         Intend intend;
         try {
-            intend = IntendDAO.findIntendById(intendId);
+            intend = intendDAO.findIntendById(intendId);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
@@ -45,16 +54,16 @@ public class TurnIntendBack extends Command {
         if(intend.getUserId() != id || intend.getCondition().equals(Condition.TURNED_BACK) || intend.getCondition().equals(Condition.CART)){
             throw new RuntimeException();
         }
-        String query = IntendDAO.buildUpdateConditionQuery(Condition.TURNED_BACK.toString());
+        String query = intendDAO.buildUpdateConditionQuery(Condition.TURNED_BACK.toString());
         if(intend.getCondition().equals(Condition.NEW)){
             try {
-                IntendDAO.updateConditionTurnedBackFromUser(query, intendId, reason);
+                intendDAO.updateConditionTurnedBackFromUser(query, intendId, reason);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
         } else {
             try {
-                IntendDAO.updateConditionTurnedBackFromUserWithReason(query, intendId, reason);
+                intendDAO.updateConditionTurnedBackFromUserWithReason(query, intendId, reason);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }

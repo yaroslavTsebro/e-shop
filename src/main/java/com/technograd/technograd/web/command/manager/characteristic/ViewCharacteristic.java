@@ -22,13 +22,22 @@ public class ViewCharacteristic extends Command {
     private static final long serialVersionUID = 8389809346058200398L;
     private static final Logger logger = LogManager.getLogger(ViewCharacteristic.class.getName());
 
+    private final CharacteristicDAO characteristicDAO;
+
+    public ViewCharacteristic(CharacteristicDAO characteristicDAO) {
+        this.characteristicDAO = characteristicDAO;
+    }
+
+    public ViewCharacteristic() {
+        this.characteristicDAO = new CharacteristicDAO();
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewCharacteristic execute started");
 
         List<Characteristic> characteristicList = null;
         try {
-            characteristicList = CharacteristicDAO.getAllCharacteristics();
+            characteristicList = characteristicDAO.getAllCharacteristics();
             logger.trace("characteristicList ->" + characteristicList);
         } catch (DBException exception) {
             try {

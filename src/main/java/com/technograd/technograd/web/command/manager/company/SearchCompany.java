@@ -22,6 +22,15 @@ public class SearchCompany extends Command {
     private static final long serialVersionUID = 4918863306195670390L;
     private static final Logger logger = LogManager.getLogger(SearchCompany.class.getName());
 
+    private final CompanyDAO companyDAO;
+
+    public SearchCompany() {
+        companyDAO = new CompanyDAO();
+    }
+    public SearchCompany(CompanyDAO dao) {
+        companyDAO = dao;
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("SearchCompany execute started");
@@ -33,7 +42,7 @@ public class SearchCompany extends Command {
         logger.debug("Pattern is => " + pattern);
         List<Company> companyList = null;
         try {
-            companyList = CompanyDAO.searchCompanies(pattern);
+            companyList = companyDAO.searchCompanies(pattern);
             logger.trace("companyList ->" + companyList);
         } catch (DBException exception) {
             try {

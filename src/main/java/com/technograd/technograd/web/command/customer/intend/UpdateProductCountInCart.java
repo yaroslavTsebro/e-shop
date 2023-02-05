@@ -19,6 +19,18 @@ public class UpdateProductCountInCart extends Command {
 
     private static final long serialVersionUID = 1966444134659268694L;
     private static final Logger logger = LogManager.getLogger(UpdateProductCountInCart.class.getName());
+    private final ProductDAO productDAO;
+    private final ListIntendDAO listIntendDAO;
+
+    public UpdateProductCountInCart() {
+        this.productDAO = new ProductDAO();
+        this.listIntendDAO = new ListIntendDAO();
+    }
+
+    public UpdateProductCountInCart(ProductDAO productDAO, ListIntendDAO listIntendDAO) {
+        this.productDAO = productDAO;
+        this.listIntendDAO = listIntendDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -46,7 +58,7 @@ public class UpdateProductCountInCart extends Command {
 
         int productCount;
         try {
-            productCount = ProductDAO.getProductById(productId).getCount();
+            productCount = productDAO.getProductById(productId).getCount();
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
@@ -57,14 +69,14 @@ public class UpdateProductCountInCart extends Command {
 
         if(newCount <= 0){
             try {
-                ListIntendDAO.deleteListIntendByIdInCart(id, userId);
+                listIntendDAO.deleteListIntendByIdInCart(id, userId);
                 logger.trace("listIntend with this id was deleted:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);
             }
         } else{
             try {
-                ListIntendDAO.updateCountInListIntendByIdInCart(id, newCount, userId);
+                listIntendDAO.updateCountInListIntendByIdInCart(id, newCount, userId);
                 logger.trace("listIntend with this id was updated:" + id);
             } catch (DBException e) {
                 throw new RuntimeException(e);

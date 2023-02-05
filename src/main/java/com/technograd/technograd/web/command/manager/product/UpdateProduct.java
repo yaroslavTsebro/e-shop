@@ -23,6 +23,15 @@ public class UpdateProduct extends Command {
 
     private static final long serialVersionUID = 4565089866717159322L;
     private static final Logger logger = LogManager.getLogger(UpdateProduct.class.getName());
+    private final ProductDAO productDAO;
+
+    public UpdateProduct(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
+
+    public UpdateProduct() {
+        this.productDAO = new ProductDAO();
+    }
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, AppException {
@@ -30,7 +39,7 @@ public class UpdateProduct extends Command {
             logger.info("AddProductServlet execute started");
             Product product = readProductDataFromRequest(req);
 
-            ProductDAO.updateProduct(product);
+            productDAO.updateProduct(product);
             resp.getWriter().print("The files uploaded successfully.");
         } catch (Exception e){
             System.out.println(Arrays.toString(e.getStackTrace()));

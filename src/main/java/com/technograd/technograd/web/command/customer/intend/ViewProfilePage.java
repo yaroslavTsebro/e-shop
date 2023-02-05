@@ -21,6 +21,15 @@ public class ViewProfilePage extends Command {
     private static final long serialVersionUID = -3088854743984898954L;
 
     private static final Logger logger = LogManager.getLogger(ViewProfilePage.class.getName());
+    private final IntendDAO intendDAO;
+
+    public ViewProfilePage() {
+        this.intendDAO = new IntendDAO();
+    }
+
+    public ViewProfilePage(IntendDAO intendDAO) {
+        this.intendDAO = intendDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -31,7 +40,7 @@ public class ViewProfilePage extends Command {
 
         List<Intend> intendList = null;
         try{
-            intendList = IntendDAO.findIntendByUserId(id);
+            intendList = intendDAO.findIntendByUserId(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         } finally {

@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command.manager.intend.sending;
 
+import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
@@ -17,6 +18,15 @@ public class DeleteProductFromIntend extends Command {
     private static final Logger logger = LogManager.getLogger(DeleteProductFromIntend.class.getName());
     private static final long serialVersionUID = -58183775732463454L;
 
+    private final ListIntendDAO listIntendDAO;
+
+    public DeleteProductFromIntend() {
+        this.listIntendDAO = new ListIntendDAO();
+    }
+
+    public DeleteProductFromIntend(ListIntendDAO listIntendDAO) {
+        this.listIntendDAO = listIntendDAO;
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("DeleteProductFromIntend execute started");
@@ -28,7 +38,7 @@ public class DeleteProductFromIntend extends Command {
         logger.trace("delete_li_by_id ->" + id);
 
         try {
-            ListIntendDAO.deleteListIntendById(id, userId);
+            listIntendDAO.deleteListIntendById(id, userId);
             logger.trace("listIntend with this id was deleted:" + id);
         } catch (DBException e) {
             throw new RuntimeException(e);

@@ -34,6 +34,16 @@ public class AddProductServlet extends HttpServlet {
     private static final long serialVersionUID = -2734001995019003200L;
     private static final Logger logger = LogManager.getLogger(AddProductServlet.class.getName());
 
+    private final ProductDAO productDAO;
+
+    public AddProductServlet(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
+
+    public AddProductServlet() {
+        this.productDAO = new ProductDAO();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("AddProductServlet execute started");
@@ -105,7 +115,7 @@ public class AddProductServlet extends HttpServlet {
             }
             product.setPhotos(photos);
 
-            ProductDAO.createProductAndPhotosAndCharacteristics(product, characteristics);
+            productDAO.createProductAndPhotosAndCharacteristics(product, characteristics);
             writePhotos(fileParts, nameId);
             resp.getWriter().print("The files uploaded successfully.");
         } catch (Exception e){

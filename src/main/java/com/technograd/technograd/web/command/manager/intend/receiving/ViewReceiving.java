@@ -22,6 +22,15 @@ public class ViewReceiving extends Command {
 
     private static final long serialVersionUID = 8160910644975538045L;
     private static final Logger logger = LogManager.getLogger(ViewReceiving.class.getName());
+    private final IntendDAO intendDAO;
+
+    public ViewReceiving() {
+        this.intendDAO = new IntendDAO();
+    }
+
+    public ViewReceiving(IntendDAO intendDAO) {
+        this.intendDAO = intendDAO;
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
@@ -29,14 +38,10 @@ public class ViewReceiving extends Command {
 
         List<Intend> receivingList = null;
         try {
-            receivingList = IntendDAO.findAllReceivings();
+            receivingList = intendDAO.findAllReceivings();
             logger.trace("receivingList ->" + receivingList);
         } catch (DBException exception) {
-            try {
-                throw new AppException(exception.getMessage());
-            } catch (AppException e) {
-                throw new RuntimeException(e);
-            }
+            throw new AppException(exception.getMessage());
         } finally {
             request.setAttribute("receivingList", receivingList);
         }

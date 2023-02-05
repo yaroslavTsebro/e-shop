@@ -22,6 +22,15 @@ public class SearchCharacteristic extends Command {
     private static final long serialVersionUID = 4918863306195670390L;
     private static final Logger logger = LogManager.getLogger(SearchCharacteristic.class.getName());
 
+    private final CharacteristicDAO characteristicDAO;
+
+    public SearchCharacteristic(CharacteristicDAO characteristicDAO) {
+        this.characteristicDAO = characteristicDAO;
+    }
+
+    public SearchCharacteristic() {
+        this.characteristicDAO = new CharacteristicDAO();
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("SearchCharacteristic execute started");
@@ -33,7 +42,7 @@ public class SearchCharacteristic extends Command {
         logger.debug("Pattern is => " + pattern);
         List<Characteristic> characteristicList = null;
         try {
-            characteristicList = CharacteristicDAO.searchCharacteristic(pattern);
+            characteristicList = characteristicDAO.searchCharacteristic(pattern);
             logger.trace("characteristicList ->" + characteristicList);
         } catch (DBException exception) {
             try {

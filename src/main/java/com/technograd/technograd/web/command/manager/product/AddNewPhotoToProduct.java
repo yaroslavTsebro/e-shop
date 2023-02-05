@@ -29,6 +29,20 @@ import java.util.stream.Collectors;
 public class AddNewPhotoToProduct extends HttpServlet {
     private static final long serialVersionUID = -4935177126744902197L;
     private static final Logger logger = LogManager.getLogger(AddNewPhotoToProduct.class.getName());
+
+    private final ProductDAO productDAO;
+    private final PhotoDAO photoDAO;
+
+    public AddNewPhotoToProduct(ProductDAO productDAO, PhotoDAO photoDAO) {
+        this.productDAO = productDAO;
+        this.photoDAO = photoDAO;
+    }
+
+    public AddNewPhotoToProduct() {
+        this.productDAO = new ProductDAO();
+        this.photoDAO = new PhotoDAO();
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("product_id"));
@@ -38,7 +52,7 @@ public class AddNewPhotoToProduct extends HttpServlet {
         List<Photo> photos = new ArrayList<>();
 
         try{
-            Product product = ProductDAO.getProductById(id);
+            Product product = productDAO.getProductById(id);
         } catch (DBException e){
             try {
                 throw new AppException(e);
@@ -49,7 +63,7 @@ public class AddNewPhotoToProduct extends HttpServlet {
 
         int nameId = 0;
         try {
-            nameId = PhotoDAO.getNextId();
+            nameId = photoDAO.getNextId();
         } catch (DBException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +78,7 @@ public class AddNewPhotoToProduct extends HttpServlet {
         }
 
         try{
-            PhotoDAO.insertListOfPhotos(photos);
+            photoDAO.insertListOfPhotos(photos);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }

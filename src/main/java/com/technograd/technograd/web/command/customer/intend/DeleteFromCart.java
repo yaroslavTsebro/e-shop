@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command.customer.intend;
 
+import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.command.Command;
@@ -19,7 +20,17 @@ public class DeleteFromCart extends Command {
     private static final long serialVersionUID = 5424654322972585328L;
     private static final Logger logger = LogManager.getLogger(DeleteFromCart.class.getName());
 
-    @Override
+    private final ListIntendDAO listIntendDAO;
+
+    public DeleteFromCart() {
+        this.listIntendDAO = new ListIntendDAO();
+    }
+
+    public DeleteFromCart(ListIntendDAO intendDAO) {
+        this.listIntendDAO = new ListIntendDAO();
+
+    }
+        @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("DeleteFromCart execute started");
 
@@ -32,7 +43,7 @@ public class DeleteFromCart extends Command {
         logger.trace("delete_li_by_id ->" + id);
 
         try {
-            ListIntendDAO.deleteListIntendByIdInCart(id, userId);
+            listIntendDAO.deleteListIntendByIdInCart(id, userId);
             logger.trace("listIntend with this id was deleted:" + id);
         } catch (DBException e) {
             throw new RuntimeException(e);

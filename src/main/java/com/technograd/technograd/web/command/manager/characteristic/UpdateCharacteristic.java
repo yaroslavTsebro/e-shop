@@ -20,6 +20,15 @@ public class UpdateCharacteristic extends Command {
     private static final long serialVersionUID = 1108101221128289750L;
     private static final Logger logger = LogManager.getLogger(UpdateCharacteristic.class.getName());
 
+    private final CharacteristicDAO characteristicDAO;
+
+    public UpdateCharacteristic(CharacteristicDAO characteristicDAO) {
+        this.characteristicDAO = characteristicDAO;
+    }
+
+    public UpdateCharacteristic() {
+        this.characteristicDAO = new CharacteristicDAO();
+    }
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("UpdateCharacteristic execute started");
@@ -33,7 +42,7 @@ public class UpdateCharacteristic extends Command {
 
         Characteristic characteristic = new Characteristic(id ,nameUa, nameEn);
         try {
-            CharacteristicDAO.updateCharacteristic(characteristic);
+            characteristicDAO.updateCharacteristic(characteristic);
         } catch (DBException e) {
             logger.error("errorMessage --> " + e);
             throw new AppException(e);

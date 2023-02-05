@@ -20,6 +20,15 @@ public class SearchCategory extends Command {
     private static final long serialVersionUID = 4918863306195670390L;
     private static final Logger logger = LogManager.getLogger(SearchCategory.class.getName());
 
+    private final CategoryDAO categoryDAO;
+
+    public SearchCategory() {
+        categoryDAO = new CategoryDAO();
+    }
+    public SearchCategory(CategoryDAO dao) {
+        categoryDAO = dao;
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("SearchCategory execute started");
@@ -31,7 +40,7 @@ public class SearchCategory extends Command {
         logger.debug("Pattern is => " + pattern);
         List<Category> categoryList = null;
         try {
-            categoryList = CategoryDAO.searchCategories(pattern);
+            categoryList = categoryDAO.searchCategories(pattern);
             logger.trace("categoryList ->" + categoryList);
         } catch (DBException exception) {
             try {
