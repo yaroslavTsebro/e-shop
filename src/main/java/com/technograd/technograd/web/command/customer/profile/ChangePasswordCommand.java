@@ -48,12 +48,11 @@ public class ChangePasswordCommand extends Command {
         logger.debug("Change password command is started at the post method");
 
         HttpSession session = request.getSession();
-
-        String oldPass = request.getParameter("oldPassword");
-        String newPass = request.getParameter("newPassword");
-        String repNewPass = request.getParameter("repPassword");
-
         String email = request.getParameter("email");
+        String code = request.getParameter("code");
+        String newPass = request.getParameter("new_password");
+        String repNewPass = request.getParameter("rep_password");
+
         logger.trace("email ->" + email);
 
         User currentUser;
@@ -65,11 +64,26 @@ public class ChangePasswordCommand extends Command {
             throw new AppException(errorMessage);
         }
 
-        if (currentUser == null || !PasswordSecurityUtil.verifyPassword(oldPass, currentUser.getPassword(), currentUser.getSalt())) {
+        if (currentUser == null ) {
             String errorMessage = "change.password.command.old.password.mismatch";
             logger.error("errorMessage => user entered invalid old password ");
             throw new AppException(errorMessage);
         }
+
+        try{
+            String userCode = UserDAO.getCode(currentUser.getId());
+            String userSalt = UserDAO.getSalt(currentUser.getId());
+            if (!PasswordSecurityUtil.verifyPassword(userCode, code, userSalt)) {
+                String errorMessage = "change.password.link.invalid";
+                logger.error("Invalid link");
+                throw new AppException(errorMessage);
+            }
+        } catch (DBException exception) {
+            String errorMessage = "user.dao.find.user.error";
+            logger.error("errorMessage --> " + exception);
+            throw new AppException(errorMessage);
+        }
+
 
         if (newPass == null || !newPass.equals(repNewPass)) {
             String errorMessage = "change.password.command.new.password.rep.isn`t.equal";
@@ -88,17 +102,7 @@ public class ChangePasswordCommand extends Command {
             throw new AppException(errorMessage);
         }
 
-        try {
-            currentUser = UserDAO.getUserById(currentUser.getId());
-        } catch (DBException exception) {
-            String errorMessage = "user.dao.find.user.error";
-            logger.error("errorMessage --> " + exception);
-            throw new AppException(errorMessage);
-        }
-        session.setAttribute("user", currentUser);
-
-
-        logger.debug(oldPass + newPass + repNewPass);
+        logger.debug(newPass + repNewPass);
 
         session.setAttribute("userMessage", "change.password.successfully.message");
         return Commands.VIEW_LOGIN_PAGE;
@@ -107,7 +111,6 @@ public class ChangePasswordCommand extends Command {
     private String doGet(HttpServletRequest request) throws AppException {
         logger.debug("Change password command is started at the get method");
 
-        HttpSession session = request.getSession();
         String email = request.getParameter("email");
         logger.trace("email ->" + email);
 
@@ -144,7 +147,7 @@ public class ChangePasswordCommand extends Command {
             throw new AppException(errorMessage);
         }
 
-        if (!PasswordSecurityUtil.verifyPassword(userCode, parameter, userSalt)) {
+        if (!PasswordSecurityUtil.verifyPassword(userCode,parameter , userSalt)) {
             String errorMessage = "change.password.link.invalid";
             logger.error("Invalid link");
             throw new AppException(errorMessage);

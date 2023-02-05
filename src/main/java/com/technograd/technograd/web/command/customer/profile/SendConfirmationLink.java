@@ -50,11 +50,20 @@ public class SendConfirmationLink extends Command {
         }
 
         String code = generateCode(currentUser.getId());
+        String code1 = null;
+        try {
+            code1 = PasswordSecurityUtil.generateSecurePassword(UserDAO.getCode(currentUser.getId()), UserDAO.getSalt(currentUser.getId()));
+        } catch (DBException e) {
+            throw new RuntimeException(e);
+        }
+        if(code.equals(code1)){
+            System.out.println("fdfdbgfnhcg");
+        }
         sendConfirmationCode(currentUser, code, rb);
 
         session.setAttribute("userMessage", "send.confirmation.link.command");
         logger.debug("Send confirmation link command is finished");
-        return Commands.VIEW_LOGIN_PAGE;
+        return request.getContextPath() + "/controller?command=loginPage";
     }
 
     private void sendConfirmationCode(User user, String link, ResourceBundle rb) throws AppException {

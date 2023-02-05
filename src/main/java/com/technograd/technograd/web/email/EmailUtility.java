@@ -46,29 +46,33 @@ public class EmailUtility {
         message.setFrom(new InternetAddress(properties.getProperty("mail.login")));
 
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientMail));
-
         message.setSubject(rb.getString("verify.password.change.email.title"), "UTF-8");
+        String form = null;
+        try{
+            form = "<table align=\"center\" border=\"0\" cellpadding=\"1\" cellspacing=\"1\" style=\"border-collapse:collapse;width:621px;color:#ffffff;background:#fdfdfd\">\n" +
+                    "\t<tbody>\n" +
+                    "\t<tr>\n" +
+                    "\t\t<td style=\"padding:0 40px 80px;font-size:10pt;color:#262222;font-family:tahoma,geneva,sans-serif\">\n" +
+                    "\t\t\t<p style=\"color:#262222\">" + rb.getString("verify.password.change.email.body.title") + " " + code
+                    + "</p>\n" +
+                    "\t\t\t<p style=\"color:#262222\">\n" +
+                    "\t\t\t<form action=\"http:/localhost:8080/controller\" method=\"get\">\n" +
+                    "\t\t\t<input type=\"hidden\" name=\"command\" value=\"changePasswordCommand\"/>\n" +
+                    "\t\t\t<input type=\"hidden\" name=\"email\" value=\"" + recipientMail+ "\"/>\n" +
+                    "\t\t\t<input type=\"hidden\" name=\"code\" value=\"" + code
+                    + "\"/>\n" +
+                    "\t\t\t<input type=submit style=\"background-color: #45c0d5;color: white;padding: 16px 20px;margin: 8px 0;border: none;cursor: pointer;width: 100%;opacity: 0.9;\" value=\""
+                    + rb.getString("verify.password.change.email.body.button") + "\"/>\n" +
+                    "\t\t\t</form>\n" +
+                    "\t\t\t</p>\n" +
+                    "\t\t</td>\n" +
+                    "\t</tr>\n" +
+                    "\t</tbody>\n" +
+                    "</table>";
+        } catch (Exception e){
+            System.out.println(e);
+        }
 
-        String form = "<table align=\"center\" border=\"0\" cellpadding=\"1\" cellspacing=\"1\" style=\"border-collapse:collapse;width:621px;color:#ffffff;background:#fdfdfd\">\n" +
-                "\t<tbody>\n" +
-                "\t<tr>\n" +
-                "\t\t<td style=\"padding:0 40px 80px;font-size:10pt;color:#262222;font-family:tahoma,geneva,sans-serif\">\n" +
-                "\t\t\t<p style=\"color:#262222\">" + rb.getString("verify.password.change.email.body.title")
-                + ":</p>\n" +
-                "\t\t\t<p style=\"color:#262222\">\n" +
-                "\t\t\t<form action=\"http:/localhost:8080/cash_machine/controller\" method=\"get\">\n" +
-                "\t\t\t<input type=\"hidden\" name=\"command\" value=\"changePassword\"/>\n" +
-                "\t\t\t<input type=\"hidden\" name=\"code\" value=\"" + code
-                + "\"/>\n" +
-                "\t\t\t<input type=submit style=\"background-color: #45c0d5;color: white;padding: 16px 20px;margin: 8px 0;border: none;cursor: pointer;width: 100%;opacity: 0.9;\" value=\""
-                + rb.getString("settings_jsp.change_pass_btn") + "\"/>\n" +
-                "\t\t\t</form>\n" +
-                "\t\t\t</p>\n" +
-                "\t\t\t<p style=\"color:#262222\">" + rb.getString("verify.password.change.email.notify") + "</p>\n" +
-                "\t\t</td>\n" +
-                "\t</tr>\n" +
-                "\t</tbody>\n" +
-                "</table>";
         message.setContent(form, "text/html; charset=UTF-8");
 
         logger.debug("Sending email ... ");

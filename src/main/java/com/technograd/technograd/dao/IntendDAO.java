@@ -25,9 +25,57 @@ public class IntendDAO {
     private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET start_date = current_timestamp, condition = 'NEW', address=? WHERE id=?;";
     private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
     private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend";
-
     private static final String SQL__UPDATE_CONDITION = "UPDATE intend SET";
     private static final String SQL__UPDATE_COUNT_BY_ID = "UPDATE product SET count = ? WHERE id = ?;";
+    private static final String SQL__GET_ALL_EXPIRED_CARTS = "SELECT id from intend WHERE condition = 'CART' AND EXTRACT(DAY FROM CURRENT_TIMESTAMP - start_date) >= ?;";
+    private static final String SQL__DELETE_CART_BY_ID = "DELETE FROM intend WHERE id=?;";
+    private static final String SQL__DELETE_LI_BY_ID = "DELETE FROM list_intend WHERE intend_id=?;";
+    public List<Intend> getAllCartsWithExpiredDateByDays(int countOfDays) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        List<Intend> intendList = new ArrayList<>();
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__GET_ALL_EXPIRED_CARTS);
+            preparedStatement.setInt(1, countOfDays);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                Intend intend = new Intend();
+                intend.setId(rs.getInt(Fields.ID));
+                intendList.add(intend);
+            }
+        } catch (Exception e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+        return intendList;
+    }
+
+    public void deleteCartAndListIntendById(int id) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__DELETE_LI_BY_ID);
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+
+            preparedStatement = connection.prepareStatement(SQL__DELETE_CART_BY_ID);
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+
+        } catch (Exception e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+        }
+    }
+
 
     public static void createIntendSending(int userId) throws DBException {
         Connection connection = null;
@@ -246,7 +294,7 @@ public class IntendDAO {
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__FIND_RECEIVING_INTEND);
-            preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
             while (rs.next()){
                 Intend intend = new Intend();
                 intend.setId(rs.getInt(Fields.ID));

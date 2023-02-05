@@ -18,11 +18,9 @@ public class UserDAO {
     private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM \"user\" WHERE email = ?;";
     private static final String SQL__FIND_ALL_USERS = "SELECT * FROM \"user\";";
     private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE \"user\" SET local_name=? WHERE id=?;";
-    private static final String SQL__FIRST_PART_OF_EVENT = "CREATE EVENT IF NOT EXISTS delete_code";
-    private static final String SQL__SECOND_PART_OF_EVENT = " ON SCHEDULE AT CURRENT_TIMESTAMP + INTERVAL 1 HOUR DO DELETE FROM user_details WHERE code=?;";
-    private static final String SQL__ADD_CONFIRMATION_CODE = "INSERT INTO user_details(user_id, code, salt) VALUE (?, ?, ?);";
-    private static final String SQL__GET_SALT_FROM_USER_DETAILS = "SELECT salt FROM user_details WHERE user_id=?;";
-    private static final String SQL__GET_CODE_FROM_USER_DETAILS = "SELECT code FROM user_details WHERE user_id=?;";
+    private static final String SQL__ADD_CONFIRMATION_CODE = "INSERT INTO user_details(user_id, code, salt, created_at) VALUES(?, ?, ?, current_timestamp);";
+    private static final String SQL__GET_SALT_FROM_USER_DETAILS = "SELECT salt FROM user_details WHERE user_id=? AND EXTRACT(MINUTE FROM CURRENT_TIMESTAMP - created_at) <= 59;";
+    private static final String SQL__GET_CODE_FROM_USER_DETAILS = "SELECT code FROM user_details WHERE user_id=? AND EXTRACT(MINUTE FROM CURRENT_TIMESTAMP - created_at) <= 59;";
     private static final String SQL__UPDATE_USER_PASSWORD = "UPDATE \"user\" SET password=?, salt=? WHERE id=?;";
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
     private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS =    "select id from \"user\" WHERE post='MANAGER' ORDER BY random() LIMIT 1;";
@@ -143,37 +141,6 @@ public class UserDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
         return code;
-    }
-    public static void addConfirmationCode(UserDetails details) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            preparedStatement = connection.prepareStatement(SQL__DROP_CONFIRMATION_CODE);
-            preparedStatement.setInt(1,  details.getUserId());
-            preparedStatement.execute();
-
-            preparedStatement = connection.prepareStatement(SQL__ADD_CONFIRMATION_CODE);
-            preparedStatement.setInt(1, details.getUserId());
-            preparedStatement.setString(2, details.getCode());
-            preparedStatement.setString(2, details.getCode());
-            preparedStatement.setString(3, details.getSalt());
-            preparedStatement.execute();
-
-            String event = SQL__FIRST_PART_OF_EVENT +
-                    details.getSalt().substring(new SecureRandom().nextInt(details.getSalt().length() / 2)) +
-                    SQL__SECOND_PART_OF_EVENT;
-            preparedStatement = connection.prepareStatement(event);
-            preparedStatement.setString(1, details.getCode());
-            preparedStatement.execute();
-            connection.commit();
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().closeResources(connection, preparedStatement);
-        }
     }
 
     public static void createUser(User user) throws DBException {
@@ -320,26 +287,22 @@ public class UserDAO {
         try {
             con = DBManager.getInstance().getConnection();
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+
             p = con.prepareStatement(SQL__DROP_CONFIRMATION_CODE);
             p.setInt(1, userId);
             p.execute();
+
             p = con.prepareStatement(SQL__ADD_CONFIRMATION_CODE);
             p.setInt(1, userId);
-            p.setString(2, salt);
-            p.setString(3, code);
+            p.setString(2, code);
+            p.setString(3, salt);
             p.execute();
-            String event = SQL__FIRST_PART_OF_EVENT +
-                    salt.substring(new SecureRandom().nextInt(salt.length() / 2)) +
-                    SQL__SECOND_PART_OF_EVENT;
-            p = con.prepareStatement(event);
-            p.setString(1, code);
-            p.execute();
-            con.commit();
+
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con, p);
             throw new DBException(ex.getMessage(), ex);
         } finally {
-            DBManager.getInstance().closeResources(con, p);
+            DBManager.getInstance().commitAndClose(con, p);
         }
     }
 

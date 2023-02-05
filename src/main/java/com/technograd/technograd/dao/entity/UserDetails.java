@@ -2,6 +2,7 @@ package com.technograd.technograd.dao.entity;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 public class UserDetails implements Serializable {
@@ -10,6 +11,15 @@ public class UserDetails implements Serializable {
     private int userId;
     private String code;
     private String salt;
+    private Timestamp createdAt;
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public int getUserId() {
         return userId;
