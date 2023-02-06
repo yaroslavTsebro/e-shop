@@ -8,6 +8,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +31,7 @@ public class DeleteProductFromIntend extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("DeleteProductFromIntend execute started");
+        HttpSession session = request.getSession();
 
         int userId = Integer.parseInt(request.getParameter("user_id"));
         logger.trace("user_id ->" + userId);
@@ -41,10 +43,13 @@ public class DeleteProductFromIntend extends Command {
             listIntendDAO.deleteListIntendById(id, userId);
             logger.trace("listIntend with this id was deleted:" + id);
         } catch (DBException e) {
-            throw new RuntimeException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.company.search";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewSending";
         }
 
         logger.info("DeleteProductFromIntend execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCart";
+        return request.getContextPath() + "/controller?command=viewSending";
     }
 }

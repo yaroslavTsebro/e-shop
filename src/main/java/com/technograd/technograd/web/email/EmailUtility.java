@@ -106,7 +106,7 @@ public class EmailUtility {
 
         message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientMail));
 
-        message.setSubject(rb.getString("weekly.report.name"), "UTF-8");
+        message.setSubject(rb.getString("report.name"), "UTF-8");
 
         Multipart multipart = new MimeMultipart();
         MimeBodyPart attachment = new MimeBodyPart();

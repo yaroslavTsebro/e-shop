@@ -11,6 +11,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,17 +35,17 @@ public class ViewCharacteristic extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewCharacteristic execute started");
+        HttpSession session = request.getSession();
 
         List<Characteristic> characteristicList = null;
         try {
             characteristicList = characteristicDAO.getAllCharacteristics();
             logger.trace("characteristicList ->" + characteristicList);
-        } catch (DBException exception) {
-            try {
-                throw new AppException(exception.getMessage());
-            } catch (AppException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (DBException e) {
+            logger.trace("error ->" + e);
+            String errorMessage = "error.characteristic.view";
+            session.setAttribute("errorMessage", errorMessage);
+            return Path.CHARACTERISTIC_PAGE;
         } finally {
             request.setAttribute("characteristicList", characteristicList);
         }

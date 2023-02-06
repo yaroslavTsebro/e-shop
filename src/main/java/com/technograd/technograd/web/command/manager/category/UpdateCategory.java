@@ -8,6 +8,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,6 +31,7 @@ public class UpdateCategory extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("UpdateCategory execute started");
+        HttpSession session = request.getSession();
 
         int id = Integer.parseInt(request.getParameter("update_by_id"));
         logger.trace("update_by_id ->" + id);
@@ -42,8 +44,10 @@ public class UpdateCategory extends Command {
         try {
             categoryDAO.updateCategory(category);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e);
-            throw new AppException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.category.update";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCategories";
         }
         logger.info("UpdateCategory execute finished, path transferred to controller");
         return request.getContextPath() + "/controller?command=viewCategories";

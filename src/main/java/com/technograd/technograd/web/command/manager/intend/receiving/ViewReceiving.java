@@ -12,6 +12,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,13 +36,17 @@ public class ViewReceiving extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewReceiving execute started");
+        HttpSession session = request.getSession();
 
         List<Intend> receivingList = null;
         try {
             receivingList = intendDAO.findAllReceivings();
             logger.trace("receivingList ->" + receivingList);
-        } catch (DBException exception) {
-            throw new AppException(exception.getMessage());
+        } catch (DBException e) {
+            logger.trace("error ->" + e);
+            String errorMessage = "error.receiving.view";
+            session.setAttribute("errorMessage", errorMessage);
+            return Path.ADMIN_PANEL;
         } finally {
             request.setAttribute("receivingList", receivingList);
         }

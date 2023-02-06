@@ -9,6 +9,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,8 +36,7 @@ public class CreateCompany extends Command {
         logger.trace("name_ua ->" + nameUa);
         String nameEn = request.getParameter("name_en");
         logger.trace("name_en ->" + nameEn);
-        System.out.println(nameUa);
-        System.out.println(nameEn);
+        HttpSession session = request.getSession();
 
         int countryId = Integer.parseInt(request.getParameter("country_id"));
         logger.trace("country_id ->" + countryId);
@@ -48,8 +48,10 @@ public class CreateCompany extends Command {
         try {
             companyDAO.createCompany(company);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e.getStackTrace());
-            throw new AppException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.company.create";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCompanies";
         }
         logger.info("CreateCompany execute finished, path transferred to controller");
         return request.getContextPath() + "/controller?command=viewCompanies";

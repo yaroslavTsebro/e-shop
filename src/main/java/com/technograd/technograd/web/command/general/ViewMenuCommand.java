@@ -54,6 +54,14 @@ public class ViewMenuCommand extends Command {
         List<Category> categoryList = new ArrayList<>();
         List<Company> companyList = new ArrayList<>();
 
+        int currentPage;
+        try {
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        } catch (NumberFormatException exception) {
+            currentPage = 1;
+        }
+
+        String searchQuery = request.getParameter("searchQuery");
         String sort = request.getParameter("sortBy");
         String category =request.getParameter("category");
         String company = request.getParameter("company");
@@ -67,9 +75,18 @@ public class ViewMenuCommand extends Command {
             companyId = Integer.parseInt(company);
         }
 
+        int recordsPerPage = 2;
+        int numberOfRows= -1;
         try{
-            String query = productDAO.menuQueryBuilder(companyId, categoryId, sort);
-            productList =  productDAO.getAllReducedProducts(query);
+            if(searchQuery == null || searchQuery.isEmpty()){
+                String query = productDAO.menuQueryBuilder(searchQuery,true,companyId, categoryId, sort);
+                String countQuery = productDAO.menuQueryBuilder(searchQuery,false,companyId, categoryId, sort);
+                productList =  productDAO.getAllReducedProducts(query, recordsPerPage, currentPage);
+                numberOfRows = productDAO.countOfRows(countQuery);
+            } else{
+                String query = productDAO.menuQueryBuilder(searchQuery,true,companyId, categoryId, sort);
+                productList =  productDAO.getAllReducedProducts(query);
+            }
         } catch (DBException exception) {
             String errorMessage = "product.dao.find.all";
             logger.error("errorMessage --> " + exception);
@@ -97,6 +114,18 @@ public class ViewMenuCommand extends Command {
         }
         logger.debug("Set session attribute : updated current companyList info => " + companyList);
         request.setAttribute("companyList", companyList);
+
+        if (numberOfRows != -1){
+            int nOfPages = numberOfRows / recordsPerPage;
+
+            if (numberOfRows % recordsPerPage > 0) {
+                nOfPages++;
+            }
+
+            request.setAttribute("nOfPages", nOfPages);
+            request.setAttribute("currentPage", currentPage);
+            request.setAttribute("recordsPerPage", recordsPerPage);
+        }
 
         logger.debug("View menu command is finished");
         return Path.MENU_PAGE;

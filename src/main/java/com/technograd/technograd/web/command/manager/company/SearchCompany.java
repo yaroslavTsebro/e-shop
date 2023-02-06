@@ -1,9 +1,7 @@
 package com.technograd.technograd.web.command.manager.company;
 
 import com.technograd.technograd.Path;
-import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CompanyDAO;
-import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
@@ -11,6 +9,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,6 +33,7 @@ public class SearchCompany extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("SearchCompany execute started");
+        HttpSession session = request.getSession();
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
@@ -44,12 +44,11 @@ public class SearchCompany extends Command {
         try {
             companyList = companyDAO.searchCompanies(pattern);
             logger.trace("companyList ->" + companyList);
-        } catch (DBException exception) {
-            try {
-                throw new AppException(exception.getMessage());
-            } catch (AppException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (DBException e) {
+            logger.trace("error ->" + e);
+            String errorMessage = "error.company.search";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCompanies";
         } finally {
             request.setAttribute("companyList", companyList);
         }

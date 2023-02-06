@@ -15,6 +15,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -39,24 +40,29 @@ public class ViewCurrentSending extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+
         Intend intend;
         User user;
         try{
             intend = intendDAO.findIntendById(id);
         } catch (DBException e) {
-            throw new RuntimeException(e);
+            session.setAttribute("errorMessage", "sending.admin.view.intend");
+            return Path.SENDING_PAGE;
         }
         try{
             user = userDAO.getReducedUserById(intend.getUserId());
         } catch (DBException e) {
-            throw new RuntimeException(e);
+            session.setAttribute("errorMessage", "sending.admin.view.user");
+            return Path.SENDING_PAGE;
         }
         IntendReturn intendReturn = null;
         if(intend.getCondition().equals(Condition.TURNED_BACK)){
             try {
                 intendReturn = intendReturnDAO.findIntendReturnByIntendId(intend.getId());
             } catch (DBException e) {
-                throw new RuntimeException(e);
+                session.setAttribute("errorMessage", "sending.admin.view.intendReturn");
+                return Path.SENDING_PAGE;
             } finally {
                 request.setAttribute("intendReturn", intendReturn);
             }

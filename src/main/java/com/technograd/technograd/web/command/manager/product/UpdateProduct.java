@@ -1,14 +1,17 @@
 package com.technograd.technograd.web.command.manager.product;
 
-import com.technograd.technograd.dao.PhotoDAO;
+import com.technograd.technograd.Path;
+import com.technograd.technograd.dao.CategoryDAO;
+import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.ProductDAO;
 import com.technograd.technograd.dao.entity.*;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exeption.AppException;
+import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,66 +20,71 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UpdateProduct extends Command {
 
     private static final long serialVersionUID = 4565089866717159322L;
     private static final Logger logger = LogManager.getLogger(UpdateProduct.class.getName());
     private final ProductDAO productDAO;
+    private final CategoryDAO categoryDAO;
+    private final CompanyDAO companyDAO;
 
-    public UpdateProduct(ProductDAO productDAO) {
+    public UpdateProduct(ProductDAO productDAO, CategoryDAO categoryDAO, CompanyDAO companyDAO) {
         this.productDAO = productDAO;
+        this.categoryDAO = categoryDAO;
+        this.companyDAO = companyDAO;
     }
 
     public UpdateProduct() {
         this.productDAO = new ProductDAO();
+        this.categoryDAO = new CategoryDAO();
+        this.companyDAO = new CompanyDAO();
     }
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, AppException {
+        logger.info("UpdateProduct execute started");
+        Product product = readProductDataFromRequest(req);
+        String id = req.getParameter("product_update_id");
         try{
-            logger.info("AddProductServlet execute started");
-            Product product = readProductDataFromRequest(req);
 
             productDAO.updateProduct(product);
-            resp.getWriter().print("The files uploaded successfully.");
         } catch (Exception e){
-            System.out.println(Arrays.toString(e.getStackTrace()));
+            logger.debug("Change password command is finished");
         }
-        return req.getContextPath() + "/product";
+        logger.info("UpdateProduct execute finished");
+        return req.getContextPath() + "/controller?command=viewProductPage&id=" + id;
     }
-
     private static Product readProductDataFromRequest(HttpServletRequest req){
-        String id = req.getParameter("product_update_id");
+        int id = Integer.parseInt(req.getParameter("product_update_id"));
         logger.trace("product_update_id ->" + id);
-        String nameUa = req.getParameter("name_ua");
+        String nameUa = req.getParameter("new_name_ua");
         logger.trace("name_ua ->" + nameUa);
-        String nameEn = req.getParameter("name_en");
+        String nameEn = req.getParameter("new_name_en");
         logger.trace("name_en ->" + nameEn);
 
-        BigDecimal price = new BigDecimal(req.getParameter("price"));
+        BigDecimal price = new BigDecimal(req.getParameter("new_price"));
         logger.trace("price ->" + price);
-        int weight = Integer.parseInt(req.getParameter("weight"));
+        int weight = Integer.parseInt(req.getParameter("new_weight"));
         logger.trace("weight ->" + weight);
 
-        int count = Integer.parseInt(req.getParameter("price"));
+        int count = Integer.parseInt(req.getParameter("new_count"));
         logger.trace("count ->" + count);
-        int warranty = Integer.parseInt(req.getParameter("warranty"));
+        int warranty = Integer.parseInt(req.getParameter("new_warranty"));
         logger.trace("warranty ->" + warranty);
 
-        String titleUa = req.getParameter("title_ua");
+        String titleUa = req.getParameter("new_title_ua");
         logger.trace("title_ua ->" + titleUa);
-        String titleEn = req.getParameter("title_en");
+        String titleEn = req.getParameter("new_title_en");
         logger.trace("title_en ->" + titleEn);
 
-        String descriptionUa = req.getParameter("description_ua");
+        String descriptionUa = req.getParameter("new_description_ua");
         logger.trace("description_ua ->" + descriptionUa);
-        String descriptionEn = req.getParameter("description_en");
+        String descriptionEn = req.getParameter("new_description_en");
         logger.trace("description_en ->" + descriptionEn);
-        int categoryId = Integer.parseInt(req.getParameter("category_id"));
+        int categoryId = Integer.parseInt(req.getParameter("new_category_id"));
         logger.trace("category_id ->" + categoryId);
-        int companyId = Integer.parseInt(req.getParameter("company_id"));
+        int companyId = Integer.parseInt(req.getParameter("new_company_id"));
         logger.trace("company_id ->" + companyId);
 
         Category category = new Category();
@@ -88,6 +96,7 @@ public class UpdateProduct extends Command {
         product.setNameUa(nameUa);
         product.setNameEn(nameEn);
 
+        product.setId(id);
         product.setPrice(price);
         product.setWeight(weight);
         product.setCount(count);

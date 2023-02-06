@@ -8,6 +8,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,14 +31,17 @@ public class DeleteCharacteristic extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("DeleteCharacteristic execute started");
+        HttpSession session = request.getSession();
 
         int id = Integer.parseInt(request.getParameter("delete_by_id"));
         logger.trace("delete_by_id ->" + id);
         try{
             characteristicDAO.deleteCharacteristicById(id);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e);
-            throw new AppException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.characteristic.delete";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCharacteristics";
         }
 
         logger.info("DeleteCharacteristic execute finished, path transferred to controller");

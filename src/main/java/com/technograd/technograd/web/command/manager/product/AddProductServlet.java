@@ -35,13 +35,25 @@ public class AddProductServlet extends HttpServlet {
     private static final Logger logger = LogManager.getLogger(AddProductServlet.class.getName());
 
     private final ProductDAO productDAO;
+    private final CategoryDAO categoryDAO;
+    private final CompanyDAO companyDAO;
+    private final CharacteristicDAO characteristicDAO;
+    private final PhotoDAO photoDAO;
 
-    public AddProductServlet(ProductDAO productDAO) {
-        this.productDAO = productDAO;
+    public AddProductServlet(ProductDAO p, CategoryDAO cat, CompanyDAO com, CharacteristicDAO cha, PhotoDAO photoDAO) {
+        this.productDAO = p;
+        this.categoryDAO = cat;
+        this.companyDAO = com;
+        this.characteristicDAO = cha;
+        this.photoDAO = photoDAO;
     }
 
     public AddProductServlet() {
         this.productDAO = new ProductDAO();
+        this.categoryDAO = new CategoryDAO();
+        this.companyDAO = new CompanyDAO();
+        this.characteristicDAO = new CharacteristicDAO();
+        this.photoDAO = new PhotoDAO();
     }
 
     @Override
@@ -52,11 +64,11 @@ public class AddProductServlet extends HttpServlet {
         List<Company> companyList = null;
         List<Characteristic> characteristicList = null;
         try {
-            categoryList = CategoryDAO.getAllCategories();
+            categoryList = categoryDAO.getAllCategories();
             logger.trace("categoryList ->" + categoryList);
-            companyList = CompanyDAO.getAllCompanies();
+            companyList = companyDAO.getAllCompanies();
             logger.trace("companyList ->" + categoryList);
-            characteristicList = CharacteristicDAO.getAllCharacteristics();
+            characteristicList =  characteristicDAO.getAllCharacteristics();
             logger.trace("characteristicList ->" + characteristicList);
         } catch (DBException exception) {
             try {
@@ -103,7 +115,7 @@ public class AddProductServlet extends HttpServlet {
             List<Part> fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName()) && part.getSize() > 0).collect(Collectors.toList());
 
             List<Photo> photos = new ArrayList<>();
-            int nameId = PhotoDAO.getNextId();
+            int nameId = photoDAO.getNextId();
             if(nameId == -1){
                 throw new AppException();
             }

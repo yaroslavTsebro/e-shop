@@ -37,7 +37,7 @@ public class UpdateCountOfProductInIntend extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ChangeCountOfProductInIntendAsAdmin execute started");
-
+        HttpSession session = request.getSession();
 
         int userId = Integer.parseInt(request.getParameter("user_id"));
         logger.trace("user_id ->" + userId);
@@ -57,18 +57,21 @@ public class UpdateCountOfProductInIntend extends Command {
         logger.trace("update_by_product_count ->" + count);
 
         if(count == newCount){
+            session.setAttribute("errorMessage", "sending.admin.change.count");
             return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId;
         }
 
         int productCount;
         try {
-            productCount = ProductDAO.getProductById(productId).getCount();
+            productCount = productDAO.getProductById(productId).getCount();
         } catch (DBException e) {
-            throw new RuntimeException(e);
+            session.setAttribute("errorMessage", "sending.admin.change.count");
+            return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId;
         }
 
         if(count > productCount){
-            throw new AppException("Count more then current count");
+            session.setAttribute("errorMessage", "sending.admin.change.count");
+            return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId;
         }
 
         if(newCount <= 0){
@@ -76,14 +79,16 @@ public class UpdateCountOfProductInIntend extends Command {
                 listIntendDAO.deleteListIntendById(id, userId);
                 logger.trace("listIntend with this id was deleted:" + id);
             } catch (DBException e) {
-                throw new RuntimeException(e);
+                session.setAttribute("errorMessage", "sending.admin.change.count");
+                return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId;
             }
         } else{
             try {
                 listIntendDAO.updateCountInListIntendById(id, newCount);
                 logger.trace("listIntend with this id was updated:" + id);
             } catch (DBException e) {
-                throw new RuntimeException(e);
+                session.setAttribute("errorMessage", "sending.admin.change.count");
+                return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId;
             }
         }
 
@@ -91,4 +96,5 @@ public class UpdateCountOfProductInIntend extends Command {
         logger.info("ChangeCountOfProductInIntendAsAdmin execute finished, path transferred to controller");
         return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId;
     }
+
 }

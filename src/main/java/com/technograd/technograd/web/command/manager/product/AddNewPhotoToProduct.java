@@ -9,10 +9,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,6 +44,8 @@ public class AddNewPhotoToProduct extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("product_id"));
         logger.trace("product_id ->" + id);
+        HttpSession session = req.getSession();
+
         List<Part> fileParts = req.getParts().stream().filter(part -> "new_files".equals(part.getName()) && part.getSize() > 0).collect(Collectors.toList());
 
         List<Photo> photos = new ArrayList<>();
@@ -54,11 +53,6 @@ public class AddNewPhotoToProduct extends HttpServlet {
         try{
             Product product = productDAO.getProductById(id);
         } catch (DBException e){
-            try {
-                throw new AppException(e);
-            } catch (AppException ex) {
-                throw new RuntimeException(ex);
-            }
         }
 
         int nameId = 0;

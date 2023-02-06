@@ -37,7 +37,7 @@ public class ViewCurrentIntend extends Command {
         int id = Integer.parseInt(request.getParameter("id"));
         Intend intend;
         try{
-            intend = IntendDAO.findIntendById(id);
+            intend = intendDAO.findIntendById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
         }

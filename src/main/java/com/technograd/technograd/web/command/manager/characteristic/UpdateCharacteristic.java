@@ -10,6 +10,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class UpdateCharacteristic extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("UpdateCharacteristic execute started");
+        HttpSession session = request.getSession();
 
         int id = Integer.parseInt(request.getParameter("update_by_id"));
         logger.trace("update_by_id ->" + id);
@@ -44,8 +46,10 @@ public class UpdateCharacteristic extends Command {
         try {
             characteristicDAO.updateCharacteristic(characteristic);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e);
-            throw new AppException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.characteristic.update";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCharacteristics";
         }
         logger.info("UpdateCharacteristic execute finished, path transferred to controller");
         return request.getContextPath() + "/controller?command=viewCharacteristics";

@@ -11,6 +11,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,16 +34,17 @@ public class ViewSending extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewSending execute started");
+        HttpSession session = request.getSession();
+
         String condition = request.getParameter("condition");
         List<Intend> sendingList = null;
-
-
         try {
             String query = intendDAO.viewIntendsQueryBuilder(condition, SendingOrReceiving.SENDING.name());
             sendingList = intendDAO.findAllIntendsFormQueryBuilder(query);
             logger.trace("sendingList ->" + sendingList);
         } catch (DBException exception) {
-            throw new RuntimeException(exception);
+            session.setAttribute("errorMessage", "sending.admin.view.sending");
+            return Path.ADMIN_PANEL;
         } finally {
             request.setAttribute("sendingList", sendingList);
         }

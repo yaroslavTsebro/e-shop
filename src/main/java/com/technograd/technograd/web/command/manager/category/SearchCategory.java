@@ -9,6 +9,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public class SearchCategory extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("SearchCategory execute started");
+        HttpSession session = request.getSession();
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
@@ -43,11 +45,10 @@ public class SearchCategory extends Command {
             categoryList = categoryDAO.searchCategories(pattern);
             logger.trace("categoryList ->" + categoryList);
         } catch (DBException exception) {
-            try {
-                throw new AppException(exception.getMessage());
-            } catch (AppException e) {
-                throw new RuntimeException(e);
-            }
+            logger.trace("error ->" + exception);
+            String errorMessage = "error.category.search";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCategories";
         } finally {
             request.setAttribute("categoryList", categoryList);
         }

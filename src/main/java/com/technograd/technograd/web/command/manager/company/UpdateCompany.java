@@ -1,8 +1,6 @@
 package com.technograd.technograd.web.command.manager.company;
 
-import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CompanyDAO;
-import com.technograd.technograd.dao.entity.Category;
 import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.dao.entity.Country;
 import com.technograd.technograd.web.command.Command;
@@ -11,6 +9,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +32,7 @@ public class UpdateCompany extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("UpdateCompany execute started");
+        HttpSession session = request.getSession();
 
         int id = Integer.parseInt(request.getParameter("update_by_id"));
         logger.trace("update_by_id ->" + id);
@@ -50,8 +50,10 @@ public class UpdateCompany extends Command {
         try {
             companyDAO.updateCompany(company);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e);
-            throw new AppException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.company.update";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCompanies";
         }
         logger.info("UpdateCompany execute finished, path transferred to controller");
         return request.getContextPath() + "/controller?command=viewCompanies";

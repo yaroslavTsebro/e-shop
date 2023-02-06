@@ -9,6 +9,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,17 +34,17 @@ public class ViewCategory extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("ViewCategory execute started");
+        HttpSession session = request.getSession();
 
         List<Category> categoryList = null;
         try {
             categoryList = categoryDAO.getAllCategories();
             logger.trace("categoryList ->" + categoryList);
-        } catch (DBException exception) {
-            try {
-                throw new AppException(exception.getMessage());
-            } catch (AppException e) {
-                throw new RuntimeException(e);
-            }
+        } catch (DBException e) {
+            logger.trace("error ->" + e);
+            String errorMessage = "error.category.view";
+            session.setAttribute("errorMessage", errorMessage);
+            return Path.CATEGORY_PAGE;
         } finally {
             request.setAttribute("categoryList", categoryList);
         }

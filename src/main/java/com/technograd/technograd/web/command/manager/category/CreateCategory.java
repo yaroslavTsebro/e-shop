@@ -8,6 +8,7 @@ import com.technograd.technograd.web.exeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,6 +32,8 @@ public class CreateCategory extends Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         logger.info("CreateCategory execute started");
+        HttpSession session = request.getSession();
+
         String nameUa = request.getParameter("name_ua");
         logger.trace("name_ua ->" + nameUa);
         String nameEn = request.getParameter("name_en");
@@ -40,8 +43,10 @@ public class CreateCategory extends Command {
         try {
             categoryDAO.createCategory(category);
         } catch (DBException e) {
-            logger.error("errorMessage --> " + e);
-            throw new AppException(e);
+            logger.trace("error ->" + e);
+            String errorMessage = "error.category.create";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "controller?command=viewCategories";
         }
         logger.info("CreateCategory execute finished, path transferred to controller");
         return request.getContextPath() + "/controller?command=viewCategories";
