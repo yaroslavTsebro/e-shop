@@ -1,5 +1,6 @@
 package com.technograd.technograd.web.command.manager.intend.sending;
 
+import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Condition;
@@ -52,90 +53,106 @@ public class ChangeProductCondition extends Command {
         int intendId = Integer.parseInt(request.getParameter("intend_id"));
         logger.trace("intend_id ->" + intendId);
 
-        checkCondition(oldCondition);
-        checkCondition(newCondition);
-        checkUser(id, user);
-        checkIntend(intendId);
-
-        if(oldCondition.equals(Condition.CART.toString())){
-
-            throw new AppException();
-        } else if(oldCondition.equals(Condition.NEW.toString())){
-
-            if(newCondition.equals(Condition.ACCEPTED.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateConditionAccepted(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            } else if(newCondition.equals(Condition.DENIED.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateCondition(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            }  else {
-                throw new AppException();
-            }
-        } else if (oldCondition.equals(Condition.TURNED_BACK.toString())) {
-
-            throw new AppException();
-        } else if (oldCondition.equals(Condition.ACCEPTED.toString())) {
-
-            if(newCondition.equals(Condition.IN_WAY.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateCondition(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            } else if(newCondition.equals(Condition.TURNED_BACK.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateConditionTurnedBack(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            }  else {
-                throw new AppException();
-            }
-        } else if(oldCondition.equals(Condition.DENIED.toString())){
-
-            throw new AppException();
-        } else if(oldCondition.equals(Condition.IN_WAY.toString())){
-
-            if(newCondition.equals(Condition.COMPLETED.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateCondition(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            } else if(newCondition.equals(Condition.TURNED_BACK.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateConditionTurnedBack(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            }  else {
-                throw new AppException();
-            }
-        } else if(oldCondition.equals(Condition.COMPLETED.toString())){
-
-            if(newCondition.equals(Condition.TURNED_BACK.toString())){
-                try {
-                    String query = intendDAO.buildUpdateConditionQuery(newCondition);
-                    intendDAO.updateConditionTurnedBack(query, intendId);
-                } catch (DBException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                throw new AppException();
-            }
+        String errorMessage = null;
+        try {
+            checkCondition(oldCondition);
+            checkCondition(newCondition);
+            checkUser(id, user);
+            checkIntend(intendId);
+        } catch (AppException e){
+            logger.trace("error ->" + e);
+            errorMessage = "error.company.search";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + "/controller?command=viewSending";
         }
+
+        try{
+            if(oldCondition.equals(Condition.CART.toString())){
+
+                throw new AppException();
+            } else if(oldCondition.equals(Condition.NEW.toString())){
+
+                if(newCondition.equals(Condition.ACCEPTED.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateConditionAccepted(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if(newCondition.equals(Condition.DENIED.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateCondition(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                }  else {
+                    throw new AppException();
+                }
+            } else if (oldCondition.equals(Condition.TURNED_BACK.toString())) {
+
+                throw new AppException();
+            } else if (oldCondition.equals(Condition.ACCEPTED.toString())) {
+
+                if(newCondition.equals(Condition.IN_WAY.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateCondition(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if(newCondition.equals(Condition.TURNED_BACK.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateConditionTurnedBack(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                }  else {
+                    throw new AppException();
+                }
+            } else if(oldCondition.equals(Condition.DENIED.toString())){
+
+                throw new AppException();
+            } else if(oldCondition.equals(Condition.IN_WAY.toString())){
+
+                if(newCondition.equals(Condition.COMPLETED.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateCondition(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if(newCondition.equals(Condition.TURNED_BACK.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateConditionTurnedBack(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                }  else {
+                    throw new AppException();
+                }
+            } else if(oldCondition.equals(Condition.COMPLETED.toString())){
+
+                if(newCondition.equals(Condition.TURNED_BACK.toString())){
+                    try {
+                        String query = intendDAO.buildUpdateConditionQuery(newCondition);
+                        intendDAO.updateConditionTurnedBack(query, intendId);
+                    } catch (DBException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    throw new AppException();
+                }
+            }
+        } catch (Exception e){
+            logger.trace("error ->" + e);
+            errorMessage = "error.condition.search";
+            session.setAttribute("errorMessage", errorMessage);
+        }
+
+
 
         return request.getContextPath() + "/controller?command=viewCurrentSending&id=" + intendId + "";
     }

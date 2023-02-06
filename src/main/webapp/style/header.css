@@ -1,37 +1,37 @@
 .lang-button{
-    border-radius: 5px;
-    max-width: 32px;
-    max-height: 32px;
+    border-radius: 5px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
 }
 
 .language-container{
-    border-radius: 5px;
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    z-index: 2;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    background-color: #555555;
-    padding: 20px;
+    border-radius: 5px !important;
+    position: fixed !important;
+    bottom: 16px !important;
+    right: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    z-index: 2 !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    background-color: #555555 !important;
+    padding: 20px !important;
 }
 
 .slider-item-link{
-    display: block;
-    font-size: 18px;
-    line-height: 16px;
-    white-space: nowrap;
-    color: #303030;
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 4px;
-    transition: all .3s ease;
-    padding: 7px 15px;
+    display: block !important;
+    font-size: 18px !important;
+    line-height: 16px !important;
+    white-space: nowrap !important;
+    color: #303030 !important;
+    background: #fff !important;
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 4px !important;
+    transition: all .3s ease !important;
+    padding: 7px 15px !important;
 }
 
 * {
@@ -41,20 +41,40 @@
 }
 
 .lang-button  {
-    background-color:#ff7e5a;
-    transition: background-color 1s ease-out 100ms;
-    border: none;
-    color: white;
-    padding: 10px;
-    display: inline-block;
-    font-size: 16px;
-    cursor: pointer;
-    max-height: 100px;
-    max-width: 100px;
-    margin: 0 0 2px 0;
+    background-color:#ff7e5a !important;
+    transition: background-color 1s ease-out 100ms !important;
+    border: none !important;
+    color: white !important;
+    padding: 10px !important;
+    display: inline-block !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    max-height: 100px !important;
+    max-width: 100px !important;
+    margin: 0 0 2px 0 !important;
 }
 .lang-button:hover{
-    background-color: #ff898a;
-    text-shadow: 0 0 2px white;
+    background-color: #ff898a !important;
+    text-shadow: 0 0 2px white !important;
 }
 
+.alert {
+    padding: 20px !important;
+    background-color: #f44336 !important;
+    color: white !important;
+}
+
+.closeAlertBox {
+    margin-left: 15px !important;
+    color: white !important;
+    font-weight: bold !important;
+    float: right !important;
+    font-size: 22px !important;
+    line-height: 20px !important;
+    cursor: pointer !important;
+    transition: 0.3s !important;
+}
+
+.closeAlertBox:hover {
+    color: black !important;
+}

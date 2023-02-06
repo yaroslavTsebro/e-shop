@@ -5,6 +5,7 @@
 <c:set var="title" value="category.title"/>
 <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
+<%@ include file="/WEB-INF/jspf/part/header.jspf" %>
     <div class="container">
         <div class="wrapper">
             <form action="/controller" method="post" name="createCategoryForm">

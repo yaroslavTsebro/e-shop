@@ -119,8 +119,8 @@
             </c:forEach>
         </div>
         <c:if test="${not empty sessionScope.user}">
-        <div class="product-data white">
                 <c:if test="${sessionScope.user.post.toString() == 'CUSTOMER'}">
+                    <div class="product-data white">
                     <form action="/controller" method="post" name="addToCartForm">
                         <input type="hidden" name="command" value="addToCart"/>
                         <input type="hidden" id="product_id" name="product_id" value="${requestScope.product.id}">
@@ -132,13 +132,11 @@
                                placeholder="<fmt:message key="cart.add.count.placeholder"/>" required>
                         <input type="submit" class="white-button" value="<fmt:message key="cart.add.button"/>">
                     </form>
+                    </div>
                 </c:if>
-                <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
-                    <a href="/controller?command=logout"><fmt:message key="header.menu.logout"/></a>
-                    <a href="/controller?command=settings"><fmt:message key="header.menu.profile"/></a>
-                    <a href="/controller?command=adminPage"><fmt:message key="header.menu.admin"/></a>
-                </c:if>
-        </div>
+            <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
+                <button class=" product-data white updateButton" onclick="openModal()"><fmt:message key="entity.update"/></button>
+            </c:if>
         </c:if>
         <div class="product-data">
             <c:if test="${sessionScope.lang == 'ua'}">
@@ -158,7 +156,65 @@
                 </div>
             </c:if>
         </div>
+    <c:if test="${sessionScope.user.post.toString() == 'MANAGER'}">
+        <div id="myModal" class="modal">
+            <form action="/controller" method="post" name="updateProductForm">
+                <input type="hidden" name="command" value="updateProduct">
+                <input type="hidden" name="product_update_id" value="${requestScope.product.id}">
+                <label for="name_ua"><fmt:message key="product.add.form.label.text.ua"/></label>
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                       title="${field.required}" value="${requestScope.product.nameUa}"
+                       value="" id="name_ua" name="new_name_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.name.ua"/>" required>
+                <label for="name_en"><fmt:message key="product.add.form.label.text.en"/></label>
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"
+                       title="${field.required}"  value="${requestScope.product.nameEn}"
+                       id="name_en" name="new_name_en" placeholder="<fmt:message key="product.add.form.placeholder.text.name.en"/>" required>
+
+                <label for="price"><fmt:message key="product.add.form.label.text.price"/></label>
+                <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.price}"
+                       title="${field.required}" min="0" id="price" name="new_price" placeholder="<fmt:message key="product.add.form.placeholder.text.price"/>" required>
+                <label for="weight"><fmt:message key="product.add.form.label.text.weight"/></label>
+                <input type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.weight}"
+                       title="${field.required}" min="0" id="weight" name="new_weight" placeholder="<fmt:message key="product.add.form.placeholder.text.weight"/>" required>
+                <label for="count"><fmt:message key="product.add.form.label.text.count"/></label>
+                <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.count}"
+                       title="${field.required}" min="0" id="count" name="new_count" placeholder="<fmt:message key="product.add.form.placeholder.text.count"/>" required>
+                <label for="warranty"><fmt:message key="product.add.form.label.text.warranty"/></label>
+                <input type="number" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.warranty}"
+                       title="${field.required}" min="0" id="warranty" name="new_warranty" placeholder="<fmt:message key="product.add.form.placeholder.text.warranty"/>" required>
+
+                <label for="title_ua"><fmt:message key="product.add.form.label.text.title.ua"/></label>
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.titleUa}"
+                       title="${field.required}" id="title_ua" name="new_title_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.title.ua"/>" required>
+                <label for="description_ua"><fmt:message key="product.add.form.label.text.description.ua"/></label>
+                <input maxlength="500" class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.descriptionUa}"
+                       title="${field.required}" id="description_ua" name="new_description_ua" placeholder="<fmt:message key="product.add.form.placeholder.text.description.ua"/>" required>
+
+                <label for="title_en"><fmt:message key="product.add.form.label.text.title.en"/></label>
+                <input maxlength="50" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')" value="${requestScope.product.titleEn}"
+                       title="${field.required}" id="title_en" name="new_title_en" placeholder="<fmt:message key="product.add.form.placeholder.text.title.en"/>" required>
+                <label for="description_en"><fmt:message key="product.add.form.label.text.description.en"/></label>
+                <input maxlength="500" class="textarea" type="text" oninvalid="this.setCustomValidity('<fmt:message key="field.required"/>')"  value="${requestScope.product.descriptionEn}"
+                       title="${field.required}" id="description_en" name="new_description_en" placeholder="<fmt:message key="product.add.form.placeholder.text.description.en"/>" required>
+
+                <label><fmt:message key="product.add.form.placeholder.text.category"/></label>
+                <select name="new_category_id">
+                    <c:forEach items="${requestScope.categoryList}" var="category">
+                        <option value="${category.id}" >UA: ${category.nameUa}<br> EN: ${category.nameEn}</option>
+                    </c:forEach>
+                </select>
+                <label><fmt:message key="product.add.form.placeholder.text.company"/></label>
+                <select name="new_company_id" >
+                    <c:forEach items="${requestScope.companyList}" var="company">
+                        <option value="${company.id}" >UA: ${company.nameUa}<br> EN: ${company.nameEn}</option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="<fmt:message key="entity.update"/>">
+            </form>
+        </div>
+    </c:if>
     </div>
+</div>
     <style>
         <%@include file='../../../style/header.css' %>
         <%@include file='../../../style/product_page.css' %>
@@ -182,6 +238,24 @@
         slides[slideIndex-1].style.display = "block";
 
     }
-</script>
+
+        let modal = document.getElementById("myModal");
+        let btn = document.getElementsByClassName('myBtn');
+        let span = document.getElementsByClassName("close")[0];
+        function openModal(){
+        modal.style.display = "block";
+    }
+        span.onclick = function() {
+        modal.style.display = "none";
+    }
+        window.onclick = function(event) {
+        if (event.target === modal) {
+        modal.style.display = "none";
+    }
+    }
+        function chooseCountry(){
+        document.getElementById("country_id").value = document.getElementById("chooseCountrySelect" + id).value
+    }
+    </script>
 </body>
 </html>

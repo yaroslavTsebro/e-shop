@@ -68,6 +68,7 @@
     width: 900px;
     overflow: hidden;
     position: relative;
+    margin: 0 0 10px 0;
 }
 
 .marquee-wrapper:after {
@@ -97,10 +98,7 @@
 }
 
 .dropdownCategory {
-    position: fixed;
-    top: 100px;
-    left: 200px;
-    display: inline-block;
+    display: block;
 }
 
 .dropdown-content {
@@ -138,10 +136,7 @@
 }
 
 .dropdownCompany {
-    position: fixed;
-    top: 100px;
-    left: 100px;
-    display: inline-block;
+    display: block;
 }
 
 .dropdown-content a:hover {background-color: #ddd;}
@@ -162,10 +157,7 @@ a{
 }
 
 .dropdownSort {
-    position: fixed;
-    top: 100px;
-    left: 300px;
-    display: inline-block;
+    display: block;
 }
 
 .dropdown-content a:hover {background-color: #ddd;}
@@ -174,5 +166,63 @@ a{
 
 .dropdownSort:hover .dropbtn {
     background-color: #ff898a;
+    text-shadow: 0 0 2px white;
+}
+.wrapper-top{
+    margin: 0 0 50px 0;
+    display: flex;
+    flex-direction: row;
+}
+
+
+.search-input{
+    width: 500px;
+    height: 50px;
+    margin: 0 20px 0 0 ;
+}
+
+.clear{
+    margin: 0 0 0 20px;
+}
+
+.utilsContainer{
+    display: flex;
+    flex-direction: row;
+    background-color: #ff7e5a;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+}
+
+.center {
+    margin: 40px 0 0 0;
+    text-align: center;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination button {
+    background-color: rgba(85, 85, 85, 0.22);
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    margin: 0 4px;
+    transition: background-color 1s ease-out 100ms;
+}
+
+.pagination button.active {
+    background-color: #ff7e5a;
+    color: white;
+    border: 1px solid #ff7e5a;
+}
+
+.pagination button:hover:not(.active) {
+    color: white;
+    background-color: #ff898a;
+    border: 1px solid #ff898a;
     text-shadow: 0 0 2px white;
 }

@@ -97,7 +97,7 @@ hr {
     border-top: 1px solid #A9A9A9FF;
 }
 
-div {
+div:not(.navbar, .alert) {
     border-radius: 5px;
     background-color: #f2f2f2;
 }

@@ -10,10 +10,13 @@ import com.technograd.technograd.web.command.manager.ViewAdminPanel;
 import com.technograd.technograd.web.command.manager.category.*;
 import com.technograd.technograd.web.command.manager.characteristic.*;
 import com.technograd.technograd.web.command.manager.company.*;
+import com.technograd.technograd.web.command.manager.intend.GetSendReportPage;
+import com.technograd.technograd.web.command.manager.intend.SendReport;
 import com.technograd.technograd.web.command.manager.intend.sending.ChangeProductCondition;
 import com.technograd.technograd.web.command.manager.intend.sending.UpdateCountOfProductInIntend;
 import com.technograd.technograd.web.command.manager.intend.sending.ViewCurrentSending;
 import com.technograd.technograd.web.command.manager.intend.sending.ViewSending;
+import com.technograd.technograd.web.command.manager.product.UpdateProduct;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -53,6 +56,7 @@ public class CommandContainer {
         commands.put("sendConfirmationLink", new SendConfirmationLink());
         commands.put("changePasswordCommand", new ChangePasswordCommand());
 
+        commands.put("updateProduct", new UpdateProduct());
 
         commands.put("viewMenu", new ViewMenuCommand());
         commands.put("viewProductPage", new ViewProductCommand());
@@ -73,6 +77,8 @@ public class CommandContainer {
         commands.put("viewCurrentIntend", new ViewCurrentIntend());
         commands.put("turnIntendBack", new TurnIntendBack());
 
+        commands.put("getSendReportPage", new GetSendReportPage());
+        commands.put("sendReport", new SendReport());
     }
 
     public static Command get(String commandName) {

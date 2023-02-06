@@ -2,6 +2,7 @@ package com.technograd.technograd.dao.entity;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,8 +10,8 @@ public class Intend implements Serializable {
 
     private static final long serialVersionUID = -7782482401155085612L;
     private int id;
-    private Date startDate;
-    private Date endDate;
+    private Timestamp startDate;
+    private Timestamp endDate;
     private int userId;
     private int supplierId;
     private int employeeId;
@@ -40,21 +41,22 @@ public class Intend implements Serializable {
         this.id = id;
     }
 
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
+    }
+
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
 
     public int getUserId() {
         return userId;

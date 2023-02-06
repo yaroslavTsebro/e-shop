@@ -37,3 +37,10 @@
         </div>
     </div>
 </div>
+<c:if test="${not empty sessionScope.errorMessage}">
+    <div class="alert">
+        <span class="closeAlertBox" onclick="this.parentElement.style.display='none';">&times;</span>
+        <fmt:message key="${sessionScope.errorMessage}"/>
+    </div>
+    <c:remove scope="session" var="errorMessage"/>
+</c:if>

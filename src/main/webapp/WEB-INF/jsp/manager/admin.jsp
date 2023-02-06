@@ -10,7 +10,7 @@
         <div class="panel-wrapper">
             <div class="panel">
                     <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
-                    <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
+                    <a class="item panel-item" href="/controller?command=getSendReportPage"><fmt:message key="header.menu.admin"/></a>
                     <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
                     <a class="item panel-item" href="/controller?command=viewSending"><fmt:message key="header.menu.admin"/></a>
             </div>

@@ -13,6 +13,7 @@ public class ProductDAO {
     private static final String SQL__FIND_PRODUCTS_BY_CATEGORY = "SELECT * FROM product WHERE product.category =?;";
     private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT * FROM product WHERE id=?;";
     private static final String SQL__FIND_ALL_PRODUCTS = "SELECT * FROM product";
+    private static final String SQL__COUNT_ALL_PRODUCTS = "SELECT COUNT(*) FROM product";
     private static final String SQL__FIND_PRODUCT_BY_ID = "SELECT * FROM product WHERE product.id=?;";
     private static final String SQL__CREATE_PRODUCT = "INSERT INTO product(name_ua, name_en, price, weigth, category_id," +
             " company_id, count, warranty, title_ua, title_en, description_ua, description_en) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING id;";
@@ -24,7 +25,7 @@ public class ProductDAO {
             "weigth = ?, category_id= ?, company_id= ?, count= ?, warranty= ?, title_ua= ?, title_en= ?, description_ua= ?, description_en= ?  WHERE id =?;";
     private static final String SQL__UPDATE_COUNT_BY_ID = "UPDATE product SET count = ? WHERE id = ?;";
 
-    public static void updateCountById(int id, int count) throws DBException {
+    public void updateCountById(int id, int count) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -41,7 +42,7 @@ public class ProductDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
-    public static void updateProduct(Product product) throws DBException {
+    public void updateProduct(Product product) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -70,7 +71,7 @@ public class ProductDAO {
         }
     }
     //I`ve done it because of inserting rubbish data with case with trouble
-    public static void createProductAndPhotosAndCharacteristics(Product product, List<Characteristic> characteristics) throws DBException {
+    public void createProductAndPhotosAndCharacteristics(Product product, List<Characteristic> characteristics) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -132,7 +133,36 @@ public class ProductDAO {
         }
     }
 
-    public static List<Product> getAllReducedProducts(String query) throws DBException {
+    public List<Product> getAllReducedProducts(String query, int limit, int offset) throws DBException {
+        List<Product> products = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, limit);
+            preparedStatement.setInt(2, offset);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                Product product = new Product();
+                product.setId(rs.getInt(Fields.ID));
+                product.setNameUa(rs.getString(Fields.NAME_UA));
+                product.setNameEn(rs.getString(Fields.NAME_EN));
+                product.setPrice(rs.getBigDecimal(Fields.PRODUCT_PRICE));
+                product.setPhotos(new PhotoDAO().getFirstPhotoByProductId(rs.getInt(Fields.ID)));
+                products.add(product);
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
+        }
+        return products;
+    }
+
+    public List<Product> getAllReducedProducts(String query) throws DBException {
         List<Product> products = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -158,18 +188,44 @@ public class ProductDAO {
         }
         return products;
     }
-    public static String menuQueryBuilder(int company,int category, String sortCondition){
-        String queryBase = SQL__FIND_ALL_PRODUCTS;
 
-        if(company >0){
-            queryBase += " WHERE company_id =" + company;
+    public String menuQueryBuilder(String withQuery, boolean forMenu , int company,int category, String sortCondition){
+        String queryBase;
+
+        if(forMenu){
+            queryBase = SQL__FIND_ALL_PRODUCTS;
+        } else{
+            queryBase = SQL__COUNT_ALL_PRODUCTS;
         }
-        if(company >0 && category >0){
-            queryBase += " AND category_id =" + category;
+
+        if(withQuery != null &&withQuery.length() > 0){
+            withQuery = "%" + withQuery + "%";
+            if(company >0){
+                queryBase += " WHERE company_id =" + company;
+                queryBase += " AND (name_ua LIKE '" + withQuery +"' OR name_en LIKE '"+ withQuery +"') ";
+            }
+            if(company >0 && category >0){
+                queryBase += " AND category_id =" + category;
+            }
+            if(category >0 && company <=0) {
+                queryBase += " WHERE category_id =" + category;
+                queryBase += " AND (name_ua LIKE '" + withQuery + "' OR name_en LIKE '" + withQuery + "') ";
+            }
+            if(category <= 0 && company <= 0){
+                queryBase += " WHERE name_ua LIKE '" + withQuery +"' OR name_en LIKE '"+ withQuery +"' ";
+            }
+        } else{
+            if(company >0){
+                queryBase += " WHERE company_id =" + company;
+            }
+            if(company >0 && category >0){
+                queryBase += " AND category_id =" + category;
+            }
+            if(category >0 && company <=0){
+                queryBase += " WHERE category_id =" + category;
+            }
         }
-        if(category >0 && company <=0){
-            queryBase += " WHERE category_id =" + category;
-        }
+
 
         if(sortCondition != null && !sortCondition.isEmpty()){
             if(sortCondition.equals("priceAsc")){
@@ -186,11 +242,16 @@ public class ProductDAO {
 
             }
         }
-        queryBase += ";";
+        if(forMenu && withQuery == null){
+            queryBase += " LIMIT ? OFFSET ?;";
+        } else{
+            queryBase += " ;";
+        }
+
         return queryBase;
     }
 
-    public static List<Product> getAllProducts() throws DBException {
+    public List<Product> getAllProducts() throws DBException {
         List<Product> products = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -213,7 +274,7 @@ public class ProductDAO {
         return products;
     }
 
-    public static Product getProductById(int id) throws DBException {
+    public Product getProductById(int id) throws DBException {
         Product product = new Product();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -237,7 +298,7 @@ public class ProductDAO {
         return product;
     }
 
-    public static Product getReducedProductById(int id) throws DBException {
+    public Product getReducedProductById(int id) throws DBException {
         Product product = new Product();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -265,6 +326,28 @@ public class ProductDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
         return product;
+    }
+
+    public int countOfRows(String query) throws DBException {
+        int count = 0;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                count = resultSet.getInt("count");
+            }
+
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
+        }
+        return count;
     }
 private static class ProductMapper implements EntityMapper<Product>{
     @Override

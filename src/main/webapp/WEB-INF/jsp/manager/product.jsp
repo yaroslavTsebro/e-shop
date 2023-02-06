@@ -4,6 +4,7 @@
     <c:set var="title" value="product.title"/>
     <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
+<%@ include file="/WEB-INF/jspf/part/header.jspf" %>
     <div class="container">
         <div class="wrapper">
             <form action="/product" method="post" name="productAddForm" enctype="multipart/form-data">
@@ -86,6 +87,7 @@
     </div>
 <script src="../../../js/product.js"></script>
 <style>
+    <%@include file='../../../style/header.css' %>
     <%@include file='../../../style/admin.css' %>
 </style>
 </body>
