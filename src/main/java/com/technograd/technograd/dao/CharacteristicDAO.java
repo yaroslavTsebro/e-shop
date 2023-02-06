@@ -20,7 +20,7 @@ public class CharacteristicDAO {
     private static final String SQL__SEARCH_CHARACTERISTIC = "SELECT * FROM characteristic WHERE name_ua LIKE ? OR name_en LIKE ?;";
     private static final String SQL__UPDATE_CHARACTERISTIC = "UPDATE characteristic SET name_ua = ?, name_en = ? WHERE id =?";
 
-    public static void updateCharacteristic(Characteristic characteristic) throws DBException {
+    public void updateCharacteristic(Characteristic characteristic) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -39,7 +39,7 @@ public class CharacteristicDAO {
         }
     }
 
-    public static List<Characteristic> searchCharacteristic(String pattern) throws DBException {
+    public List<Characteristic> searchCharacteristic(String pattern) throws DBException {
         List<Characteristic> characteristicList = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -65,7 +65,7 @@ public class CharacteristicDAO {
     }
 
 
-    public static List<Characteristic> getAllCharacteristics() throws DBException {
+    public List<Characteristic> getAllCharacteristics() throws DBException {
         List<Characteristic> characteristics = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -89,7 +89,7 @@ public class CharacteristicDAO {
         return characteristics;
     }
 
-    public static Characteristic getCharacteristicById(int id) throws DBException {
+    public Characteristic getCharacteristicById(int id) throws DBException {
         Characteristic characteristic = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -113,7 +113,7 @@ public class CharacteristicDAO {
         return characteristic;
     }
 
-    public static Characteristic getCharacteristicByName(String name, String language) throws DBException {
+    public Characteristic getCharacteristicByName(String name, String language) throws DBException {
         Characteristic characteristic = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -139,7 +139,7 @@ public class CharacteristicDAO {
         }
         return characteristic;
     }
-    public static void createCharacteristic(Characteristic characteristic) throws DBException {
+    public void createCharacteristic(Characteristic characteristic) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -156,7 +156,7 @@ public class CharacteristicDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
-    public static void deleteCharacteristicById(int id) throws DBException {
+    public void deleteCharacteristicById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 

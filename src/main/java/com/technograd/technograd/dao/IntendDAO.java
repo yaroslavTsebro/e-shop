@@ -3,10 +3,7 @@ package com.technograd.technograd.dao;
 import com.technograd.technograd.dao.entity.*;
 import com.technograd.technograd.web.exeption.DBException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +21,7 @@ public class IntendDAO {
     private static final String SQL__FIND_INTENDS_BY_USER_ID = "SELECT * FROM intend WHERE user_id=? AND condition!='CART';";
     private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET start_date = current_timestamp, condition = 'NEW', address=? WHERE id=?;";
     private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
+    private static final String SQL__FIND_SENDINGS_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING' and (end_date >= ? and end_date <= ?);";
     private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend";
     private static final String SQL__UPDATE_CONDITION = "UPDATE intend SET";
     private static final String SQL__UPDATE_COUNT_BY_ID = "UPDATE product SET count = ? WHERE id = ?;";
@@ -77,7 +75,7 @@ public class IntendDAO {
     }
 
 
-    public static void createIntendSending(int userId) throws DBException {
+    public void createIntendSending(int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -93,7 +91,7 @@ public class IntendDAO {
         }
     }
 
-    public static String buildUpdateConditionQuery(String condition){
+    public String buildUpdateConditionQuery(String condition){
         String base = SQL__UPDATE_CONDITION;
         if(condition.equals(Condition.IN_WAY.toString())){
             base += " condition='IN_WAY'";
@@ -109,7 +107,7 @@ public class IntendDAO {
         base += " WHERE id=?;";
         return base;
     }
-    public static void updateConditionAccepted(String query, int intendId) throws DBException {
+    public void updateConditionAccepted(String query, int intendId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -152,7 +150,7 @@ public class IntendDAO {
         }
     }
 
-    public static void updateConditionTurnedBack(String query, int intendId) throws DBException {
+    public void updateConditionTurnedBack(String query, int intendId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -195,7 +193,7 @@ public class IntendDAO {
         }
     }
 
-    public static void updateConditionTurnedBackFromUserWithReason(String query, int intendId, String reason) throws DBException {
+    public void updateConditionTurnedBackFromUserWithReason(String query, int intendId, String reason) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -246,7 +244,7 @@ public class IntendDAO {
     }
 
 
-    public static void updateConditionTurnedBackFromUser(String query, int intendId, String reason) throws DBException {
+    public void updateConditionTurnedBackFromUser(String query, int intendId, String reason) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -270,7 +268,7 @@ public class IntendDAO {
         }
     }
 
-    public static void updateCondition(String query, int intendId) throws DBException {
+    public void updateCondition(String query, int intendId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -286,7 +284,7 @@ public class IntendDAO {
         }
     }
 
-    public static List<Intend> findAllReceivings() throws DBException {
+    public List<Intend> findAllReceivings() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -298,8 +296,8 @@ public class IntendDAO {
             while (rs.next()){
                 Intend intend = new Intend();
                 intend.setId(rs.getInt(Fields.ID));
-                intend.setStartDate(rs.getDate(Fields.INTEND_START_DATE));
-                intend.setEndDate(rs.getDate(Fields.INTEND_END_DATE));
+                intend.setStartDate(rs.getTimestamp(Fields.INTEND_START_DATE));
+                intend.setEndDate(rs.getTimestamp(Fields.INTEND_END_DATE));
                 intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
                 intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
                 intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));
@@ -317,7 +315,32 @@ public class IntendDAO {
         return intendList;
     }
 
-    public static List<Intend> findAllIntendsFormQueryBuilder(String query) throws DBException {
+    public List<Intend> findAllReceivingsForReport(Timestamp date1, Timestamp date2) throws DBException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        List<Intend> intendList = new ArrayList<>();
+        try{
+            connection = DBManager.getInstance().getConnection();
+            preparedStatement = connection.prepareStatement(SQL__FIND_SENDINGS_INTEND);
+            preparedStatement.setTimestamp(1, date2);
+            preparedStatement.setTimestamp(2, date1);
+            IntendMapper mapper = new IntendMapper();
+            rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                intendList.add(mapper.mapRow(rs));
+            }
+        } catch (SQLException e) {
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
+            throw new DBException(e);
+        } finally {
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, rs);
+        }
+        return intendList;
+    }
+
+
+    public List<Intend> findAllIntendsFormQueryBuilder(String query) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -329,8 +352,8 @@ public class IntendDAO {
             while (rs.next()){
                 Intend intend = new Intend();
                 intend.setId(rs.getInt(Fields.ID));
-                intend.setStartDate(rs.getDate(Fields.INTEND_START_DATE));
-                intend.setEndDate(rs.getDate(Fields.INTEND_END_DATE));
+                intend.setStartDate(rs.getTimestamp(Fields.INTEND_START_DATE));
+                intend.setEndDate(rs.getTimestamp(Fields.INTEND_END_DATE));
                 intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
                 intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
                 intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));
@@ -348,7 +371,7 @@ public class IntendDAO {
         return intendList;
     }
 
-    public static List<Intend> findIntendByUserId(int userId) throws DBException {
+    public List<Intend> findIntendByUserId(int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -361,8 +384,8 @@ public class IntendDAO {
             while (rs.next()){
                 Intend intend = new Intend();
                 intend.setId(rs.getInt(Fields.ID));
-                intend.setStartDate(rs.getDate(Fields.INTEND_START_DATE));
-                intend.setEndDate(rs.getDate(Fields.INTEND_END_DATE));
+                intend.setStartDate(rs.getTimestamp(Fields.INTEND_START_DATE));
+                intend.setEndDate(rs.getTimestamp(Fields.INTEND_END_DATE));
                 intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
                 intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
                 intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));
@@ -380,7 +403,7 @@ public class IntendDAO {
         return intendList;
     }
 
-    public static void changeCartIntoIntend(String address, int cartId) throws DBException {
+    public void changeCartIntoIntend(String address, int cartId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -396,7 +419,7 @@ public class IntendDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
-    public static void updateIntendCondition(int id, Condition condition) throws DBException {
+    public void updateIntendCondition(int id, Condition condition) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -413,7 +436,7 @@ public class IntendDAO {
         }
     }
 
-    public static void createIntendReceiving(Intend intend) throws DBException {
+    public void createIntendReceiving(Intend intend) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -429,7 +452,7 @@ public class IntendDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
-    public static Intend findIntendById(int id) throws DBException {
+    public Intend findIntendById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -451,7 +474,7 @@ public class IntendDAO {
         }
         return intend;
     }
-    public static Intend findCartById(int id) throws DBException {
+    public Intend findCartById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -474,7 +497,7 @@ public class IntendDAO {
         return intend;
     }
 
-    public static String viewIntendsQueryBuilder(String condition, String sendingOrReceiving){
+    public String viewIntendsQueryBuilder(String condition, String sendingOrReceiving){
         String queryBase = SQL__FIND_SENDING_INTEND;
 
         if(sendingOrReceiving.equals(SendingOrReceiving.SENDING.toString())){
@@ -512,8 +535,8 @@ public class IntendDAO {
             try {
                 Intend intend = new Intend();
                 intend.setId(rs.getInt(Fields.ID));
-                intend.setStartDate(rs.getDate(Fields.INTEND_START_DATE));
-                intend.setEndDate(rs.getDate(Fields.INTEND_END_DATE));
+                intend.setStartDate(rs.getTimestamp(Fields.INTEND_START_DATE));
+                intend.setEndDate(rs.getTimestamp(Fields.INTEND_END_DATE));
                 intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
                 intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
                 intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));

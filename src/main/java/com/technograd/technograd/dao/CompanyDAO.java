@@ -23,7 +23,7 @@ public class CompanyDAO {
             " WHERE company.name_ua LIKE ? OR company.name_en LIKE ? OR country.name_ua LIKE ? OR country.name_en LIKE ?;";
     private static final String SQL__UPDATE_COMPANY = "UPDATE company SET name_ua = ?, name_en = ?, country_id = ? WHERE id =?;";
 
-    public static List<Company> getAllCompanies() throws DBException {
+    public List<Company> getAllCompanies() throws DBException {
         List<Company>  companies = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -47,7 +47,7 @@ public class CompanyDAO {
         return companies;
     }
 
-    public static void updateCompany(Company company) throws DBException {
+    public void updateCompany(Company company) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -67,7 +67,7 @@ public class CompanyDAO {
         }
     }
 
-    public static List<Company> searchCompanies(String pattern) throws DBException {
+    public List<Company> searchCompanies(String pattern) throws DBException {
         List<Company> companyList = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -94,7 +94,7 @@ public class CompanyDAO {
         return companyList;
     }
 
-    public static Company getCompanyById(int id) throws DBException {
+    public Company getCompanyById(int id) throws DBException {
         Company company = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -119,7 +119,7 @@ public class CompanyDAO {
         return company;
     }
 
-    public static Company getCompanyByName(int name, String language) throws DBException {
+    public Company getCompanyByName(int name, String language) throws DBException {
         Company company = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -145,7 +145,7 @@ public class CompanyDAO {
         return company;
     }
 
-    public static void createCompany(Company company) throws DBException {
+    public void createCompany(Company company) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -164,7 +164,7 @@ public class CompanyDAO {
         }
     }
 
-    public static void deleteCompany(int id) throws DBException {
+    public void deleteCompany(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 

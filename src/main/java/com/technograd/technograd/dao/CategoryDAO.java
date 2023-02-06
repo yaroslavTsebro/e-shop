@@ -26,7 +26,7 @@ public class CategoryDAO {
     private static final String SQL__COUNT_OF_CATEGORIES = "SELECT COUNT(*) FROM category;";
     private static final Logger logger = LogManager.getLogger(CreateCategory.class.getName());
 
-    public static List<Category> getAllCategories() throws DBException {
+    public List<Category> getAllCategories() throws DBException {
         List<Category> categories = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -50,7 +50,7 @@ public class CategoryDAO {
         return categories;
     }
 
-    public static List<Category> searchCategories(String pattern) throws DBException {
+    public List<Category> searchCategories(String pattern) throws DBException {
         List<Category> categories = new ArrayList<>();
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -75,7 +75,7 @@ public class CategoryDAO {
         return categories;
     }
 
-    public static List<Category> getCategoriesByPage(int currentPage, int recordsPerPage) throws DBException {
+    public List<Category> getCategoriesByPage(int currentPage, int recordsPerPage) throws DBException {
         List<Category> categories = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -101,7 +101,7 @@ public class CategoryDAO {
         return categories;
     }
 
-    public static int numberOfAllCategories() throws DBException {
+    public int numberOfAllCategories() throws DBException {
         int numberOfRows = 0;
         PreparedStatement p = null;
         ResultSet rs = null;
@@ -122,7 +122,7 @@ public class CategoryDAO {
         return numberOfRows;
     }
 
-    public static Category getCategoryById(int id) throws DBException {
+    public Category getCategoryById(int id) throws DBException {
         Category category = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -146,7 +146,7 @@ public class CategoryDAO {
         return category;
     }
 
-    public static Category getCategoryByName(String name, String language) throws DBException {
+    public Category getCategoryByName(String name, String language) throws DBException {
         Category category = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -172,7 +172,7 @@ public class CategoryDAO {
         }
         return category;
     }
-    public static void createCategory(Category category) throws DBException {
+    public void createCategory(Category category) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -190,7 +190,7 @@ public class CategoryDAO {
         }
     }
 
-    public static void updateCategory(Category category) throws DBException {
+    public void updateCategory(Category category) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -209,7 +209,7 @@ public class CategoryDAO {
         }
     }
 
-    public static void deleteById(int id) throws DBException {
+    public void deleteById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 

@@ -18,5 +18,8 @@ public final class Path {
     public static final String PROFILE_PAGE = "/WEB-INF/jsp/customer/profile.jsp";
     public static final String SEND_LINK_PAGE = "/WEB-INF/jsp/general/send_link.jsp";
     public static final String CHANGE_PASSWORD_PAGE = "/WEB-INF/jsp/general/change_password.jsp";
+    public static final String UPDATE_PRODUCT_PAGE = "/WEB-INF/jsp/manager/update_prod.jsp";
+
+    public static final String REPORT_PAGE = "/WEB-INF/jsp/manager/report.jsp";
 
 }

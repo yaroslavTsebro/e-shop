@@ -18,7 +18,7 @@ public class PhotoDAO {
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
     private static final String SQL__FIND_NEXT_ID =  "SELECT nextval(pg_get_serial_sequence('photo', 'id')) AS new_id;";
 
-    public static void insertListOfPhotos(List<Photo> photos) throws DBException {
+    public void insertListOfPhotos(List<Photo> photos) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -37,7 +37,7 @@ public class PhotoDAO {
         }
     }
 
-    public static List<Photo> getFirstPhotoByProductId(int id) throws DBException {
+    public List<Photo> getFirstPhotoByProductId(int id) throws DBException {
         List<Photo> photos = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -60,7 +60,7 @@ public class PhotoDAO {
         return photos;
     }
 
-    public static List<Photo> getPhotosById(int id) throws DBException {
+    public List<Photo> getPhotosById(int id) throws DBException {
         List<Photo> photos = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -84,7 +84,7 @@ public class PhotoDAO {
     }
 
 
-    public static Photo getPhotoByName(String name) throws DBException {
+    public Photo getPhotoByName(String name) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -104,7 +104,7 @@ public class PhotoDAO {
         return photo;
     }
 
-    public static int getNextId() throws DBException {
+    public int getNextId() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -123,7 +123,7 @@ public class PhotoDAO {
     }
 
 
-    public static String deletePhotoById(int id) throws DBException {
+    public String deletePhotoById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -145,7 +145,7 @@ public class PhotoDAO {
         return name;
     }
 
-    public static void createPhoto(Photo photo) throws DBException {
+    public void createPhoto(Photo photo) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 

@@ -26,7 +26,7 @@ public class ListIntendDAO {
     private static final String SQL__FIND_LIST_INTEND_BY_PRODUCT_ID_AND_USER_ID_IN_CART = "SELECT * FROM list_intend JOIN intend ON list_intend.intend_id = intend.id " +
             "WHERE list_intend.product_id=? AND intend.id =? AND intend.user_id=? AND condition='CART';";
 
-    public static List<ListIntend> getAllListIntendsByIntendId(int id) throws DBException {
+    public List<ListIntend> getAllListIntendsByIntendId(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -50,7 +50,7 @@ public class ListIntendDAO {
         return intends;
     }
 
-    public static ListIntend checkCartForProduct(int productId, int intendId, int userId) throws DBException {
+    public ListIntend checkCartForProduct(int productId, int intendId, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -76,7 +76,7 @@ public class ListIntendDAO {
         return intend;
     }
 
-    public static void updateCountInListIntendById( int id, int count) throws DBException {
+    public void updateCountInListIntendById( int id, int count) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -93,7 +93,7 @@ public class ListIntendDAO {
         }
     }
 
-    public static void updateCountInListIntendByIdInCart( int id, int count, int userId) throws DBException {
+    public void updateCountInListIntendByIdInCart( int id, int count, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -111,7 +111,7 @@ public class ListIntendDAO {
         }
     }
 
-    public static void updatePriceInListIntendById(BigDecimal price, int id) throws DBException {
+    public void updatePriceInListIntendById(BigDecimal price, int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -128,7 +128,7 @@ public class ListIntendDAO {
         }
     }
 
-    public static void deleteListIntendById(int id, int userId) throws DBException {
+    public void deleteListIntendById(int id, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -145,7 +145,7 @@ public class ListIntendDAO {
         }
     }
 
-    public static void deleteListIntendByIdInCart(int id, int userId) throws DBException {
+    public void deleteListIntendByIdInCart(int id, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -163,7 +163,7 @@ public class ListIntendDAO {
     }
 
 
-    public static void createListIntend(int intendId, int count, int productId, BigDecimal productPrice) throws DBException {
+    public void createListIntend(int intendId, int count, int productId, BigDecimal productPrice) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{

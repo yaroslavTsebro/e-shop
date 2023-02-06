@@ -16,7 +16,7 @@ public class CountryDAO {
     private static final String SQL__UPDATE_COUNTRY = "UPDATE country SET name_ua = ?, name_en = ? WHERE id =?";
     private static final String SQL__CREATE_COUNTRY = "INSERT INTO country (name_ua, name_en) VALUES(?, ?);";
 
-    public static List<Country> getAllCountries() throws DBException {
+    public List<Country> getAllCountries() throws DBException {
         List<Country>  countries = new ArrayList<>();
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -40,7 +40,7 @@ public class CountryDAO {
         return countries;
     }
 
-    public static Country getCountryById(int id) throws DBException {
+    public Country getCountryById(int id) throws DBException {
         Country country = null;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -64,7 +64,7 @@ public class CountryDAO {
         return country;
     }
 
-    public static void updateCountry(Country country) throws DBException {
+    public void updateCountry(Country country) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -83,7 +83,7 @@ public class CountryDAO {
         }
     }
 
-    public static void createCountry(Country country) throws DBException {
+    public void createCountry(Country country) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 

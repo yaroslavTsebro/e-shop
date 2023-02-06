@@ -25,7 +25,7 @@ public class UserDAO {
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
     private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS =    "select id from \"user\" WHERE post='MANAGER' ORDER BY random() LIMIT 1;";
 
-    public static void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
+    public void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -43,7 +43,7 @@ public class UserDAO {
         }
     }
 
-    public static void updateUserLanguageToUa(int id) throws DBException {
+    public void updateUserLanguageToUa(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -60,7 +60,7 @@ public class UserDAO {
         }
     }
 
-    public static void updateUserLanguageToEn(int id) throws DBException {
+    public void updateUserLanguageToEn(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -77,7 +77,7 @@ public class UserDAO {
         }
     }
 
-    public static int getManagerWithLowestCountOfIntends() throws DBException {
+    public int getManagerWithLowestCountOfIntends() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -99,7 +99,7 @@ public class UserDAO {
         return id;
     }
 
-    public static String getSaltFromUserDetails(int userId) throws DBException {
+    public  String getSaltFromUserDetails(int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -121,7 +121,7 @@ public class UserDAO {
         return salt;
     }
 
-    public static String getCodeFromUserDetails(int userId) throws DBException {
+    public  String getCodeFromUserDetails(int userId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -143,7 +143,7 @@ public class UserDAO {
         return code;
     }
 
-    public static void createUser(User user) throws DBException {
+    public void createUser(User user) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -165,7 +165,7 @@ public class UserDAO {
         }
     }
 
-    public static void updateUserLanguage(int id, String language) throws DBException {
+    public void updateUserLanguage(int id, String language) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -182,7 +182,7 @@ public class UserDAO {
         }
     }
 
-    public static User getUserById(int id) throws DBException {
+    public User getUserById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -205,7 +205,7 @@ public class UserDAO {
         return user;
     }
 
-    public static User getReducedUserById(int id) throws DBException {
+    public User getReducedUserById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
@@ -235,7 +235,7 @@ public class UserDAO {
         return user;
     }
 
-    public static User getUserByEmail(String email) throws DBException {
+    public User getUserByEmail(String email) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -258,7 +258,7 @@ public class UserDAO {
         return user;
     }
 
-    public static List<User> getAllUsers() throws DBException {
+    public List<User> getAllUsers() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -306,7 +306,7 @@ public class UserDAO {
         }
     }
 
-    public static String getCode(int userId) throws DBException {
+    public String getCode(int userId) throws DBException {
         PreparedStatement p = null;
         Connection con = null;
         ResultSet rs = null;
@@ -328,7 +328,7 @@ public class UserDAO {
         return code;
     }
 
-    public static String getSalt(int userId) throws DBException {
+    public String getSalt(int userId) throws DBException {
         PreparedStatement p = null;
         Connection con = null;
         ResultSet rs = null;

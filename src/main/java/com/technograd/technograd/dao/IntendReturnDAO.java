@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class IntendReturnDAO {
     private static final String SQL__FIND_INTEND_RETURN_BY_INTEND_ID = "SELECT * FROM intend_return WHERE intend_id=?";
 
-    public static IntendReturn findIntendReturnByIntendId(int intendId) throws DBException {
+    public IntendReturn findIntendReturnByIntendId(int intendId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
