@@ -9,7 +9,7 @@ import com.technograd.technograd.web.email.EmailUtility;
 import com.technograd.technograd.web.exeption.AppException;
 import com.technograd.technograd.web.exeption.DBException;
 import com.technograd.technograd.web.localization.LocalizationUtils;
-import com.technograd.technograd.web.xlsx.XLSXUtility;
+import com.technograd.technograd.web.xls.XLSXUtility;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,22 +36,29 @@ public class SendReport extends Command {
         String fileSrc = "C:\\Users\\User\\Desktop\\1.xls";
         ResourceBundle rb = LocalizationUtils.getCurrentRb(session);
 
-        Date daily = java.sql.Date.valueOf(request.getParameter("daily"));
-        Timestamp date1 = new Timestamp(daily.getTime());
+        Date date1 = java.sql.Date.valueOf(request.getParameter("date1"));
+        Date date2 = java.sql.Date.valueOf(request.getParameter("date2"));
+        Timestamp newDate1 = new Timestamp(date1.getTime());
+        newDate1.setHours(0);
+        newDate1.setMinutes(0);
+        newDate1.setSeconds(0);
+        newDate1.setNanos(0);
 
-        Timestamp date2 = new Timestamp(daily.getTime());
-        date1.setHours(23);
-        date1.setMinutes(59);
-        date1.setSeconds(59);
-        date1.setNanos(9);
+        Timestamp newDate2 = new Timestamp(date2.getTime());
+        newDate2.setHours(23);
+        newDate2.setMinutes(59);
+        newDate2.setSeconds(59);
+        newDate2.setNanos(9);
+
         IntendDAO intendDAO = new IntendDAO();
         XLSXUtility xlsxUtility = new XLSXUtility();
             try {
                 File file = new File(fileSrc);
                 file.createNewFile();
-                List<Intend> intendList =  intendDAO.findAllReceivingsForReport(date1, date2);
+                List<Intend> intendList =  intendDAO.findAllReceivingsForReport(newDate1, newDate2);
                 xlsxUtility.writeIntendsInXLS(intendList, fileSrc, rb);
                 EmailUtility.sendMail(user.getEmail(), fileSrc, rb);
+                file.delete();
             } catch (DBException | InvalidFormatException | MessagingException e) {
                 throw new RuntimeException(e);
             }

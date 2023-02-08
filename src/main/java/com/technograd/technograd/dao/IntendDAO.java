@@ -20,8 +20,8 @@ public class IntendDAO {
     private static final String SQL__FIND_CART_BY_ID = "SELECT * FROM intend WHERE user_id=? AND condition='CART';";
     private static final String SQL__FIND_INTENDS_BY_USER_ID = "SELECT * FROM intend WHERE user_id=? AND condition!='CART';";
     private static final String SQL__CHANGE_CART_INTO_INTEND = "UPDATE intend SET start_date = current_timestamp, condition = 'NEW', address=? WHERE id=?;";
-    private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'RECEIVING';";
-    private static final String SQL__FIND_SENDINGS_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING' and (end_date >= ? and end_date <= ?);";
+    private static final String SQL__FIND_RECEIVING_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING';";
+    private static final String SQL__FIND_SENDINGS_INTEND = "SELECT * FROM intend WHERE sending_or_receiving = 'SENDING' and condition != 'CART' and (end_date >= ? and end_date <= ?);";
     private static final String SQL__FIND_SENDING_INTEND = "SELECT * FROM intend";
     private static final String SQL__UPDATE_CONDITION = "UPDATE intend SET";
     private static final String SQL__UPDATE_COUNT_BY_ID = "UPDATE product SET count = ? WHERE id = ?;";
@@ -292,19 +292,10 @@ public class IntendDAO {
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__FIND_RECEIVING_INTEND);
+            IntendMapper mapper = new IntendMapper();
             rs = preparedStatement.executeQuery();
             while (rs.next()){
-                Intend intend = new Intend();
-                intend.setId(rs.getInt(Fields.ID));
-                intend.setStartDate(rs.getTimestamp(Fields.INTEND_START_DATE));
-                intend.setEndDate(rs.getTimestamp(Fields.INTEND_END_DATE));
-                intend.setUserId(rs.getInt(Fields.INTEND_USER_ID));
-                intend.setSupplierId(rs.getInt(Fields.INTEND_SUPPLIER_ID));
-                intend.setEmployeeId(rs.getInt(Fields.INTEND_EMPLOYEE_ID));
-                intend.setSendingOrReceiving(rs.getString(Fields.INTEND_SENDING_OR_RECEIVING));
-                intend.setAddress(rs.getString(Fields.INTEND_ADDRESS));
-                intend.setCondition(rs.getString(Fields.INTEND_CONDITION));
-                intendList.add(intend);
+                intendList.add(mapper.mapRow(rs));
             }
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, rs);
@@ -323,8 +314,8 @@ public class IntendDAO {
         try{
             connection = DBManager.getInstance().getConnection();
             preparedStatement = connection.prepareStatement(SQL__FIND_SENDINGS_INTEND);
-            preparedStatement.setTimestamp(1, date2);
-            preparedStatement.setTimestamp(2, date1);
+            preparedStatement.setTimestamp(1, date1);
+            preparedStatement.setTimestamp(2, date2);
             IntendMapper mapper = new IntendMapper();
             rs = preparedStatement.executeQuery();
             while (rs.next()){
