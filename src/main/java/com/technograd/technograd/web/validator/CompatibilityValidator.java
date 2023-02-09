@@ -1,7 +1,7 @@
 package com.technograd.technograd.web.validator;
 
 import com.technograd.technograd.dao.entity.Compatibility;
-import com.technograd.technograd.web.exeption.AppException;
+import com.technograd.technograd.web.exсeption.AppException;
 
 public class CompatibilityValidator implements Validator<Compatibility> {
     @Override

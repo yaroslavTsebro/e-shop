@@ -1,6 +1,6 @@
 package com.technograd.technograd.web.command;
 
-import com.technograd.technograd.web.exeption.AppException;
+import com.technograd.technograd.web.exсeption.AppException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

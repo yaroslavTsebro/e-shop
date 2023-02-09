@@ -7,8 +7,8 @@ import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.ChangeLanguage;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.email.EmailUtility;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import com.technograd.technograd.web.localization.LocalizationUtils;
 import com.technograd.technograd.web.passwordSecurity.PasswordSecurityUtil;
 import jakarta.mail.MessagingException;
@@ -63,8 +63,7 @@ public class SendConfirmationLink extends Command {
         sendConfirmationCode(currentUser, code, rb);
 
         session.setAttribute("userMessage", "send.confirmation.link.command");
-        logger.debug("Send confirmation link command is finished");
-        return request.getContextPath() + "/controller?command=loginPage";
+        return request.getContextPath() + Commands.VIEW_LOGIN_PAGE;
     }
 
     private void sendConfirmationCode(User user, String link, ResourceBundle rb) throws AppException {

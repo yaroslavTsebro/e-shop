@@ -13,7 +13,7 @@
                     <input class="hidden" type="hidden" name="command" value="sendReport"/>
                     <input type="date" name="date1"/>
                     <input type="date"  name="date2"/>
-                    <input class="deleteButton" type="submit" value="Delete"/>
+                    <input class="deleteButton" type="submit" value="<fmt:message key="admin.get.report"/>"/>
                 </form>
             </div>
         </div>
@@ -22,7 +22,7 @@
                 <input class="hidden" type="hidden" name="command" value="sendReport"/>
                 <input id="date-hidden" type="hidden" name="date1"/>
                 <input id="date-daily" type="date" onchange="document.getElementById('date-hidden').value = this.value" name="date2"/>
-                <input class="deleteButton" type="submit" value="Delete"/>
+                <input class="deleteButton" type="submit" value="<fmt:message key="admin.get.daily.report"/>"/>
             </form>
         </div>
     </div>

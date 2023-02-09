@@ -2,7 +2,7 @@ package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
 import com.technograd.technograd.web.command.manager.category.CreateCategory;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.DBException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

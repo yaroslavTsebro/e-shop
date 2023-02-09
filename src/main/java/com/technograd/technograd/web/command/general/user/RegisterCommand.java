@@ -1,14 +1,12 @@
 package com.technograd.technograd.web.command.general.user;
 
-import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.UserDAO;
-import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.command.manager.category.CreateCategory;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import com.technograd.technograd.web.passwordSecurity.PasswordSecurityUtil;
 import com.technograd.technograd.web.recaptcha.RecaptchaUtil;
 import jakarta.servlet.ServletException;
@@ -19,7 +17,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class RegisterCommand extends Command {
 
@@ -57,7 +54,8 @@ public class RegisterCommand extends Command {
         if(checkCredentials(email, password, name, lastname)){
             errorMessage = "register.command.values.empty";
             logger.error("errorMessage --> " + "email/password cannot be empty");
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_REGISTER_PAGE;
         }
 
         String gCaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -66,7 +64,8 @@ public class RegisterCommand extends Command {
         if (!valid) {
             errorMessage = "login.command.captcha.invalid";
             logger.error("errorMessage --> " + "Captcha isn`t valid");
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_REGISTER_PAGE;
         }
         logger.debug("captcha is valid");
 
@@ -74,7 +73,10 @@ public class RegisterCommand extends Command {
         try {
             user = userDAO.getUserByEmail(email);
         } catch (Exception ignored) {
-
+            errorMessage = "login.email.command.already.used";
+            logger.error("errorMessage --> " + "This Email have used");
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_REGISTER_PAGE;
         }
 
         logger.trace("Found user at DB: user-> " + user);
@@ -82,7 +84,8 @@ public class RegisterCommand extends Command {
         if(user != null){
             errorMessage = "login.email.command.already.used";
             logger.error("errorMessage --> " + "This Email have used");
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_REGISTER_PAGE;
         } else {
             User newUser = new User();
             String salt = PasswordSecurityUtil.getSalt(50);
@@ -98,7 +101,8 @@ public class RegisterCommand extends Command {
             } catch (DBException exception) {
                 errorMessage = "user.dao.find.user.error";
                 logger.error("errorMessage --> " + exception);
-                throw new AppException(errorMessage);
+                session.setAttribute("errorMessage", errorMessage);
+                return request.getContextPath() + Commands.VIEW_REGISTER_PAGE;
             }
         }
         logger.debug("Login command finished");

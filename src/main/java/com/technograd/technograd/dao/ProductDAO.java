@@ -1,7 +1,7 @@
 package com.technograd.technograd.dao;
 
 import com.technograd.technograd.dao.entity.*;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.DBException;
 
 
 import java.sql.*;
@@ -227,7 +227,7 @@ public class ProductDAO {
         }
 
 
-        if(sortCondition != null && !sortCondition.isEmpty()){
+        if(sortCondition != null && !sortCondition.isEmpty() && forMenu == true){
             if(sortCondition.equals("priceAsc")){
                 queryBase += " ORDER BY price ASC";
             } else if (sortCondition.equals("priceDesc")) {

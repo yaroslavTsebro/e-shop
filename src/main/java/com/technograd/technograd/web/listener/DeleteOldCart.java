@@ -2,7 +2,7 @@ package com.technograd.technograd.web.listener;
 
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;

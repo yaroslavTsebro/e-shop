@@ -1,7 +1,7 @@
 package com.technograd.technograd.web.validator;
 
 import com.technograd.technograd.dao.entity.Characteristic;
-import com.technograd.technograd.web.exeption.AppException;
+import com.technograd.technograd.web.exсeption.AppException;
 
 public class CharacteristicValidator implements Validator<Characteristic> {
 private static final String characteristicEnPattern = "^[a-zA-Z\\s]+";

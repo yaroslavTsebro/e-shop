@@ -1,14 +1,12 @@
 package com.technograd.technograd.web.command.general.user;
 
-import com.technograd.technograd.Path;
-import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.UserDAO;
 import com.technograd.technograd.dao.entity.Post;
 import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.command.manager.category.CreateCategory;
-import com.technograd.technograd.web.exeption.*;
+import com.technograd.technograd.web.exсeption.*;
 import com.technograd.technograd.web.passwordSecurity.PasswordSecurityUtil;
 import com.technograd.technograd.web.recaptcha.RecaptchaUtil;
 import jakarta.servlet.ServletException;
@@ -54,7 +52,9 @@ public class LoginCommand extends Command {
         if (email == null || password == null || email.isEmpty() || password.isEmpty()) {
             errorMessage = "login.command.values.empty";
             logger.error("errorMessage --> " + "email/password cannot be empty");
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_LOGIN_PAGE;
+
         }
 
         String gCaptchaResponse = request.getParameter("g-recaptcha-response");
@@ -64,7 +64,8 @@ public class LoginCommand extends Command {
         if (!valid) {
             errorMessage = "login.command.captcha.invalid";
             logger.error("errorMessage --> " + "Captcha isn`t valid");
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_LOGIN_PAGE;
         }
 
         logger.debug("captcha is valid");
@@ -75,7 +76,8 @@ public class LoginCommand extends Command {
         } catch (DBException exception) {
             errorMessage = "user.dao.find.user.error";
             logger.error("errorMessage --> " + exception);
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_LOGIN_PAGE;
         }
 
         logger.trace("Found user at DB: user-> " + user);
@@ -83,7 +85,8 @@ public class LoginCommand extends Command {
         if (user == null || !PasswordSecurityUtil.verifyPassword(password, user.getPassword(), user.getSalt())) {
             errorMessage = "login.command.credentials.invalid";
             logger.error("errorMessage --> " + "email/password isn`t valid");
-            throw new AppException(errorMessage);
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_LOGIN_PAGE;
         } else {
             Post userPost = user.getPost();
             logger.debug("User role --> " + userPost);

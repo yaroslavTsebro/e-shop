@@ -44,3 +44,10 @@
     </div>
     <c:remove scope="session" var="errorMessage"/>
 </c:if>
+<c:if test="${not empty sessionScope.userMessage}">
+    <div class="alert-blue">
+        <span class="closeAlertBox" onclick="this.parentElement.style.display='none';">&times;</span>
+        <fmt:message key="${sessionScope.userMessage}"/>
+    </div>
+    <c:remove scope="session" var="userMessage"/>
+</c:if>

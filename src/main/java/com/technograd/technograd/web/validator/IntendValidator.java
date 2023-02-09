@@ -2,7 +2,7 @@ package com.technograd.technograd.web.validator;
 
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.SendingOrReceiving;
-import com.technograd.technograd.web.exeption.AppException;
+import com.technograd.technograd.web.exсeption.AppException;
 
 public class IntendValidator implements Validator<Intend>{
     @Override

@@ -1,13 +1,13 @@
 package com.technograd.technograd.web.command.manager.intend;
 
-import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.User;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.email.EmailUtility;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import com.technograd.technograd.web.localization.LocalizationUtils;
 import com.technograd.technograd.web.xls.XLSXUtility;
 import jakarta.mail.MessagingException;
@@ -59,9 +59,13 @@ public class SendReport extends Command {
                 xlsxUtility.writeIntendsInXLS(intendList, fileSrc, rb);
                 EmailUtility.sendMail(user.getEmail(), fileSrc, rb);
                 file.delete();
+                String userMessage = "send.report.success";
+                session.setAttribute("userMessage", userMessage);
             } catch (DBException | InvalidFormatException | MessagingException e) {
-                throw new RuntimeException(e);
+                String errorMessage = "send.report.error";
+                session.setAttribute("errorMessage", errorMessage);
+                return request.getContextPath() + Commands.VIEW_REPORT_COMMAND;
             }
-            return Path.REPORT_PAGE;
+            return request.getContextPath() + Commands.VIEW_REPORT_COMMAND;
     }
 }

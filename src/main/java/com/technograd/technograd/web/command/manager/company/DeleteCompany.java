@@ -2,8 +2,8 @@ package com.technograd.technograd.web.command.manager.company;
 
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,10 +1,9 @@
 package com.technograd.technograd.web.command.manager.characteristic;
 
-import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CharacteristicDAO;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

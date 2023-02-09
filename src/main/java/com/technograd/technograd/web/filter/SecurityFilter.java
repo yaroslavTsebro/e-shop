@@ -27,8 +27,6 @@ public class SecurityFilter implements Filter {
         accessMap.put(Post.CUSTOMER, asList(config.getInitParameter("customer")));
         logger.trace("Access map --> " + accessMap);
 
-        commons = asList(config.getInitParameter("common"));
-        logger.trace("Common commands --> " + commons);
 
         outOfControl = asList(config.getInitParameter("out-of-control"));
         logger.trace("Out of control commands --> " + outOfControl);
@@ -78,12 +76,12 @@ public class SecurityFilter implements Filter {
             return false;
         }
 
-        Role userRole = (Role) session.getAttribute("userRole");
-        logger.trace("USER ROLE =" + userRole);
-        if (userRole == null) {
+        Post userPost = (Post) session.getAttribute("userPost");
+        logger.trace("USER POST =" + userPost);
+        if (userPost == null) {
             return false;
         }
-        return accessMap.get(userRole).contains(commandName) || commons.contains(commandName);
+        return accessMap.get(userPost).contains(commandName);
     }
 
     @Override

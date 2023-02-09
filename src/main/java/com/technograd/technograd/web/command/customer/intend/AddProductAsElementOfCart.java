@@ -1,14 +1,14 @@
 package com.technograd.technograd.web.command.customer.intend;
 
-import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.ListIntend;
 import com.technograd.technograd.dao.entity.User;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,16 +59,26 @@ public class AddProductAsElementOfCart extends Command {
         BigDecimal productPrice = new BigDecimal(price);
         logger.trace("product_price ->" + productPrice);
 
+        if(addToCartCount <= 0){
+            String errorMessage = "cart.product.count.isnt.valid";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
+        }
+
 
         if(productCount < addToCartCount){
-            throw new RuntimeException();
+            String errorMessage = "cart.product.count.less.than.need";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
         }
 
         Intend cart;
         try{
             cart = intendDAO.findCartById(id);
         } catch (DBException e) {
-            throw new RuntimeException(e);
+            String errorMessage = "cart.product.error";
+            session.setAttribute("errorMessage", errorMessage);
+            return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
         }
 
         if(cart == null){
@@ -77,13 +87,17 @@ public class AddProductAsElementOfCart extends Command {
                 cart = intendDAO.findCartById(id);
                 logger.trace("Intend with this id was inserted:" + id);
             } catch (DBException e) {
-                throw new RuntimeException(e);
+                String errorMessage = "cart.product.error";
+                session.setAttribute("errorMessage", errorMessage);
+                return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
             }
             try {
                 listIntendDAO.createListIntend(cart.getId(), addToCartCount, productId, productPrice);
                 logger.trace("listIntend with this id was inserted:" + id);
             } catch (DBException e) {
-                throw new RuntimeException(e);
+                String errorMessage = "cart.product.error";
+                session.setAttribute("errorMessage", errorMessage);
+                return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
             }
         } else{
             try {
@@ -95,7 +109,9 @@ public class AddProductAsElementOfCart extends Command {
                     }
                 logger.trace("listIntend with this id was inserted:" + id);
             } catch (DBException e) {
-                throw new RuntimeException(e);
+                String errorMessage = "cart.product.error";
+                session.setAttribute("errorMessage", errorMessage);
+                return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
             }
         }
 

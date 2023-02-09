@@ -84,12 +84,12 @@
         <c:if test="${requestScope.nOfPages > 1}">
             <div class="center">
                 <div class="pagination">
-                    <c:if test="${requestScope.currentPage != 1}">
-                        <button onclick="selectByParam(`currentPage` ,${requestScope.currentPage - 1})" type="button">${requestScope.currentPage - 1}</button>
+                    <c:if test="${requestScope.currentPage != 0}">
+                        <button onclick="selectByParam(`currentPage` ,${requestScope.currentPage - 1})" type="button">⬅</button>
                     </c:if>
-                        <button class="active" type="button">${requestScope.currentPage}</button>
-                    <c:if test="${requestScope.currentPage != requestScope.nOfPages}">
-                        <button onclick="selectByParam(`currentPage` ,${requestScope.currentPage + 1})" type="button">${requestScope.currentPage + 1}</button>
+                        <button class="active" type="button">${requestScope.currentPage + 1}</button>
+                    <c:if test="${requestScope.currentPage != requestScope.nOfPages -1}">
+                        <button onclick="selectByParam(`currentPage` ,${requestScope.currentPage + 1})" type="button">➡</button>
                     </c:if>
                 </div>
             </div>

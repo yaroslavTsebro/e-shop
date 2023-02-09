@@ -2,10 +2,9 @@ package com.technograd.technograd.web.command.manager.intend.sending;
 
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.ProductDAO;
-import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

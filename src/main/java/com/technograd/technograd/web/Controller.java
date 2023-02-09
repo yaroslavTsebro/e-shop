@@ -3,9 +3,8 @@ package com.technograd.technograd.web;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.command.CommandContainer;
 import com.technograd.technograd.web.command.manager.category.CreateCategory;
-import com.technograd.technograd.web.exeption.AppException;
+import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.localization.LocalizationUtils;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-@WebServlet(name = "controller", value = "/controller")
+@WebServlet(name = "Controller", value = "/controller")
 public class Controller extends HttpServlet {
 
     private static final long serialVersionUID = 8239133597902771792L;

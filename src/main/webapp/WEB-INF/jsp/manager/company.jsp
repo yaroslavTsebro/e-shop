@@ -4,6 +4,7 @@
     <c:set var="title" value="company.title"/>
     <%@ include file="/WEB-INF/jspf/part/head.jspf" %>
 <body>
+<%@ include file="/WEB-INF/jspf/part/header.jspf" %>
 <div class="container">
     <div class="wrapper">
         <form action="/controller" method="post" name="createCompanyForm">
@@ -114,6 +115,7 @@
 </script>
 <style>
     <%@include file='../../../style/admin.css' %>
+    <%@include file='../../../style/header.css' %>
 </style>
 </body>
 </html>

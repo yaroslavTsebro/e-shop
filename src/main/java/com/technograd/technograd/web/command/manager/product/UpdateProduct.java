@@ -1,13 +1,13 @@
 package com.technograd.technograd.web.command.manager.product;
 
-import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.ProductDAO;
 import com.technograd.technograd.dao.entity.*;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.validator.ProductValidator;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,9 +17,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class UpdateProduct extends Command {
 
@@ -43,14 +40,32 @@ public class UpdateProduct extends Command {
 
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException, AppException {
+        HttpSession session = req.getSession();
         logger.info("UpdateProduct execute started");
-        Product product = readProductDataFromRequest(req);
+        Product product;
         String id = req.getParameter("product_update_id");
         try{
+            product = readProductDataFromRequest(req);
+        } catch (Exception e){
+            String errorMessage = "product.update.wrong.data";
+            session.setAttribute("errorMessage", errorMessage);
+            return req.getContextPath() + Commands.VIEW_MENU_COMMAND;
+        }
 
+        ProductValidator productValidator = new ProductValidator();
+        if(product == null ||!productValidator.validator(product)){
+            String errorMessage = "product.update.wrong.data";
+            session.setAttribute("errorMessage", errorMessage);
+            return req.getContextPath() + Commands.VIEW_MENU_COMMAND;
+        }
+
+
+        try{
             productDAO.updateProduct(product);
         } catch (Exception e){
-            logger.debug("Change password command is finished");
+            String errorMessage = "product.update.wrong.something";
+            session.setAttribute("errorMessage", errorMessage);
+            return req.getContextPath() + Commands.VIEW_MENU_COMMAND;
         }
         logger.info("UpdateProduct execute finished");
         return req.getContextPath() + "/controller?command=viewProductPage&id=" + id;

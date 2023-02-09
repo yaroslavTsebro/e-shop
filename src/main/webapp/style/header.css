@@ -63,6 +63,11 @@
     background-color: #f44336 !important;
     color: white !important;
 }
+.alert-blue {
+    padding: 20px !important;
+    background-color: #3695f4 !important;
+    color: white !important;
+}
 
 .closeAlertBox {
     margin-left: 15px !important;

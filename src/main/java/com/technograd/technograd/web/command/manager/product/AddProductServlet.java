@@ -3,23 +3,19 @@ package com.technograd.technograd.web.command.manager.product;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.*;
 import com.technograd.technograd.dao.entity.*;
-import com.technograd.technograd.web.exeption.AppException;
-import com.technograd.technograd.web.exeption.DBException;
+import com.technograd.technograd.web.Commands;
+import com.technograd.technograd.web.exсeption.AppException;
+import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,6 +54,15 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if(!user.getPost().equals(Post.MANAGER)){
+            String errorMessage = "product.create.wrong.post";
+            session.setAttribute("errorMessage", errorMessage);
+            RequestDispatcher dispatcher = request.getRequestDispatcher(Path.LOGIN_PAGE);
+            dispatcher.forward(request, response);
+        }
         logger.info("AddProductServlet execute started");
 
         List<Category> categoryList = null;
@@ -88,6 +93,15 @@ public class AddProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if(!user.getPost().equals(Post.MANAGER)){
+            String errorMessage = "product.create.wrong.post";
+            session.setAttribute("errorMessage", errorMessage);
+            RequestDispatcher dispatcher = req.getRequestDispatcher(Path.LOGIN_PAGE);
+            dispatcher.forward(req, resp);
+        }
         try{
             logger.info("AddProductServlet execute started");
             Product product = readProductDataFromRequest(req);
