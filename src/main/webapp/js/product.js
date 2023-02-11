@@ -1,11 +1,11 @@
 function addPhotoFolder(){
-        let root = document.getElementById("photos")
-        var aTag = document.createElement("br");
-        var file = document.createElement("input");
-        file.name = 'file';
-        file.type = 'file';
-        root.appendChild(aTag);
-        root.appendChild(file);
+    let root = document.getElementById("photos")
+    var aTag = document.createElement("br");
+    var file = document.createElement("input");
+    file.name = 'file';
+    file.type = 'file';
+    root.appendChild(aTag);
+    root.appendChild(file);
 }
 
 function deletePhotoFolder(){
@@ -16,11 +16,11 @@ function deletePhotoFolder(){
 
 function addCharacteristic(){
     let node = document.getElementById("characteristic");
-    let root = document.getElementById("characteristics");
-    let newElem = node.cloneNode();
-    root.appendChild(newElem);
+    let newElem = node.cloneNode(true);
+    document.getElementById("characteristics").appendChild(newElem);
 }
 function deleteCharacteristic(){
     let root = document.getElementById("characteristics");
+    root.removeChild(root.lastChild);
     root.removeChild(root.lastChild);
 }

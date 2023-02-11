@@ -67,7 +67,7 @@
                     <div id="characteristic">
                         <select name="characteristic_id" class="char_selector" >
                             <c:forEach items="${requestScope.characteristicList}" var="characteristic">
-                                <option onclick="disableSelected()" value="${characteristic.id}" >UA: ${characteristic.nameUa}<br> EN: ${characteristic.nameEn}</option>
+                                <option value="${characteristic.id}" >UA: ${characteristic.nameUa}<br> EN: ${characteristic.nameEn}</option>
                             </c:forEach>
                             <input type="text" name="characteristic_value">
                             <div class="wrapper">
@@ -85,7 +85,35 @@
             <button onclick="deleteCharacteristic()"><fmt:message key="manager.product.delete.characteristic.folder"/></button>
         </div>
     </div>
-<script src="../../../js/product.js"></script>
+<script>
+    function addPhotoFolder(){
+        let root = document.getElementById("photos")
+        var aTag = document.createElement("br");
+        var file = document.createElement("input");
+        file.name = 'file';
+        file.type = 'file';
+        root.appendChild(aTag);
+        root.appendChild(file);
+    }
+
+    function deletePhotoFolder(){
+        let root = document.getElementById("photos");
+        root.removeChild(root.lastChild);
+        root.removeChild(root.lastChild);
+    }
+
+    function addCharacteristic(){
+        let node = document.getElementById("characteristic");
+        let newElem = node.cloneNode(true);
+        document.getElementById("characteristics").appendChild(newElem);
+    }
+    function deleteCharacteristic(){
+        let root = document.getElementById("characteristics");
+        root.removeChild(root.lastChild);
+        root.removeChild(root.lastChild);
+    }
+
+</script>
 <style>
     <%@include file='../../../style/header.css' %>
     <%@include file='../../../style/admin.css' %>
