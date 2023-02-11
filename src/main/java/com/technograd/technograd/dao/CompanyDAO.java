@@ -14,8 +14,6 @@ import java.util.List;
 public class CompanyDAO {
     private static final String SQL__FIND_ALL_COMPANIES = "SELECT * FROM company;";
     private static final String SQL__FIND_COMPANY_BY_ID = "SELECT * FROM company WHERE id=?;";
-    private static final String SQL__FIND_COMPANY_BY_NAME_UA = "SELECT * FROM company WHERE id=?;";
-    private static final String SQL__FIND_COMPANY_BY_NAME_EN = "SELECT * FROM company WHERE id=?;";
     private static final String SQL__CREATE_COMPANY = "INSERT INTO company (name_ua, name_en, country_id) VALUES(?, ?, ?);";
     private static final String SQL__DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
     private static final String SQL__FIND_COMPANY_BY_SEARCH = "SELECT *" +
@@ -119,32 +117,6 @@ public class CompanyDAO {
         return company;
     }
 
-    public Company getCompanyByName(int name, String language) throws DBException {
-        Company company = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DBManager.getInstance().getConnection();
-            CompanyMapper mapper = new CompanyMapper();
-            if("ua".equals(language)){
-                preparedStatement = connection.prepareStatement(SQL__FIND_COMPANY_BY_NAME_UA);
-            } else {
-                preparedStatement = connection.prepareStatement(SQL__FIND_COMPANY_BY_NAME_EN);
-            }
-            preparedStatement.setInt(1, name);
-            resultSet = preparedStatement.executeQuery();
-            company = mapper.mapRow(resultSet);
-        } catch (Exception e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
-            throw new DBException();
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
-        }
-        return company;
-    }
-
     public void createCompany(Company company) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -164,7 +136,7 @@ public class CompanyDAO {
         }
     }
 
-    public void deleteCompany(int id) throws DBException {
+    public void deleteCompanyById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 

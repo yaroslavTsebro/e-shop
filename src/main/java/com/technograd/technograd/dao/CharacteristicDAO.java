@@ -13,8 +13,6 @@ import java.util.List;
 public class CharacteristicDAO {
     private static final String SQL__FIND_ALL_CHARACTERISTICS = "SELECT * FROM characteristic;";
     private static final String SQL__FIND_CHARACTERISTIC_BY_ID = "SELECT * FROM characteristic WHERE id=?;";
-    private static final String SQL__FIND_CHARACTERISTIC_BY_NAME_UA = "SELECT * FROM characteristic WHERE id=?;";
-    private static final String SQL__FIND_CHARACTERISTIC_BY_NAME_EN = "SELECT * FROM characteristic WHERE id=?;";
     private static final String SQL__CREATE_CHARACTERISTIC = "INSERT INTO characteristic (name_ua, name_en) VALUES(?, ?);";
     private static final String SQL__DELETE_CHARACTERISTIC = "DELETE FROM characteristic WHERE id=?;";
     private static final String SQL__SEARCH_CHARACTERISTIC = "SELECT * FROM characteristic WHERE name_ua LIKE ? OR name_en LIKE ?;";
@@ -35,7 +33,7 @@ public class CharacteristicDAO {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
             throw new DBException(e);
         } finally {
-            DBManager.getInstance().closeResources(connection, preparedStatement);
+            DBManager.getInstance().commitAndClose(connection, preparedStatement);
         }
     }
 
@@ -113,32 +111,6 @@ public class CharacteristicDAO {
         return characteristic;
     }
 
-    public Characteristic getCharacteristicByName(String name, String language) throws DBException {
-        Characteristic characteristic = null;
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        try {
-            connection = DBManager.getInstance().getConnection();
-            CharacteristicMapper mapper = new CharacteristicMapper();
-
-            if("ua".equals(language)){
-                preparedStatement = connection.prepareStatement(SQL__FIND_CHARACTERISTIC_BY_NAME_UA);
-            } else {
-                preparedStatement = connection.prepareStatement(SQL__FIND_CHARACTERISTIC_BY_NAME_EN);
-            }
-            preparedStatement.setString(1, name);
-            resultSet = preparedStatement.executeQuery();
-            characteristic = mapper.mapRow(resultSet);
-        } catch (Exception e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
-            throw new DBException();
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
-        }
-        return characteristic;
-    }
     public void createCharacteristic(Characteristic characteristic) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;

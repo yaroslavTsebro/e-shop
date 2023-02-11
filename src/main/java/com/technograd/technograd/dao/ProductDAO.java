@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO {
-    private static final String SQL__FIND_PRODUCTS_BY_COMPANY = "SELECT * FROM product WHERE product.company_id =?;";
-    private static final String SQL__FIND_PRODUCTS_BY_CATEGORY = "SELECT * FROM product WHERE product.category =?;";
     private static final String SQL__FIND_REDUCED_PRODUCT_BY_ID = "SELECT * FROM product WHERE id=?;";
     private static final String SQL__FIND_ALL_PRODUCTS = "SELECT * FROM product";
     private static final String SQL__COUNT_ALL_PRODUCTS = "SELECT COUNT(*) FROM product";

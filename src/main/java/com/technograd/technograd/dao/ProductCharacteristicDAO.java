@@ -21,7 +21,7 @@ public class ProductCharacteristicDAO {
             "INSERT INTO product_characteristic(product_id, compatibility_id, value) VALUES(?, ?, ?) ON CONFLICT DO NOTHING;";
     private static final String SQL__DELETE_PRODUCT_CHARACTERISTIC = "DELETE FROM product_characteristic WHERE id=?";
 
-    public static void deleteById(int id) throws DBException {
+    public void deleteById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -38,7 +38,7 @@ public class ProductCharacteristicDAO {
         }
     }
 
-    public static List<ProductCharacteristic> findProductCharacteristicsByProductId(int productId) throws DBException {
+    public List<ProductCharacteristic> findProductCharacteristicsByProductId(int productId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -60,7 +60,7 @@ public class ProductCharacteristicDAO {
         }
         return productCharacteristics;
     }
-    public static ProductCharacteristic findProductCharacteristicById(int id) throws DBException {
+    public ProductCharacteristic findProductCharacteristicById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -83,7 +83,7 @@ public class ProductCharacteristicDAO {
         return productCharacteristic;
     }
 
-    public static List<ProductCharacteristic> findAllProductCharacteristics() throws DBException {
+    public List<ProductCharacteristic> findAllProductCharacteristics() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -105,7 +105,7 @@ public class ProductCharacteristicDAO {
         return productCharacteristics;
     }
 
-    public static void createProductCharacteristic(ProductCharacteristic productCharacteristic) throws DBException {
+    public void createProductCharacteristic(ProductCharacteristic productCharacteristic) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{

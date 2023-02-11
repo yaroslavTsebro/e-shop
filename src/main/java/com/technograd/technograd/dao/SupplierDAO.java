@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SupplierDAO {
@@ -15,7 +16,7 @@ public class SupplierDAO {
     private static final String SQL__FIND_ALL_SUPPLIERS = "SELECT * FROM supplier";
     private static final String SQL__UPDATE_SUPPLIER = "UPDATE FROM supplier(name, phone, email) VALUES (?, ?, ?);";
 
-    public static void createSupplier(Supplier supplier) throws DBException {
+    public void createSupplier(Supplier supplier) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
@@ -33,7 +34,7 @@ public class SupplierDAO {
         }
     }
 
-    public static Supplier getSupplierById(int id) throws DBException {
+    public Supplier getSupplierById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -56,18 +57,19 @@ public class SupplierDAO {
         return supplier;
     }
 
-    public static List<Supplier> getAllSuppliers() throws DBException {
+    public List<Supplier> getAllSuppliers() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        List<Supplier> suppliers = null;
+        List<Supplier> suppliers = new ArrayList<>();
         try{
             connection = DBManager.getInstance().getConnection();
             SupplierMapper mapper = new SupplierMapper();
             preparedStatement = connection.prepareStatement(SQL__FIND_ALL_SUPPLIERS);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
-                suppliers.add(mapper.mapRow(resultSet));
+                Supplier supplier = mapper.mapRow(resultSet);
+                suppliers.add(supplier);
             }
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
@@ -78,7 +80,7 @@ public class SupplierDAO {
         return suppliers;
     }
 
-    public static void updateSupplier(Supplier supplier) throws DBException {
+    public void updateSupplier(Supplier supplier) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {

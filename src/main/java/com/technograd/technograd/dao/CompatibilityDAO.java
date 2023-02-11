@@ -7,6 +7,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompatibilityDAO {
     private static final String SQL__FIND_COMPATIBILITY_BY_ID = "SELECT * FROM compatibility WHERE id=?;";
@@ -14,7 +16,7 @@ public class CompatibilityDAO {
     private static final String SQL__FIND_COMPATIBILITIES_BY_CHARACTERISTIC_ID = "SELECT * FROM characteristic WHERE characteristic_id=?;";
     private static final String SQL__CREATE_COMPATIBILITY = "INSERT INTO compatibility(category_id, characteristic_id) VALUES(?, ?);";
 
-    public static void createCompatibility(Compatibility compatibility) throws DBException {
+    public void createCompatibility(Compatibility compatibility) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         try{
@@ -32,7 +34,7 @@ public class CompatibilityDAO {
         }
     }
 
-    public static Compatibility findCompatibilityById(int id) throws DBException {
+    public Compatibility findCompatibilityById(int id) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -55,11 +57,11 @@ public class CompatibilityDAO {
         return compatibility;
     }
 
-    public static Compatibility findCompatibilityByCategoryId(int categoryId) throws DBException {
+    public List<Compatibility> findCompatibilityByCategoryId(int categoryId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-        Compatibility compatibility = null;
+        List<Compatibility> compatibilities = new ArrayList<>();
         try{
             connection = DBManager.getInstance().getConnection();
             CompatibilityMapper mapper = new CompatibilityMapper();
@@ -67,7 +69,9 @@ public class CompatibilityDAO {
             preparedStatement.setInt(1, categoryId);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
+                Compatibility compatibility;
                 compatibility = mapper.mapRow(resultSet);
+                compatibilities.add(compatibility);
             }
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
@@ -75,10 +79,10 @@ public class CompatibilityDAO {
         } finally {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
-        return compatibility;
+        return compatibilities;
     }
 
-    public static Compatibility findCompatibilityByCharacteristicId(int characteristicId) throws DBException {
+    public Compatibility findCompatibilityByCharacteristicId(int characteristicId) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

@@ -10,9 +10,6 @@ import java.util.List;
 public class IntendDAO {
     private static final String SQL__CREATE_INTEND_SENDING = "INSERT INTO intend(start_date, user_id, sending_or_receiving, address, condition)" +
             "VALUES (current_timestamp, ?, 'SENDING', '', 'CART');";
-    private static final String SQL__UPDATE_INTEND_CONDITION = "UPDATE intend SET condition = ? WHERE id=?;";
-    private static final String SQL__CREATE_INTEND_RECEIVING = "INSERT INTO intend(start_date, supplier_id, employee_id, sending_or_receiving, address, condition)" +
-            "VALUES (current_timestamp, ?, ?, 'RECEIVING', 'STORAGE', 'NEW');";
 
     private static final String SQL__CREATE_INTEND_RETURN = "INSERT INTO intend_return(intend_id, date, reason) VALUES (?,current_timestamp, ?);";
 
@@ -402,39 +399,6 @@ public class IntendDAO {
             preparedStatement = connection.prepareStatement(SQL__CHANGE_CART_INTO_INTEND);
             preparedStatement.setString(1, address);
             preparedStatement.setInt(2, cartId);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement);
-        }
-    }
-    public void updateIntendCondition(int id, Condition condition) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__UPDATE_INTEND_CONDITION);
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, condition.toString());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement);
-        }
-    }
-
-    public void createIntendReceiving(Intend intend) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__CREATE_INTEND_RECEIVING);
-            preparedStatement.setInt(1, intend.getSupplierId());
-            preparedStatement.setInt(2, intend.getEmployeeId());
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);

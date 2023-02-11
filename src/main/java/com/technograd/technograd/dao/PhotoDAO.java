@@ -13,7 +13,6 @@ import java.util.List;
 public class PhotoDAO {
     private static final String SQL__FIND_PHOTOS_BY_PRODUCT_ID = "SELECT * FROM photo WHERE product_id = ?;";
     private static final String SQL__FIND_FIRST_PHOTO_BY_PRODUCT_ID = "SELECT * FROM photo WHERE product_id = ? LIMIT 1;";
-    private static final String SQL__FIND_PHOTO_BY_NAME = "SELECT * FROM photo WHERE name = ?;";
     private static final String SQL__DELETE_PHOTO_BY_ID = "DELETE FROM photo WHERE id = ?;";
     private static final String SQL__CREATE_PHOTO = "INSERT INTO photo(product_id, name) VALUES (?, ?);";
     private static final String SQL__FIND_NEXT_ID =  "SELECT nextval(pg_get_serial_sequence('photo', 'id')) AS new_id;";
@@ -84,26 +83,6 @@ public class PhotoDAO {
     }
 
 
-    public Photo getPhotoByName(String name) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        Photo photo = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            PhotoMapper mapper = new PhotoMapper();
-            preparedStatement = connection.prepareStatement(SQL__FIND_PHOTO_BY_NAME);
-            preparedStatement.setString(1, name);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                photo = mapper.mapRow(resultSet);
-            }
-        } catch (SQLException e) {
-            throw new DBException(e);
-        }
-        return photo;
-    }
-
     public int getNextId() throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -134,13 +113,13 @@ public class PhotoDAO {
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
-                name = resultSet.getString(1);
+                name = resultSet.getString(Fields.PHOTO_NAME);
             }
         } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
+            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
             throw new DBException(e);
         } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement);
+            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
         return name;
     }

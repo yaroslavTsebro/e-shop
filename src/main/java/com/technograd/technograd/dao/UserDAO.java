@@ -15,14 +15,12 @@ public class UserDAO {
     private static final String SQL__CREATE_USER = "INSERT INTO \"user\"(lastname, name, email ,post, password, salt, local_name) VALUES(?, ?, ?, 'CUSTOMER' ,? ,?, ?);";
     private static final String SQL__FIND_USER_BY_ID = "SELECT * FROM \"user\" WHERE id = ?;";
     private static final String SQL__FIND_USER_BY_EMAIL = "SELECT * FROM \"user\" WHERE email = ?;";
-    private static final String SQL__FIND_ALL_USERS = "SELECT * FROM \"user\";";
     private static final String SQL__UPDATE_USER_LANGUAGE = "UPDATE \"user\" SET local_name=? WHERE id=?;";
     private static final String SQL__ADD_CONFIRMATION_CODE = "INSERT INTO user_details(user_id, code, salt, created_at) VALUES(?, ?, ?, current_timestamp);";
     private static final String SQL__GET_SALT_FROM_USER_DETAILS = "SELECT salt FROM user_details WHERE user_id=? AND EXTRACT(MINUTE FROM CURRENT_TIMESTAMP - created_at) <= 59;";
     private static final String SQL__GET_CODE_FROM_USER_DETAILS = "SELECT code FROM user_details WHERE user_id=? AND EXTRACT(MINUTE FROM CURRENT_TIMESTAMP - created_at) <= 59;";
     private static final String SQL__UPDATE_USER_PASSWORD = "UPDATE \"user\" SET password=?, salt=? WHERE id=?;";
     private static final String SQL__DROP_CONFIRMATION_CODE = "DELETE FROM user_details WHERE user_id=?;";
-    private static final String SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS =    "select id from \"user\" WHERE post='MANAGER' ORDER BY random() LIMIT 1;";
 
     public void updateUserPassword(String newSecurePassword, String newSalt, int userId) throws DBException {
         Connection connection = null;
@@ -76,72 +74,6 @@ public class UserDAO {
         }
     }
 
-    public int getManagerWithLowestCountOfIntends() throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        int id = 0;
-        try {
-            connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__GET_ID_OF_EMPLOYEE_WITH_LOWEST_COUNT_OF_INTENDS);
-            preparedStatement.execute();
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                id = Integer.parseInt(resultSet.getString(Fields.ID));
-            }
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException(ex.getMessage(), ex);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement);
-        }
-        return id;
-    }
-
-    public  String getSaltFromUserDetails(int userId) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String salt = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__GET_SALT_FROM_USER_DETAILS);
-            preparedStatement.setInt(1, userId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                salt = resultSet.getString(Fields.USER_DETAILS_SALT);
-            }
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
-        }
-        return salt;
-    }
-
-    public  String getCodeFromUserDetails(int userId) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String code = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__GET_CODE_FROM_USER_DETAILS);
-            preparedStatement.setInt(1, userId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                code = resultSet.getString(Fields.USER_DETAILS_CODE);
-            }
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
-        }
-        return code;
-    }
-
     public void createUser(User user) throws DBException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -155,23 +87,6 @@ public class UserDAO {
             preparedStatement.setString(4, user.getPassword());
             preparedStatement.setString(5, user.getSalt());
             preparedStatement.setString(6, "en");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement);
-        }
-    }
-
-    public void updateUserLanguage(int id, String language) throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try{
-            connection = DBManager.getInstance().getConnection();
-            preparedStatement = connection.prepareStatement(SQL__UPDATE_USER_LANGUAGE);
-            preparedStatement.setString(1, language);
-            preparedStatement.setInt(2, id);
             preparedStatement.execute();
         } catch (SQLException e) {
             DBManager.getInstance().rollbackAndClose(connection, preparedStatement);
@@ -255,29 +170,6 @@ public class UserDAO {
             DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
         }
         return user;
-    }
-
-    public List<User> getAllUsers() throws DBException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        List<User> users = new ArrayList<User>();
-        try{
-            connection = DBManager.getInstance().getConnection();
-            UserMapper mapper = new UserMapper();
-            preparedStatement = connection.prepareStatement(SQL__FIND_ALL_USERS);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                User user = mapper.mapRow(resultSet);
-                users.add(user);
-            }
-        } catch (SQLException e) {
-            DBManager.getInstance().rollbackAndClose(connection, preparedStatement, resultSet);
-            throw new DBException(e);
-        } finally {
-            DBManager.getInstance().commitAndClose(connection, preparedStatement, resultSet);
-        }
-        return users;
     }
 
     public void addConfirmationCode(int userId, String salt, String code) throws DBException {
