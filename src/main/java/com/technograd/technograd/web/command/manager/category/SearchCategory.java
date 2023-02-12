@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.category;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.entity.Category;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -37,7 +38,7 @@ public class SearchCategory extends Command {
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
-            return request.getContextPath() + "/controller?command=viewCategories";
+            return request.getContextPath() + Commands.VIEW_CATEGORIES;
         }
         logger.debug("Pattern is => " + pattern);
         List<Category> categoryList = null;

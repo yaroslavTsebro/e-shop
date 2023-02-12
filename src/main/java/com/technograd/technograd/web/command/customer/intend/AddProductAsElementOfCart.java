@@ -43,7 +43,7 @@ public class AddProductAsElementOfCart extends Command {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         int id = user.getId();
-        logger.trace("id ->" + id);
+        logger.trace("user_id ->" + id);
 
         int productCount = Integer.parseInt(request.getParameter("product_count"));
         logger.trace("product_count ->" + productCount);
@@ -117,6 +117,6 @@ public class AddProductAsElementOfCart extends Command {
 
 
         logger.info("AddProductAsElementOfCart execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCart";
+        return request.getContextPath() +  Commands.VIEW_CART_COMMAND;
     }
 }

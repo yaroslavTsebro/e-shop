@@ -1,0 +1,143 @@
+2023-02-12 09:53:35,317 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute started
+2023-02-12 09:55:42,894 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute started
+2023-02-12 09:57:42,531 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute started
+2023-02-12 09:58:19,571 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute started
+2023-02-12 09:59:18,652 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute finished, path transferred to controller
+2023-02-12 09:59:59,293 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute started
+2023-02-12 10:00:09,656 INFO c.t.t.w.c.c.i.AddProductAsElementOfCart [main] AddProductAsElementOfCart execute finished, path transferred to controller
+2023-02-12 10:08:15,901 INFO c.t.t.w.c.c.i.DeleteFromCart [main] DeleteFromCart execute started
+2023-02-12 10:09:21,336 INFO c.t.t.w.c.c.i.DeleteFromCart [main] DeleteFromCart execute started
+2023-02-12 10:09:59,695 INFO c.t.t.w.c.c.i.DeleteFromCart [main] DeleteFromCart execute started
+2023-02-12 10:10:00,365 INFO c.t.t.w.c.c.i.DeleteFromCart [main] DeleteFromCart execute finished, path transferred to controller
+2023-02-12 10:34:01,691 INFO c.t.t.w.c.c.i.RegisterIntend [main] RegisterIntend execute started
+2023-02-12 10:34:01,795 INFO c.t.t.w.c.c.i.RegisterIntend [main] RegisterIntend execute finished, path transferred to controller
+2023-02-12 11:02:42,008 INFO c.t.t.w.c.c.i.UpdateProductCountInCart [main] UpdateProductCountInCart execute started
+2023-02-12 11:02:42,016 INFO c.t.t.w.c.c.i.UpdateProductCountInCart [main] UpdateProductCountInCart execute finished, path transferred to controller
+2023-02-12 11:08:38,693 INFO c.t.t.w.c.c.i.ViewCartPage [main] ViewCartPage execute started
+2023-02-12 15:10:42,360 INFO c.t.t.w.c.c.i.ViewProfilePage [main] ViewSending execute finished, path transferred to controller
+2023-02-12 15:14:40,192 DEBUG c.t.t.w.c.ChangeLanguage [main] Send confirmation link command is started
+2023-02-12 15:15:44,663 DEBUG c.t.t.w.c.ChangeLanguage [main] Send confirmation link command is started
+2023-02-12 15:16:17,255 DEBUG c.t.t.w.c.ChangeLanguage [main] Send confirmation link command is started
+2023-02-12 15:16:51,826 DEBUG c.t.t.w.c.ChangeLanguage [main] Send confirmation link command is started
+2023-02-12 15:16:52,182 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] sendMail method is started
+2023-02-12 15:16:52,231 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] Received email session => jakarta.mail.Session@37df14d1
+2023-02-12 15:21:04,984 DEBUG c.t.t.w.c.ChangeLanguage [main] Send confirmation link command is started
+2023-02-12 15:21:20,966 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] sendMail method is started
+2023-02-12 15:21:21,039 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] Received email session => jakarta.mail.Session@67e13bd0
+2023-02-12 15:22:46,549 DEBUG c.t.t.w.c.ChangeLanguage [main] Send confirmation link command is started
+2023-02-12 15:22:58,366 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] sendMail method is started
+2023-02-12 15:22:58,388 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] Received email session => jakarta.mail.Session@67e13bd0
+2023-02-12 15:22:58,415 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] Sending email ... 
+2023-02-12 15:25:22,443 ERROR c.t.t.w.c.ChangeLanguage [main] An error occurred while sending confirmation message
+2023-02-12 15:25:34,579 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] sendMail method is started
+2023-02-12 15:25:34,604 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] Received email session => jakarta.mail.Session@56da7487
+2023-02-12 15:25:55,518 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] sendMail method is started
+2023-02-12 15:25:55,542 DEBUG c.t.t.w.c.m.c.CreateCharacteristic [main] Received email session => jakarta.mail.Session@56da7487
+2023-02-12 15:45:16,552 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:47:21,486 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:47:35,284 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:48:21,265 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:53:45,463 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Login command started
+2023-02-12 15:53:45,471 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:53:45,471 ERROR c.t.t.w.c.m.c.CreateCategory [main] errorMessage --> Captcha isn`t valid
+2023-02-12 15:54:19,015 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Login command started
+2023-02-12 15:54:31,785 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:55:26,533 ERROR c.t.t.w.c.m.c.CreateCategory [main] errorMessage --> Captcha isn`t valid
+2023-02-12 15:55:31,519 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Login command started
+2023-02-12 15:55:31,529 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:55:31,529 ERROR c.t.t.w.c.m.c.CreateCategory [main] errorMessage --> Captcha isn`t valid
+2023-02-12 15:57:30,309 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Login command started
+2023-02-12 15:57:30,316 INFO c.t.t.w.c.m.c.CreateCategory [main] RecaptchaUtil verify started
+2023-02-12 15:57:30,316 ERROR c.t.t.w.c.m.c.CreateCategory [main] errorMessage --> Captcha isn`t valid
+2023-02-12 16:20:06,608 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:20:06,711 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:20:06,712 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:20:06,713 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:20:24,612 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:20:24,626 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:20:24,626 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:20:24,627 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:22:03,995 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:23:17,623 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:23:17,623 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:23:17,624 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:24:55,580 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:24:55,590 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:24:55,590 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:24:55,591 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:25:20,937 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:25:20,951 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:25:20,951 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:25:20,952 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:25:57,847 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:26:43,224 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:26:43,225 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:26:43,225 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:26:47,893 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:26:47,905 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:26:47,906 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:26:47,906 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:26:55,782 DEBUG c.t.t.w.c.m.c.CreateCategory [main] ViewMenuCommand command started
+2023-02-12 16:27:09,781 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current categoryList info => []
+2023-02-12 16:27:19,046 DEBUG c.t.t.w.c.m.c.CreateCategory [main] Set session attribute : updated current companyList info => []
+2023-02-12 16:27:20,231 DEBUG c.t.t.w.c.m.c.CreateCategory [main] View menu command is finished
+2023-02-12 16:35:25,363 INFO c.t.t.w.c.m.c.CreateCategory [main] CreateCategory execute started
+2023-02-12 16:35:25,370 INFO c.t.t.w.c.m.c.CreateCategory [main] CreateCategory execute finished, path transferred to controller
+2023-02-12 16:36:55,199 INFO c.t.t.w.c.m.c.CreateCategory [main] CreateCategory execute started
+2023-02-12 16:36:55,208 INFO c.t.t.w.c.m.c.CreateCategory [main] CreateCategory execute finished, path transferred to controller
+2023-02-12 16:37:18,569 INFO c.t.t.w.c.m.c.CreateCategory [main] DeleteCategory execute started
+2023-02-12 16:37:18,576 INFO c.t.t.w.c.m.c.CreateCategory [main] DeleteCategory execute finished, path transferred to controller
+2023-02-12 16:39:41,448 INFO c.t.t.w.c.m.c.SearchCategory [main] SearchCategory execute started
+2023-02-12 16:39:41,457 DEBUG c.t.t.w.c.m.c.SearchCategory [main] Pattern is => 1
+2023-02-12 16:39:41,458 INFO c.t.t.w.c.m.c.SearchCategory [main] SearchCategory execute finished, path transferred to controller
+2023-02-12 16:41:54,144 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute started
+2023-02-12 16:41:54,152 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute finished, path transferred to controller
+2023-02-12 16:42:12,490 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute started
+2023-02-12 16:42:12,498 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute finished, path transferred to controller
+2023-02-12 16:43:36,337 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute started
+2023-02-12 16:43:36,346 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute finished, path transferred to controller
+2023-02-12 16:44:04,286 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute started
+2023-02-12 16:44:04,294 INFO c.t.t.w.c.m.c.UpdateCategory [main] UpdateCategory execute finished, path transferred to controller
+2023-02-12 16:47:41,892 INFO c.t.t.w.c.m.c.CreateCategory [main] ViewCategory execute started
+2023-02-12 16:47:41,900 INFO c.t.t.w.c.m.c.CreateCategory [main] ViewCategory execute finished, path transferred to controller
+2023-02-12 16:56:26,589 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 16:56:26,597 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 16:56:58,958 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 16:56:58,965 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 16:57:13,944 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 16:57:13,951 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 16:57:28,479 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 16:57:28,489 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 17:08:01,359 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 17:08:01,369 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 17:08:14,606 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 17:08:14,614 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 17:08:43,604 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute started
+2023-02-12 17:08:43,611 INFO c.t.t.w.c.m.c.CreateCharacteristic [main] CreateCharacteristic execute finished, path transferred to controller
+2023-02-12 17:09:11,778 INFO c.t.t.w.c.m.c.DeleteCharacteristic [main] DeleteCharacteristic execute started
+2023-02-12 17:09:11,788 INFO c.t.t.w.c.m.c.DeleteCharacteristic [main] DeleteCharacteristic execute finished, path transferred to controller
+2023-02-12 17:13:25,121 INFO c.t.t.w.c.m.c.SearchCharacteristic [main] SearchCharacteristic execute started
+2023-02-12 17:13:25,128 DEBUG c.t.t.w.c.m.c.SearchCharacteristic [main] Pattern is => 1
+2023-02-12 17:13:25,129 INFO c.t.t.w.c.m.c.SearchCharacteristic [main] SearchCharacteristic execute finished, path transferred to controller
+2023-02-12 17:13:44,444 INFO c.t.t.w.c.m.c.SearchCharacteristic [main] SearchCharacteristic execute started
+2023-02-12 17:13:44,453 DEBUG c.t.t.w.c.m.c.SearchCharacteristic [main] Pattern is => 1
+2023-02-12 17:13:44,453 INFO c.t.t.w.c.m.c.SearchCharacteristic [main] SearchCharacteristic execute finished, path transferred to controller
+2023-02-12 17:15:39,651 INFO c.t.t.w.c.m.c.UpdateCharacteristic [main] UpdateCharacteristic execute started
+2023-02-12 17:15:39,659 INFO c.t.t.w.c.m.c.UpdateCharacteristic [main] UpdateCharacteristic execute finished, path transferred to controller
+2023-02-12 17:17:40,530 INFO c.t.t.w.c.m.c.ViewCharacteristic [main] ViewCharacteristic execute started
+2023-02-12 17:17:40,539 INFO c.t.t.w.c.m.c.ViewCharacteristic [main] ViewCharacteristic execute finished, path transferred to controller
+2023-02-12 17:23:15,077 INFO c.t.t.w.c.m.c.CreateCompany [main] CreateCompany execute started
+2023-02-12 17:23:15,098 INFO c.t.t.w.c.m.c.CreateCompany [main] CreateCompany execute finished, path transferred to controller
+2023-02-12 17:28:54,362 INFO c.t.t.w.c.m.c.DeleteCompany [main] DeleteCompany execute started
+2023-02-12 17:28:54,388 INFO c.t.t.w.c.m.c.DeleteCompany [main] DeleteCompany execute finished, path transferred to controller
+2023-02-12 17:34:40,700 INFO c.t.t.w.c.m.c.CreateCompany [main] CreateCompany execute started
+2023-02-12 17:35:01,087 INFO c.t.t.w.c.m.c.SearchCompany [main] SearchCompany execute started
+2023-02-12 17:35:01,096 DEBUG c.t.t.w.c.m.c.SearchCompany [main] Pattern is => 1
+2023-02-12 17:35:01,097 INFO c.t.t.w.c.m.c.SearchCompany [main] SearchCompany execute finished, path transferred to controller
+2023-02-12 17:37:13,727 INFO c.t.t.w.c.m.c.UpdateCompany [main] UpdateCompany execute started
+2023-02-12 17:37:13,735 INFO c.t.t.w.c.m.c.UpdateCompany [main] UpdateCompany execute finished, path transferred to controller
+2023-02-12 17:43:20,158 INFO c.t.t.w.c.m.c.CreateCompany [main] CreateCompany execute started
+2023-02-12 17:44:19,303 INFO c.t.t.w.c.m.c.ViewCompany [main] ViewCompany execute started
+2023-02-12 17:44:19,310 INFO c.t.t.w.c.m.c.ViewCompany [main] ViewCompany execute finished, path transferred to controller
+2023-02-12 17:44:35,510 INFO c.t.t.w.c.m.c.ViewCompany [main] ViewCompany execute started
+2023-02-12 17:44:35,519 INFO c.t.t.w.c.m.c.ViewCompany [main] ViewCompany execute finished, path transferred to controller

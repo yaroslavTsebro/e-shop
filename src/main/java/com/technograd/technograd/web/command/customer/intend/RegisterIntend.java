@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.customer.intend;
 import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.User;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -64,6 +65,6 @@ public class RegisterIntend extends Command {
            }
        }
         logger.info("RegisterIntend execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewMenu";
+        return request.getContextPath() + Commands.VIEW_MENU_COMMAND;
     }
 }

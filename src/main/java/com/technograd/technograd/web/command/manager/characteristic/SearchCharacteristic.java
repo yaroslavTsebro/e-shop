@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.characteristic;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CharacteristicDAO;
 import com.technograd.technograd.dao.entity.Characteristic;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -37,7 +38,7 @@ public class SearchCharacteristic extends Command {
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
-            return request.getContextPath() + "/controller?command=viewCharacteristics";
+            return request.getContextPath() + Commands.VIEW_CHARACTERISTIC;
         }
         logger.debug("Pattern is => " + pattern);
         List<Characteristic> characteristicList = null;
@@ -48,7 +49,7 @@ public class SearchCharacteristic extends Command {
             logger.trace("error ->" + e);
             String errorMessage = "error.characteristic.search";
             session.setAttribute("errorMessage", errorMessage);
-            return request.getContextPath() + "controller?command=viewCharacteristics";
+            return request.getContextPath() +  Commands.VIEW_CHARACTERISTIC;
         } finally {
             request.setAttribute("characteristicList", characteristicList);
         }

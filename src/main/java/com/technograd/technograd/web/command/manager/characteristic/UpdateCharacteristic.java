@@ -2,6 +2,7 @@ package com.technograd.technograd.web.command.manager.characteristic;
 
 import com.technograd.technograd.dao.CharacteristicDAO;
 import com.technograd.technograd.dao.entity.Characteristic;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -47,9 +48,9 @@ public class UpdateCharacteristic extends Command {
             logger.trace("error ->" + e);
             String errorMessage = "error.characteristic.update";
             session.setAttribute("errorMessage", errorMessage);
-            return request.getContextPath() + "controller?command=viewCharacteristics";
+            return request.getContextPath() + Commands.VIEW_CHARACTERISTIC;
         }
         logger.info("UpdateCharacteristic execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCharacteristics";
+        return request.getContextPath() + Commands.VIEW_CHARACTERISTIC;
     }
 }

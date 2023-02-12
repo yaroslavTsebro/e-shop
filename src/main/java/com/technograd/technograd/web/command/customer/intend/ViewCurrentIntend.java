@@ -6,12 +6,14 @@ import com.technograd.technograd.dao.IntendReturnDAO;
 import com.technograd.technograd.dao.entity.Condition;
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.IntendReturn;
+import com.technograd.technograd.dao.entity.User;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -32,12 +34,19 @@ public class ViewCurrentIntend extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int userId = user.getId();
+
         int id = Integer.parseInt(request.getParameter("id"));
         Intend intend;
         try{
             intend = intendDAO.findIntendById(id);
         } catch (DBException e) {
             throw new RuntimeException(e);
+        }
+        if(intend.getUserId() != userId){
+            throw new AppException();
         }
         IntendReturn intendReturn = null;
         if(intend.getCondition().equals(Condition.TURNED_BACK)){

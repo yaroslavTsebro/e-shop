@@ -4,6 +4,7 @@ import com.technograd.technograd.dao.IntendDAO;
 import com.technograd.technograd.dao.entity.Condition;
 import com.technograd.technograd.dao.entity.Intend;
 import com.technograd.technograd.dao.entity.User;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -68,6 +69,6 @@ public class TurnIntendBack extends Command {
             }
         }
 
-        return request.getContextPath() + "/controller?command=viewCurrentIntend&id=" + intendId + "";
+        return request.getContextPath()+ Commands.VIEW_CURRENT_INTEND + intendId + "";
     }
 }

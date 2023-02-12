@@ -44,7 +44,7 @@ public class ViewCategory extends Command {
             logger.trace("error ->" + e);
             String errorMessage = "error.category.view";
             session.setAttribute("errorMessage", errorMessage);
-            return Path.CATEGORY_PAGE;
+            return Path.ADMIN_PANEL;
         } finally {
             request.setAttribute("categoryList", categoryList);
         }

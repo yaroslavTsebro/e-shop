@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.company;
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.entity.Company;
 import com.technograd.technograd.dao.entity.Country;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -53,9 +54,9 @@ public class UpdateCompany extends Command {
             logger.trace("error ->" + e);
             String errorMessage = "error.company.update";
             session.setAttribute("errorMessage", errorMessage);
-            return request.getContextPath() + "controller?command=viewCompanies";
+            return request.getContextPath() + Commands.VIEW_COMPANIES;
         }
         logger.info("UpdateCompany execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCompanies";
+        return request.getContextPath() + Commands.VIEW_COMPANIES;
     }
 }

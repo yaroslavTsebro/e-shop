@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.manager.company;
 import com.technograd.technograd.Path;
 import com.technograd.technograd.dao.CompanyDAO;
 import com.technograd.technograd.dao.entity.Company;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -37,7 +38,7 @@ public class SearchCompany extends Command {
 
         String pattern = request.getParameter("pattern");
         if (pattern == null || pattern.isEmpty()) {
-            return request.getContextPath() + "/controller?command=viewCompanies";
+            return request.getContextPath() + Commands.VIEW_CHARACTERISTIC;
         }
         logger.debug("Pattern is => " + pattern);
         List<Company> companyList = null;
@@ -48,7 +49,7 @@ public class SearchCompany extends Command {
             logger.trace("error ->" + e);
             String errorMessage = "error.company.search";
             session.setAttribute("errorMessage", errorMessage);
-            return request.getContextPath() + "controller?command=viewCompanies";
+            return request.getContextPath() + Commands.VIEW_CHARACTERISTIC;
         } finally {
             request.setAttribute("companyList", companyList);
         }

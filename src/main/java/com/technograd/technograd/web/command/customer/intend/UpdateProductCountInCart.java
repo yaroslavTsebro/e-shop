@@ -3,6 +3,7 @@ package com.technograd.technograd.web.command.customer.intend;
 import com.technograd.technograd.dao.ListIntendDAO;
 import com.technograd.technograd.dao.ProductDAO;
 import com.technograd.technograd.dao.entity.User;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -53,7 +54,7 @@ public class UpdateProductCountInCart extends Command {
         logger.trace("update_by_product_count ->" + count);
 
         if(count == newCount){
-            return request.getContextPath() + "/controller?command=viewCart";
+            return request.getContextPath() + Commands.VIEW_CART_COMMAND;
         }
 
         int productCount;
@@ -83,6 +84,6 @@ public class UpdateProductCountInCart extends Command {
             }
         }
         logger.info("UpdateProductCountInCart execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCart";
+        return request.getContextPath() + Commands.VIEW_CART_COMMAND;
     }
 }

@@ -2,6 +2,7 @@ package com.technograd.technograd.web.command.manager.category;
 
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.entity.Category;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -47,9 +48,9 @@ public class UpdateCategory extends Command {
             logger.trace("error ->" + e);
             String errorMessage = "error.category.update";
             session.setAttribute("errorMessage", errorMessage);
-            return request.getContextPath() + "controller?command=viewCategories";
+            return request.getContextPath() +  Commands.VIEW_CATEGORIES;
         }
         logger.info("UpdateCategory execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCategories";
+        return request.getContextPath() +  Commands.VIEW_CATEGORIES;
     }
 }

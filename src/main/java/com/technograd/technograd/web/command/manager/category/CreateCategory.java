@@ -2,6 +2,7 @@ package com.technograd.technograd.web.command.manager.category;
 
 import com.technograd.technograd.dao.CategoryDAO;
 import com.technograd.technograd.dao.entity.Category;
+import com.technograd.technograd.web.Commands;
 import com.technograd.technograd.web.command.Command;
 import com.technograd.technograd.web.exсeption.AppException;
 import com.technograd.technograd.web.exсeption.DBException;
@@ -49,6 +50,6 @@ public class CreateCategory extends Command {
             return request.getContextPath() + "controller?command=viewCategories";
         }
         logger.info("CreateCategory execute finished, path transferred to controller");
-        return request.getContextPath() + "/controller?command=viewCategories";
+        return request.getContextPath() + Commands.VIEW_CATEGORIES;
     }
 }

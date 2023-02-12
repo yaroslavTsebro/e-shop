@@ -21,18 +21,15 @@ public class GetRegisterPage extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
-
-        try{
-            HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if(user != null){
             int id = user.getId();
             logger.trace("id ->" + id);
             String errorMessage = "user.already.login";
             session.setAttribute("errorMessage", errorMessage);
             return request.getContextPath() + Commands.VIEW_LOGIN_PAGE;
-        } catch (Exception e){
-
-            return Path.REGISTER_PAGE;
         }
+        return Path.REGISTER_PAGE;
     }
 }
